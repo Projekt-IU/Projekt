@@ -1,0 +1,108 @@
+import React, {Component,} from 'react';
+import './styles/Login.css';
+import axios from "axios";
+import {Navigate} from "react-router-dom";
+import User from "./User";
+
+
+
+class Login extends Component {
+    constructor() {
+        super();
+        this.state = {
+            username: '',
+            password: '',
+            loggedIn: false,
+            error: '',
+
+        };
+    }
+
+
+    handleChange = (e) => {
+        this.setState({ [e.target.name]: e.target.value });
+    };
+
+
+    handleSubmit = (e) => {
+        e.preventDefault();
+        // Hier können Sie die Anmeldelogik implementieren und Daten an den Server senden
+        const { username, password } = this.state;
+
+        axios.post('http://localhost:8080/api/login', { username, password })
+            .then(response => {
+                // Wenn die Anmeldung erfolgreich ist, können Sie den Benutzer weiterleiten oder andere Aktionen ausführen
+                if (response.data) {
+                    const { userId, username, firstName, lastName } = response.data;
+                    User.login(userId, username, firstName, lastName); // Benutzer einloggen
+                    console.log(response);
+                    this.setState({ error: 'Login erfolgreich' });
+                    this.setState({ loggedIn: true, user: username }); //Status auf eingeloggt
+
+
+                console.log(this.state,);
+                console.log(User);
+
+
+            }
+             else {
+            this.setState({ error: 'Falscher Nutzername oder Passwort' });
+        }
+    })
+
+            .catch(error => {
+                // Wenn die Anmeldung fehlschlägt, können Sie einen Fehler anzeigen oder andere Aktionen ausführen
+                console.error('Anmeldung fehlgeschlagen:', error);
+                this.setState({ error: 'Falscher Nutzername oder Passwort' }); // Fehlermeldung setzen
+
+            });
+
+
+        console.log('Anmeldung mit:', username, password);
+
+    };
+
+    render() {
+
+        if (User.loggedIn) {
+            // Weiterleitung zur anderen Seite, bei erfolgreicher anmeldung
+            return <Navigate to= "/UserComponents" />;
+        }
+
+        return (
+            <div className="centered-container">
+                <div className="login-box">
+                    <h2>Anmelden</h2>
+                    <form onSubmit={this.handleSubmit}>
+                        <div>
+                            <label htmlFor="username">Benutzername</label>
+                            <input
+                                type="text"
+                                id="username"
+                                name="username"
+                                className="login-input"
+                                value={this.state.username}
+                                onChange={this.handleChange}
+                            />
+                        </div>
+                        <div>
+                            <label htmlFor="password">Passwort</label>
+                            <input
+                                type="password"
+                                id="password"
+                                name="password"
+                                className="login-input"
+                                value={this.state.password}
+                                onChange={this.handleChange}
+                            />
+                        </div>
+                        {this.state.error && <p className="error">{this.state.error}</p>} {/* Fehlermeldung anzeigen */}
+                        <button type="submit" className="login-button">Anmelden</button>
+                    </form>
+                </div>
+            </div>
+        );
+    }
+}
+
+export default Login;
