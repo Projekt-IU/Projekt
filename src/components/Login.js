@@ -33,8 +33,8 @@ class Login extends Component {
             .then(response => {
                 // Wenn die Anmeldung erfolgreich ist, können Sie den Benutzer weiterleiten oder andere Aktionen ausführen
                 if (response.data) {
-                    const { userId, username, firstName, lastName } = response.data;
-                    User.login(userId, username, firstName, lastName); // Benutzer einloggen
+                    const { userID, userName, firstName, lastName } = response.data;
+                    User.login(userID, userName, firstName, lastName); // Benutzer einloggen
                     console.log(response);
                     this.setState({ error: 'Login erfolgreich' });
                     this.setState({ loggedIn: true, user: username }); //Status auf eingeloggt

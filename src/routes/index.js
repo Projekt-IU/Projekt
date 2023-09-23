@@ -10,7 +10,8 @@ const AppRoutes = () => {
         <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/login" element={<Login />} />
-            <Route path="/UserComponents" element={<UserComponents />} />
+            <Route path="/UserComponents" element={<UserComponents />}
+            />
             {/* Hier können Sie Routen für andere Seiten hinzufügen */}
         </Routes>
     );
