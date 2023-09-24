@@ -2,7 +2,7 @@
 import './App.css';
 import React from 'react';
 import {BrowserRouter as Router,} from 'react-router-dom'; // Importieren Sie das Routing-Modul
-import AppRoutes from "./routes";
+import AppRoutes from "./routes/Router";
 
 
 
