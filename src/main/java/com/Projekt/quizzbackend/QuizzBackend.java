@@ -9,10 +9,10 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 
 @SpringBootApplication
-public class TestSpringApplication {
+public class QuizzBackend {
 
     public static void main(String[] args) {
-        SpringApplication.run(TestSpringApplication.class, args);
+        SpringApplication.run(QuizzBackend.class, args);
 
 
 
