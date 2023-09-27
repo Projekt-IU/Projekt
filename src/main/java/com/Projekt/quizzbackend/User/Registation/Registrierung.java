@@ -13,13 +13,13 @@ import org.springframework.web.bind.annotation.*;
 
 @Controller // Controller, wird direkt initialisiert
 @RequestMapping(path="api/registration") // Erreichbar unter /registration. dient als Oberpfad.
-public class  Registration{
+public class Registrierung {
 
 
     private final UserRepository userRepository;
 
     @Autowired
-    public Registration( UserRepository userRepository) {
+    public Registrierung(UserRepository userRepository) {
 
         this.userRepository = userRepository;
     }

@@ -44,7 +44,7 @@ public class FilterLogin {
         }
 
         // Erlaubt alphanumerische Zeichen, deutsche Sonderzeichen, einige spezielle Zeichen und das "@"-Zeichen
-        if (!input.matches("^[a-zA-Z0-9äöüÄÖÜß\\s!?@]*$")) {
+        if (!input.matches("^[a-zA-Z0-9äöüÄÖÜß\\s!?=@]*$")) {
             System.out.println("illegales zeichen gefunden " + input);
             return null;
         }
