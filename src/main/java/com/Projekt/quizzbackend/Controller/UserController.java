@@ -6,6 +6,7 @@ import com.Projekt.quizzbackend.Mail.Mail;
 import com.Projekt.quizzbackend.User.Login.FilterLogin;
 import com.Projekt.quizzbackend.User.Login.LoginRequest;
 import com.Projekt.quizzbackend.User.Logout.LogoutRequest;
+import com.Projekt.quizzbackend.User.Registation.Filter;
 import com.Projekt.quizzbackend.User.Registation.NewPasswort;
 import com.Projekt.quizzbackend.User.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -120,8 +121,23 @@ public class UserController {
         return ResponseEntity.ok().build();
     }
 
+    @PostMapping(path="/userregistrieren") //
+    public ResponseEntity<User> registry(@RequestBody User user) {
+        User registryUser = new User();
+        registryUser = Filter.filterUser(user);
+        System.out.println("Registrierungsanfrage:  " + registryUser.getUserName() +registryUser.getPassword());
+        //sollte als objekt übergeben werden. Muss noch um andere Daten ergänzt werden!
 
+        String rawPassword = user.getPassword();
+        user.setPassword(passwordEncoder.encode(rawPassword));
+        System.out.println("Passwort verschlüsselt:  " + registryUser.getUserName() +registryUser.getPassword());
+
+        repository.save(registryUser);
+        return ResponseEntity.ok().build();
     }
+
+
+}
 
 
 
