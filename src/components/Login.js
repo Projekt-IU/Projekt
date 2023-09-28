@@ -77,7 +77,7 @@ class Login extends Component {
 
     render() {
         if (this.state.loggedIn) {
-            return <Navigate to="/UserComponents" />;
+            return <Navigate to="/Profile" />;
         }
 
         return (
