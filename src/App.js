@@ -1,22 +1,35 @@
 
 import './App.css';
-import React from 'react';
+import React, {useEffect} from 'react';
 import {BrowserRouter as Router,} from 'react-router-dom'; // Importieren Sie das Routing-Modul
-import AppRoutes from "./routes";
-
+import AppRoutes from "./routes/Router";
+import User from './components/User';
+import { UserProvider } from './components/UserContext';
 
 
 
 
 function App() {
+
+    useEffect(() => {
+        // Laden der Benutzerdaten beim Start der Anwendung
+        User.loadFromSession();
+    }, []);
+
+
     return (
+
+        <UserProvider>
         <Router>
             <div className="App">
                 {/* Hier globale Komponenten hinzufügen */}
                 <AppRoutes />
             </div>
         </Router>
-    )
+        </UserProvider>
+    );
+
+
 
 
 

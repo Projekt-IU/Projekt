@@ -1,30 +1,28 @@
-import React, { createContext, useState, useContext } from 'react';
+import React, {createContext, useState, useContext, useEffect} from 'react';
+import User from "./User";
 
 const UserContext = createContext();
 
-export const useUser = () => {
+export function useUser() {
     return useContext(UserContext);
-};
+}
 
-export const UserProvider = ({ children }) => {
-    const [user, setUser] = useState(null);
+export function UserProvider({ children }) {
+    const [currentUser, setCurrentUser] = useState(User);
 
-    const login = (userData) => {
-        // Hier können Sie die Anmelde-Logik implementieren und den Benutzer setzen
-        setUser(userData);
-    };
+    useEffect(() => {
+        User.loadFromSession();
+        setCurrentUser({ ...User });
+    }, []);
 
-    const logout = () => {
-        // Hier können Sie die Abmelde-Logik implementieren und den Benutzer löschen
-        setUser(null);
-    };
+    useEffect(() => {
+        User.saveToSession();
+    }, [currentUser]);
 
     return (
-        <UserContext.Provider value={{ user, login, logout }}>
+        <UserContext.Provider value={{ currentUser, setCurrentUser }}>
             {children}
         </UserContext.Provider>
     );
-};
-
-
+}
 

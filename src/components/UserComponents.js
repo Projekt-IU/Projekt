@@ -6,8 +6,11 @@ import axios from "axios"; // Importieren Sie die useUser-Hook
 class UserComponents extends Component {
     constructor() {
         super();
+        User.loadFromSession();
         this.state = {
-            loggedOut: false
+            loggedOut: false,
+
+
         };
     }
 
@@ -27,8 +30,10 @@ class UserComponents extends Component {
                 if (response.status === 200) {
                     User.logout();
                     console.log(User.loggedIn);
+                    User.saveToSession(User);
                     this.setState({ loggedOut: true });
                 }
+                console.log('User', User.password);
             })
             .catch(error => {
                 console.error("Logout-Fehler:", error);
@@ -51,8 +56,6 @@ class UserComponents extends Component {
             return <Navigate to={'/'} />;
         }
     }
-
-
 }
 
 export default UserComponents;
