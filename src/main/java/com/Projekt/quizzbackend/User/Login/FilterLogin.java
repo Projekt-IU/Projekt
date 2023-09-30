@@ -2,14 +2,14 @@ package com.Projekt.quizzbackend.User.Login;
 
 public class FilterLogin {
 
-    public static LoginRequest filterLogin(LoginRequest loginRequest) {
-        if (loginRequest == null) {
+    public static AuthRequest filterLogin(AuthRequest authRequest) {
+        if (authRequest == null) {
             return null; // Wenn das Eingabeobjekt null ist, gebe null zurück
         }
 
         // Filtere ungewöhnliche Zeichen aus den Anmeldedaten
-        String filteredUserName = filterString(loginRequest.getUsername());
-        String filteredPassword = filterPassword(loginRequest.getPassword());
+        String filteredUserName = filterString(authRequest.getUsername());
+        String filteredPassword = filterPassword(authRequest.getPassword());
 
         // Wenn ungewöhnliche Zeichen gefunden wurden, gebe null zurück
         if (filteredUserName == null || filteredPassword == null) {
@@ -17,7 +17,7 @@ public class FilterLogin {
         }
 
         // Erstelle ein neues LoginRequest-Objekt mit den gefilterten Daten
-        LoginRequest filteredLogin = new LoginRequest();
+        AuthRequest filteredLogin = new AuthRequest();
         filteredLogin.setUsername(filteredUserName);
         filteredLogin.setPassword(filteredPassword);
 

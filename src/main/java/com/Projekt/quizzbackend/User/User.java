@@ -1,5 +1,7 @@
 package com.Projekt.quizzbackend.User;
 
+import com.Projekt.quizzbackend.User.UserScore.ScoreUser;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
@@ -9,7 +11,7 @@ import java.util.Objects;
 
 @SessionAttributes
 @Entity
-@Table(name = "benutzer", schema = "quizzsystem", catalog = "")
+@Table(name = "benutzer" )
 public class User implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
@@ -42,25 +44,46 @@ public class User implements Serializable {
     private String role;
     @Transient
     private boolean fullAccess;
-    @PrePersist
-    public void prePersist() {
-        if(dateOfRegistration == null) {
-            dateOfRegistration = new Timestamp(System.currentTimeMillis());
-        }
-    }
     @Basic
-
     @Column(name = "registrierungsdatum", nullable = true)
     private Timestamp dateOfRegistration;
 
     @Transient //wird nicht in der datenbank benötigt
     private boolean loggedIn;
 
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinColumn(name = "scores_id", referencedColumnName = "scores_id")
+    @JsonManagedReference
+    private ScoreUser scoreUser;
+
+    @PrePersist
+    public void prePersist() {
+        if (dateOfRegistration == null) {
+            dateOfRegistration = new Timestamp(System.currentTimeMillis());
+        }
+
+        if (this.scoreUser == null) {
+            this.scoreUser = new ScoreUser();
+            this.scoreUser.setPunkteGesamt(0);
+            this.scoreUser.setPunkteMonat(0);
+            this.scoreUser.setPunkteWoche(0);
+            this.scoreUser.setFrageRichtig(0);
+            this.scoreUser.setFragenGesamt(0);
+            this.scoreUser.setUser(this);  // Diese Zeile setzt die Beziehung
+        }
+    }
 
     private static final String ROLE_ADMIN = "Admin";
     private static final String ROLE_USER = "User";
 
     // Getter und Setter
+    public ScoreUser getScoreUser() {
+        return scoreUser;
+    }
+
+    public void setScoreUser(ScoreUser scoreUser) {
+        this.scoreUser = scoreUser;
+    }
 
     public User(int userId, String username, String firstName, String lastName, String password, String email, int martikelnummer, String courseofstudy, String role) {
         this.userID = userId;

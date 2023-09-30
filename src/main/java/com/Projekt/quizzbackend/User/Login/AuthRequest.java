@@ -1,6 +1,6 @@
 package com.Projekt.quizzbackend.User.Login;
 
-public class LoginRequest {
+public class AuthRequest {
     private String username;
     private String password;
 

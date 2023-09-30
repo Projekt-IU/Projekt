@@ -4,7 +4,7 @@ import com.Projekt.quizzbackend.Dao.UserRepository;
 import com.Projekt.quizzbackend.Mail.EmailService;
 import com.Projekt.quizzbackend.Mail.Mail;
 import com.Projekt.quizzbackend.User.Login.FilterLogin;
-import com.Projekt.quizzbackend.User.Login.LoginRequest;
+import com.Projekt.quizzbackend.User.Login.AuthRequest;
 import com.Projekt.quizzbackend.User.Logout.LogoutRequest;
 import com.Projekt.quizzbackend.User.Registation.Filter;
 import com.Projekt.quizzbackend.User.Registation.NewPasswort;
@@ -27,8 +27,9 @@ import java.util.Base64;
 
 public class UserController {
 
-
+        @Autowired
         private final UserRepository repository;
+
         public UserController(UserRepository repository) {
             this.repository = repository;
         }
@@ -41,12 +42,12 @@ public class UserController {
 
 
     @PostMapping("/login")
-    public ResponseEntity<User> login(@RequestBody LoginRequest loginRequest) {
-        System.out.println("login anfrage erhalten: " + loginRequest.getUsername() +loginRequest.getPassword());
-        loginRequest = FilterLogin.filterLogin(loginRequest);
+    public ResponseEntity<User> login(@RequestBody AuthRequest authRequest) {
+        System.out.println("login anfrage erhalten: " + authRequest.getUsername() + authRequest.getPassword());
+        authRequest = FilterLogin.filterLogin(authRequest);
 
-        User user = repository.findByUserName(loginRequest.getUsername());
-        if (user != null && passwordEncoder.matches(loginRequest.getPassword(), user.getPassword())) {
+        User user = repository.findByUserName(authRequest.getUsername());
+        if (user != null && passwordEncoder.matches(authRequest.getPassword(), user.getPassword())) {
             user.login();
             System.out.println(user.isLoggedIn());
 
@@ -67,6 +68,11 @@ public class UserController {
             user.logout();
             return ResponseEntity.ok().body(null); // Erfolgreiche Logout-Antwort.
         }
+
+    @PostMapping("getProfil")
+    public ResponseEntity<User> getProfil(@RequestBody AuthRequest authRequest) {
+        return login(authRequest);
+    }
 
     @PostMapping("/forgotpw")
     public ResponseEntity<Mail> mail(@RequestBody Mail email) {
@@ -121,7 +127,7 @@ public class UserController {
         return ResponseEntity.ok().build();
     }
 
-    @PostMapping(path="/userregistrieren") //
+    @PostMapping(path="/userRegistrieren") //
     public ResponseEntity<User> registry(@RequestBody User user) {
         User registryUser = new User();
         registryUser = Filter.filterUser(user);

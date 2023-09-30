@@ -9,6 +9,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @Controller // Controller, wird direkt initialisiert
 @RequestMapping(path="/demo") // Erreichbar unter /demo. dient als Oberpfad.
 public class UserRepositoryController {
@@ -36,7 +38,7 @@ public class UserRepositoryController {
         registryUser.setUserName("test123");
         registryUser.setFirstName("test1");
         registryUser.setLastName("test");
-        registryUser.setEmail("ffddf@fffdd.de");
+        registryUser.setEmail("tobiasknauss@wk-vertrieb.eu");
         registryUser.setMatrikelNr(00014445);
         registryUser.setCourseOfStudy("fefefeffw");
 
@@ -84,6 +86,8 @@ public class UserRepositoryController {
 
         return ResponseEntity.ok("ok");
     }
+
+
 
 
 }
