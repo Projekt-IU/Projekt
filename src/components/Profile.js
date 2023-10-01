@@ -1,21 +1,100 @@
-import React from 'react';
-import { Link } from 'react-router-dom'; // Importiere Link für die Navigation
-import './styles/Profile.css'; // Importiere das Stylesheet
+import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
+import './styles/Profile.css';
+import axios from "axios";
+import User from "./User";
 
 const Profile = () => {
-    // Beispielwerte für das Profil
-    const profileData = {
-        firstName: 'Max',
-        lastName: 'Mustermann',
-        username: 'maxmuster',
-        email: 'max@example.com',
-        registrationDate: '2023-09-28',
-        totalScore: 1000,
-        monthlyScore: 250,
-        weeklyScore: 50,
-        role: 'Benutzer',
-        major: 'Informatik',
-        teamName: 'Team A', // Beispiel für Teamname
+    const [profileData, setProfileData] = useState({
+        firstName: '',
+        lastName: '',
+        username: '',
+        email: '',
+        registrationDate: '',
+        totalScore: 0,
+        monthlyScore: 0,
+        weeklyScore: 0,
+        role: '',
+        teamName: '',
+        courseOfStudy: '',
+    });
+
+    useEffect(() => {
+        // Hole Benutzername und Passwort aus User.js
+        const userData = {
+            username: User.username,
+            password: User.password
+        };
+
+        axios.post('http://localhost:8080/api/getProfil', userData)
+            .then(response => {
+                if (response.status === 200) {
+                    const {
+                        firstName,
+                        lastName,
+                        userName, // Aktualisierte Schlüsselname
+                        email,
+                        dateOfRegistration, // Aktualisierte Schlüsselname
+                        scoreUser,
+                        matrikelNr,
+                        role,
+                        teamName,
+                        courseOfStudy, // Hinzugefügter Schlüssel
+                    } = response.data;
+
+                    setProfileData({
+                        firstName,
+                        lastName,
+                        username: userName,
+                        matrikelNr,
+                        email,
+                        registrationDate: formatDate(dateOfRegistration),
+                        totalScore: scoreUser.punkteGesamt,
+                        monthlyScore: scoreUser.punkteMonat,
+                        weeklyScore: scoreUser.punkteTag,
+                        role,
+                        teamName,
+                        courseOfStudy,
+                    });
+                }
+            })
+            .catch(error => {
+                console.log("Error Response:", error.response);
+            });
+    }, []);
+
+    // Function to format the date as "Tag.Monat.Jahr"
+    const formatDate = (dateString) => {
+        const options = { day: '2-digit', month: '2-digit', year: 'numeric' };
+        const date = new Date(dateString);
+        return date.toLocaleDateString('de-DE', options);
+    };
+
+    // Function to handle account deletion
+    const handleDeleteAccount = async () => {
+        const confirmDelete = window.confirm("Möchten Sie Ihren Account wirklich löschen?");
+
+        if (confirmDelete) {
+            try {
+                // Ersetze 'YOUR_API_ENDPOINT' durch den tatsächlichen API-Endpunkt auf deinem Backend.
+                const apiEndpoint = 'http://localhost:8080/api/deleteAccount';
+
+                const response = await axios.post(apiEndpoint, {
+                    username: User.username, // Verwende den aktuellen Benutzernamen
+                });
+
+                if (response.data === 'OK') {
+                    // Hier kannst du den Benutzer ausloggen oder eine entsprechende Aktion durchführen.
+                    // Zum Beispiel: window.location.href = '/logout';
+                    alert("Account wurde erfolgreich gelöscht.");
+                } else {
+                    alert("Fehler beim Löschen des Kontos. Bitte versuchen Sie es später erneut.");
+                }
+            } catch (error) {
+                console.error('Fehler beim Löschen des Kontos:', error);
+                alert("Fehler beim Löschen des Kontos. Bitte versuchen Sie es später erneut.");
+            }
+        }
     };
 
     return (
@@ -36,31 +115,54 @@ const Profile = () => {
                         <strong>Email:</strong> {profileData.email}
                     </p>
                     <p>
+                        <strong>Matrikel Nummer:</strong> {profileData.matrikelNr}
+                    </p>
+                    <p>
+                        <strong>Studiengang:</strong> {profileData.courseOfStudy}
+                    </p>
+                    <p>
                         <strong>Registrierungsdatum:</strong> {profileData.registrationDate}
                     </p>
+
                 </div>
                 <div className="profile-stats">
-                    <p>
-                        <strong>Punktestand gesamt:</strong> {profileData.totalScore}
-                    </p>
-                    <p>
-                        <strong>Punktestand Monat:</strong> {profileData.monthlyScore}
-                    </p>
-                    <p>
-                        <strong>Punktestand Woche:</strong> {profileData.weeklyScore}
-                    </p>
-                    <p>
-                        <strong>Teamname:</strong> <Link to="/team">{profileData.teamName}</Link>
-                    </p>
-                    <p>
-                        <strong>Studiengang:</strong> {profileData.major}
-                    </p>
+                    {/* Center contents of profile-stats */}
+                    <div className="centered-content">
+                        <p>
+                            <strong>Punktestand gesamt:</strong> {profileData.totalScore}
+                        </p>
+                        <p>
+                            <strong>Punktestand Monat:</strong> {profileData.monthlyScore}
+                        </p>
+                        <p>
+                            <strong>Punktestand Woche:</strong> {profileData.weeklyScore}
+                        </p>
+                        <p>
+                            <strong>Teamname:</strong> <Link to="/team">{profileData.teamName}</Link>
+                        </p>
+                        <p>
+                            <Link to="/RankingUser">Zu den Rankings User</Link>
+                        </p>
+                        <p>
+                            <Link to="/RankingTeam">Zu den Rankings Team</Link>
+                        </p>
+                    </div>
                 </div>
-            </div>
 
-            {/* Link zu den Rankings */}
-            <div className="profile-rankings">
-                <Link to="/Ranking">Zu den Rankings</Link>
+            </div>
+            <div className="centered-content">
+                {/* Knopf zum Ändern des Passworts */}
+                <button onClick={() => window.location.href = '/changePassword'}>
+                    Passwort ändern
+                </button>
+                {/* Knopf zum Löschen des Kontos */}
+                <button onClick={handleDeleteAccount}>
+                    Account löschen
+                </button>
+                {/* Knopf zum Ändern des Benutzernamens */}
+                <button onClick={() => window.location.href = '/changeUsername'}>
+                    Benutzernamen ändern
+                </button>
             </div>
         </div>
     );

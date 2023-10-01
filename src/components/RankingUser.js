@@ -1,18 +1,20 @@
-// Ranking.js
+// RankingUser.js
 import React, { useState } from 'react';
-import './styles/Ranking.css'; // Importiere das Stylesheet für Ranking
+import './styles/Ranking.css'; // Importiere das Stylesheet für RankingUser
+// eslint-disable-next-line
+import User from "./User";
 
-const Ranking = () => {
+const RankingUser = () => {
     const [activeTab, setActiveTab] = useState('total'); // Aktiver Tab
 
-    // Beispielwerte für die Ranking-Tabellen
+    // Beispielwerte für die RankingUser-Tabellen
     const totalRankingData = Array(30).fill(null).map((_, index) => ({
         name: `Benutzer ${index + 1}`,
-        major: `Studiengang ${index + 1}`,
+        courseOfStudy: `Studiengang ${index + 1}`,
         score: Math.floor(Math.random() * 1000), // Zufällige Punktzahl zwischen 0 und 1000
     }));
 
-    // Sortiere die Ranking-Daten nach Punktzahl absteigend
+    // Sortiere die RankingUser-Daten nach Punktzahl absteigend
     totalRankingData.sort((a, b) => b.score - a.score);
 
     // Wähle die ersten 15 Benutzer aus
@@ -21,11 +23,11 @@ const Ranking = () => {
     // Beispielwerte für Punkte im Monat
     const monthlyRankingData = Array(30).fill(null).map((_, index) => ({
         name: `Benutzer ${index + 1}`,
-        major: `Studiengang ${index + 1}`,
+        courseOfStudy: `Studiengang ${index + 1}`,
         score: Math.floor(Math.random() * 500), // Zufällige Punktzahl zwischen 0 und 500
     }));
 
-    // Sortiere die Ranking-Daten nach Punktzahl absteigend
+    // Sortiere die RankingUser-Daten nach Punktzahl absteigend
     monthlyRankingData.sort((a, b) => b.score - a.score);
 
     // Wähle die ersten 15 Benutzer aus
@@ -34,11 +36,11 @@ const Ranking = () => {
     // Beispielwerte für Punkte in der Woche
     const weeklyRankingData = Array(30).fill(null).map((_, index) => ({
         name: `Benutzer ${index + 1}`,
-        major: `Studiengang ${index + 1}`,
+        courseOfStudy: `Studiengang ${index + 1}`,
         score: Math.floor(Math.random() * 100), // Zufällige Punktzahl zwischen 0 und 100
     }));
 
-    // Sortiere die Ranking-Daten nach Punktzahl absteigend
+    // Sortiere die RankingUser-Daten nach Punktzahl absteigend
     weeklyRankingData.sort((a, b) => b.score - a.score);
 
     // Wähle die ersten 15 Benutzer aus
@@ -46,14 +48,14 @@ const Ranking = () => {
 
     return (
         <div className="ranking-container">
-            {/* Tabs für Ranking-Tabelle auswählen */}
+            {/* Tabs für RankingUser-Tabelle auswählen */}
             <div className="ranking-tabs">
                 <button onClick={() => setActiveTab('total')}>Punkte gesamt</button>
                 <button onClick={() => setActiveTab('monthly')}>Punkte im Monat</button>
                 <button onClick={() => setActiveTab('weekly')}>Punkte in der Woche</button>
             </div>
 
-            {/* Anhand des ausgewählten Tabs die entsprechende Ranking-Tabelle anzeigen */}
+            {/* Anhand des ausgewählten Tabs die entsprechende RankingUser-Tabelle anzeigen */}
             {activeTab === 'total' && (
                 <div className="ranking-table">
                     <h2>Punkte gesamt</h2>
@@ -61,7 +63,7 @@ const Ranking = () => {
                         <thead>
                         <tr>
                             <th>Rangplatz</th>
-                            <th>Name</th>
+                            <th>Student</th>
                             <th>Studiengang</th>
                             <th>Punktzahl</th>
                         </tr>
@@ -71,7 +73,7 @@ const Ranking = () => {
                             <tr key={index}>
                                 <td>{index + 1}</td>
                                 <td>{user.name}</td>
-                                <td>{user.major}</td>
+                                <td>{user.courseOfStudy}</td>
                                 <td>{user.score}</td>
                             </tr>
                         ))}
@@ -86,7 +88,7 @@ const Ranking = () => {
                         <thead>
                         <tr>
                             <th>Rangplatz</th>
-                            <th>Name</th>
+                            <th>Student</th>
                             <th>Studiengang</th>
                             <th>Punktzahl</th>
                         </tr>
@@ -96,7 +98,7 @@ const Ranking = () => {
                             <tr key={index}>
                                 <td>{index + 1}</td>
                                 <td>{user.name}</td>
-                                <td>{user.major}</td>
+                                <td>{user.courseOfStudy}</td>
                                 <td>{user.score}</td>
                             </tr>
                         ))}
@@ -111,7 +113,7 @@ const Ranking = () => {
                         <thead>
                         <tr>
                             <th>Rangplatz</th>
-                            <th>Name</th>
+                            <th>Student</th>
                             <th>Studiengang</th>
                             <th>Punktzahl</th>
                         </tr>
@@ -121,7 +123,7 @@ const Ranking = () => {
                             <tr key={index}>
                                 <td>{index + 1}</td>
                                 <td>{user.name}</td>
-                                <td>{user.major}</td>
+                                <td>{user.courseOfStudy}</td>
                                 <td>{user.score}</td>
                             </tr>
                         ))}
@@ -133,4 +135,4 @@ const Ranking = () => {
     );
 };
 
-export default Ranking;
+export default RankingUser;
