@@ -1,5 +1,7 @@
 package com.Projekt.quizzbackend.Controller;
 
+import com.Projekt.quizzbackend.Dao.DTO.Templates.UserDTO;
+import com.Projekt.quizzbackend.Dao.DTO.UserMapper;
 import com.Projekt.quizzbackend.Dao.UserRepository;
 import com.Projekt.quizzbackend.Mail.EmailService;
 import com.Projekt.quizzbackend.Mail.Mail;
@@ -30,8 +32,10 @@ public class UserController {
         @Autowired
         private final UserRepository repository;
 
+
         public UserController(UserRepository repository) {
             this.repository = repository;
+
         }
 
         @Autowired
@@ -42,7 +46,7 @@ public class UserController {
 
 
     @PostMapping("/login")
-    public ResponseEntity<User> login(@RequestBody AuthRequest authRequest) {
+    public ResponseEntity<UserDTO> login(@RequestBody AuthRequest authRequest) {
         System.out.println("login anfrage erhalten: " + authRequest.getUsername() + authRequest.getPassword());
         authRequest = FilterLogin.filterLogin(authRequest);
 
@@ -51,14 +55,15 @@ public class UserController {
             user.login();
             System.out.println(user.isLoggedIn());
 
-            return ResponseEntity.ok(user);
+            UserDTO dto = UserMapper.entityToDto(user);
+            return ResponseEntity.ok(dto);
         } else {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
         }
     }
 
         @PostMapping("logout")
-        public ResponseEntity<User> logout(@RequestBody LogoutRequest logoutRequest) {
+        public ResponseEntity<UserDTO> logout(@RequestBody LogoutRequest logoutRequest) {
 
             System.out.println(logoutRequest.getUserId()+ logoutRequest.getUsername());
             System.out.println("Loggout anfrage erhalten: " + logoutRequest.getUsername() + logoutRequest.getUserId());
@@ -71,7 +76,17 @@ public class UserController {
 
     @PostMapping("getProfil")
     public ResponseEntity<User> getProfil(@RequestBody AuthRequest authRequest) {
-        return login(authRequest);
+
+        System.out.println("Profieldaten angefrage " + authRequest.getUsername() + authRequest.getPassword());
+        authRequest = FilterLogin.filterLogin(authRequest);
+
+        User user = repository.findByUserName(authRequest.getUsername());
+        if (user != null && passwordEncoder.matches(authRequest.getPassword(), user.getPassword())) {
+            user.setPassword(null);
+            return ResponseEntity.ok(user);
+        } else {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
+        }
     }
 
     @PostMapping("/forgotpw")
@@ -142,6 +157,21 @@ public class UserController {
         return ResponseEntity.ok().build();
     }
 
+    @PostMapping("/dropUser")
+    public ResponseEntity<User> dropUser(@RequestBody AuthRequest authRequest) {
+        System.out.println("Anfrage zum Löschen erhalten: " + authRequest.getUsername());
+        authRequest = FilterLogin.filterLogin(authRequest);
+
+        User user = repository.findByUserName(authRequest.getUsername());
+        if (user != null && passwordEncoder.matches(authRequest.getPassword(), user.getPassword())) {
+           repository.delete(user);
+            System.out.println("gelöscht");
+
+            return ResponseEntity.ok().build();
+        } else {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
+        }
+    }
 
 }
 

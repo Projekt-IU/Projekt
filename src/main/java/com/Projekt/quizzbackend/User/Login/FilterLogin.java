@@ -10,7 +10,8 @@ public class FilterLogin {
         // Filtere ungewöhnliche Zeichen aus den Anmeldedaten
         String filteredUserName = filterString(authRequest.getUsername());
         String filteredPassword = filterPassword(authRequest.getPassword());
-
+        Integer anfrageId = authRequest.getAnfrageId();
+        String anfrageName =authRequest.getAnfrageName();
         // Wenn ungewöhnliche Zeichen gefunden wurden, gebe null zurück
         if (filteredUserName == null || filteredPassword == null) {
             return null;
@@ -20,7 +21,8 @@ public class FilterLogin {
         AuthRequest filteredLogin = new AuthRequest();
         filteredLogin.setUsername(filteredUserName);
         filteredLogin.setPassword(filteredPassword);
-
+        filteredLogin.setAnfrageId(anfrageId);
+        filteredLogin.setAnfrageName(anfrageName);
         return filteredLogin;
     }
 

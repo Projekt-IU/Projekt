@@ -1,19 +1,19 @@
-package com.Projekt.quizzbackend.User.UserScore;
+package com.Projekt.quizzbackend.Team;
 
-import com.Projekt.quizzbackend.User.User;
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 
-import java.io.Serializable;
 import java.util.Objects;
 
 @Entity
-@Table(name = "scores_user")
-public class ScoreUser implements Serializable {
+@Table(name = "scores_team", schema = "quizsystema", catalog = "")
+public class ScoresTeam {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
-    @Column(name = "scores_id", nullable = false )
+    @Column(name = "scores_id", nullable = false)
     private Integer scoresId;
+    @Basic
+    @Column(name = "scoresTeam_Id", nullable = true)
+    private Integer scoresTeamId;
     @Basic
     @Column(name = "punkte_gesamt", nullable = true)
     private Integer punkteGesamt;
@@ -30,15 +30,12 @@ public class ScoreUser implements Serializable {
     @Column(name = "fragen_gesamt", nullable = true)
     private Integer fragenGesamt;
 
-    @OneToOne(mappedBy = "scoreUser")
-    @JsonBackReference
-    private User user;
-    public Integer getScoresId() {
-        return scoresId;
+    public Integer getScoresTeamId() {
+        return scoresTeamId;
     }
 
-    public void setScoresId(Integer scoresId) {
-        this.scoresId = scoresId;
+    public void setScoresTeamId(Integer scoresTeamId) {
+        this.scoresTeamId = scoresTeamId;
     }
 
     public Integer getPunkteGesamt() {
@@ -61,8 +58,8 @@ public class ScoreUser implements Serializable {
         return punkteWoche;
     }
 
-    public void setPunkteWoche(Integer punkteWoche) {
-        this.punkteWoche = punkteWoche;
+    public void setPunkteWoche(Integer punkteTag) {
+        this.punkteWoche = punkteTag;
     }
 
     public Integer getFrageRichtig() {
@@ -85,20 +82,20 @@ public class ScoreUser implements Serializable {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        ScoreUser that = (ScoreUser) o;
-        return Objects.equals(scoresId, that.scoresId) && Objects.equals(punkteGesamt, that.punkteGesamt) && Objects.equals(punkteMonat, that.punkteMonat) && Objects.equals(punkteWoche, that.punkteWoche) && Objects.equals(frageRichtig, that.frageRichtig) && Objects.equals(fragenGesamt, that.fragenGesamt);
+        ScoresTeam that = (ScoresTeam) o;
+        return Objects.equals(scoresTeamId, that.scoresTeamId) && Objects.equals(punkteGesamt, that.punkteGesamt) && Objects.equals(punkteMonat, that.punkteMonat) && Objects.equals(punkteWoche, that.punkteWoche) && Objects.equals(frageRichtig, that.frageRichtig) && Objects.equals(fragenGesamt, that.fragenGesamt);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(scoresId, punkteGesamt, punkteMonat, punkteWoche, frageRichtig, fragenGesamt);
+        return Objects.hash(scoresTeamId, punkteGesamt, punkteMonat, punkteWoche, frageRichtig, fragenGesamt);
     }
 
-    public User getUser() {
-        return user;
+    public Integer getScoresId() {
+        return scoresId;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setScoresId(Integer scoresId) {
+        this.scoresId = scoresId;
     }
 }

@@ -40,7 +40,7 @@ public class User implements Serializable {
     private Integer matrikelNr;
 
     @Basic
-    @JoinColumn(name = "role", nullable = true, columnDefinition = "VARCHAR(255) DEFAULT 'User'")
+    @Column(name = "role", nullable = true, columnDefinition = "VARCHAR(255) DEFAULT 'User'")
     private String role;
     @Transient
     private boolean fullAccess;
