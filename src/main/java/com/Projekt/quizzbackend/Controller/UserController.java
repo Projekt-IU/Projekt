@@ -89,7 +89,7 @@ public class UserController {
         }
     }
 
-    @PostMapping("/forgotpw")
+    @PostMapping("/forgotPw")
     public ResponseEntity<Mail> mail(@RequestBody Mail email) {
         System.out.println("PW vergessen:  " + email);
 
@@ -121,31 +121,50 @@ public class UserController {
         return ResponseEntity.ok().build();
     }
 
-
+//neu
     @PostMapping("/newPw")
-    public ResponseEntity<NewPasswort> newPasswordMail(@RequestBody NewPasswort newPasswordMail) {
-        System.out.println("PW vergessen:  " + newPasswordMail);
+    public ResponseEntity<?> newPasswordMail(@RequestBody AuthRequest authRequest) {
 
-        User user = repository.findByEmailAndPassword(newPasswordMail.getEmail(), newPasswordMail.getPassword());
 
-        if (user == null) {
-            System.out.println("Mail ungültig " );
+        authRequest = FilterLogin.filterLogin(authRequest);
+
+        User user = repository.findByUserName(authRequest.getUsername());
+        if (user != null && passwordEncoder.matches(authRequest.getPassword(), user.getPassword())) {
+
+
+            // Verschlüssle und speichere das neue Passwort
+            user.setPassword(passwordEncoder.encode(authRequest.getAnfrageName()));
+            repository.save(user);
+            System.out.println("Password geändert");
+            return ResponseEntity.ok().build();
+        } else {
+            System.out.println("Mail ungültig ");
             // Benutzer mit der angegebenen E-Mail-Adresse wurde nicht gefunden
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
         }
+    }
 
 
-        // Verschlüssle und speichere das neue Passwort
-        user.setPassword(passwordEncoder.encode(newPasswordMail.getNewPassword()));
-        repository.save(user);
-        System.out.println("Password geändert" );
-        return ResponseEntity.ok().build();
+    @PostMapping("/changeUserName")
+    public ResponseEntity<?> changeUserName(@RequestBody AuthRequest authRequest) {
+        System.out.println("änderungsanfrage erhalten: " + authRequest.getUsername() + authRequest.getAnfrageName());
+        authRequest = FilterLogin.filterLogin(authRequest);
+
+        User user = repository.findByUserName(authRequest.getUsername());
+        if (user != null && passwordEncoder.matches(authRequest.getPassword(), user.getPassword()) && repository.findByUserName(authRequest.getAnfrageName())== null) {
+
+                user.setUserName(authRequest.getAnfrageName());
+                repository.save(user);
+            UserDTO dto = UserMapper.entityToDto(user);
+            return ResponseEntity.ok(dto);
+        } else {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("UserName bereits vergeben");
+        }
     }
 
     @PostMapping(path="/userRegistrieren") //
     public ResponseEntity<User> registry(@RequestBody User user) {
-        User registryUser = new User();
-        registryUser = Filter.filterUser(user);
+        User registryUser = Filter.filterUser(user);
         System.out.println("Registrierungsanfrage:  " + registryUser.getUserName() +registryUser.getPassword());
         //sollte als objekt übergeben werden. Muss noch um andere Daten ergänzt werden!
 
