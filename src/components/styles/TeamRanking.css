@@ -1,0 +1,16 @@
+/* TeamRanking.css */
+.ranking {
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    background-color: #f9f9f9;
+    margin: 10px;
+}
+
+.ranking h2 {
+    font-size: 20px;
+    margin-bottom: 10px;
+    text-align: center;
+}
+
+/* Add any specific styling for TeamRanking here */

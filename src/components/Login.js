@@ -1,10 +1,8 @@
-import React, {Component,} from 'react';
+import React, { Component } from 'react';
 import './styles/Login.css';
 import axios from "axios";
-import {Navigate} from "react-router-dom";
+import { Navigate } from "react-router-dom";
 import User from "./User";
-
-
 
 class Login extends Component {
     constructor() {
@@ -12,17 +10,16 @@ class Login extends Component {
         this.state = {
             username: '',
             password: '',
+            email: '',  // Für Passwort vergessen
+            showForgotPasswordDialog: false,  // Für Passwort vergessen Dialog
             loggedIn: false,
-            error: '',
-
+            error: ''
         };
     }
-
 
     handleChange = (e) => {
         this.setState({ [e.target.name]: e.target.value });
     };
-
 
     handleSubmit = (e) => {
         e.preventDefault();
@@ -34,21 +31,22 @@ class Login extends Component {
                 // Wenn die Anmeldung erfolgreich ist, können Sie den Benutzer weiterleiten oder andere Aktionen ausführen
                 if (response.data) {
                     const { userID, userName, firstName, lastName } = response.data;
-                    User.login(userID, userName, firstName, lastName); // Benutzer einloggen
-                    console.log(response);
+                    User.login(userID, userName, firstName, lastName, password); // Benutzer einloggen
+                    User.saveToSession();
+                    console.log(User);
                     this.setState({ error: 'Login erfolgreich' });
                     this.setState({ loggedIn: true, user: username }); //Status auf eingeloggt
 
 
-                console.log(this.state,);
-                console.log(User);
+                    console.log( this.state);
+                    console.log(  User);
 
 
-            }
-             else {
-            this.setState({ error: 'Falscher Nutzername oder Passwort' });
-        }
-    })
+                }
+                else {
+                    this.setState({ error: 'Falscher Nutzername oder Passwort' });
+                }
+            })
 
             .catch(error => {
                 // Wenn die Anmeldung fehlschlägt, können Sie einen Fehler anzeigen oder andere Aktionen ausführen
@@ -62,11 +60,25 @@ class Login extends Component {
 
     };
 
-    render() {
 
-        if (User.loggedIn) {
-            // Weiterleitung zur anderen Seite, bei erfolgreicher anmeldung
-            return <Navigate to= "/UserComponents" />;
+    handleForgotPassword = () => {
+        this.setState({ showForgotPasswordDialog: true });
+    };
+
+    handleSendEmail = () => {
+        axios.post('http://localhost:8080/api/forgotpw', { email: this.state.email })
+            .then(response => {
+                alert('E-Mail gesendet');
+                this.setState({ showForgotPasswordDialog: false });
+            })
+            .catch(error => {
+                alert('Fehler beim Senden der E-Mail');
+            });
+    };
+
+    render() {
+        if (this.state.loggedIn) {
+            return <Navigate to="/Profile" />;
         }
 
         return (
@@ -99,6 +111,27 @@ class Login extends Component {
                         {this.state.error && <p className="error">{this.state.error}</p>} {/* Fehlermeldung anzeigen */}
                         <button type="submit" className="login-button">Anmelden</button>
                     </form>
+                    <button onClick={this.handleForgotPassword} className="forgot-password-button">Passwort vergessen</button>
+
+                    {/* Passwort vergessen Dialog */}
+                    {this.state.showForgotPasswordDialog && (
+                        <div className="overlay">
+                        <div className="forgot-password-dialog">
+                            <h3>Passwort vergessen</h3>
+                            <label htmlFor="email">E-Mail-Adresse: </label>
+                            <input
+                                type="email"
+                                id="email"
+                                name="email"
+                                className="PWforgot-input"
+                                value={this.state.email}
+                                onChange={this.handleChange}
+                            />
+                            <button onClick={this.handleSendEmail} className="forgot-password-button">Senden</button>
+                        </div>
+                        </div>
+                    )}
+
                 </div>
             </div>
         );
