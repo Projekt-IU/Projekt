@@ -1,0 +1,32 @@
+/* ChatWindow.css */
+.chat-window {
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    background-color: #f9f9f9;
+    margin: 10px;
+}
+
+.chat-window h2 {
+    font-size: 20px;
+    margin-bottom: 10px;
+    text-align: center;
+}
+
+.message-container {
+    max-height: 300px;
+    overflow-y: auto;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 10px;
+}
+
+.message {
+    background-color: #e0e0e0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin: 5px 0;
+    padding: 5px 10px;
+}
+
+/* Add any specific styling for ChatWindow here */

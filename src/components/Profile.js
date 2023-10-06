@@ -51,7 +51,9 @@ const Profile = () => {
                         registrationDate: formatDate(dateOfRegistration),
                         totalScore: scoreUser.punkteGesamt,
                         monthlyScore: scoreUser.punkteMonat,
-                        weeklyScore: scoreUser.punkteTag,
+                        weeklyScore: scoreUser.punkteWoche,
+                        frageRichtig: scoreUser.frageRichtig,
+                        fragenGesamt: scoreUser.fragenGesamt,
                         role,
                         teamName,
                         courseOfStudy,
@@ -77,16 +79,20 @@ const Profile = () => {
         if (confirmDelete) {
             try {
                 // Ersetze 'YOUR_API_ENDPOINT' durch den tatsächlichen API-Endpunkt auf deinem Backend.
-                const apiEndpoint = 'http://localhost:8080/api/deleteAccount';
+                const apiEndpoint = 'http://localhost:8080/api/dropUser';
 
                 const response = await axios.post(apiEndpoint, {
                     username: User.username, // Verwende den aktuellen Benutzernamen
+                    password: User.password,
+                    //anfrageID: 0,
+                    //anfrageName: ""
                 });
 
-                if (response.data === 'OK') {
+                if (response.status === 200) {
                     // Hier kannst du den Benutzer ausloggen oder eine entsprechende Aktion durchführen.
                     // Zum Beispiel: window.location.href = '/logout';
                     alert("Account wurde erfolgreich gelöscht.");
+                    window.location.href = '/';
                 } else {
                     alert("Fehler beim Löschen des Kontos. Bitte versuchen Sie es später erneut.");
                 }
@@ -136,6 +142,12 @@ const Profile = () => {
                         </p>
                         <p>
                             <strong>Punktestand Woche:</strong> {profileData.weeklyScore}
+                        </p>
+                        <p>
+                            <strong>Fragen richtig:</strong> {profileData.frageRichtig}
+                        </p>
+                        <p>
+                            <strong>Fragen Gesamt:</strong> {profileData.fragenGesamt}
                         </p>
                         <p>
                             <strong>Teamname:</strong> <Link to="/team">{profileData.teamName}</Link>

@@ -27,20 +27,23 @@ const ChangeUsername = () => {
         };
 
         // Ersetze 'YOUR_API_ENDPOINT' durch den tatsächlichen API-Endpunkt auf deinem Backend.
-        const apiEndpoint = 'http://localhost:8080/api/changeUsername';
+        const apiEndpoint = 'http://localhost:8080/api/changeUserName';
 
         try {
             const response = await axios.post(apiEndpoint, {
                 username: userData.username,
                 password: userData.password,
-                newUsername: newUsername,
+                anfrageName: newUsername,
             });
 
-            if (response.data === 'OK') {
+            if (response.status === 200) {
                 setMessage('Benutzername wurde erfolgreich geändert.');
                 setError('');
                 // Aktualisiere den Benutzernamen im aktuellen Benutzerobjekt
+                alert("Benutzername wurde erfolgreich geändert");
+                window.location.href = '/login';
                 User.username = newUsername;
+
             } else {
                 setError('Der Benutzername existiert bereits.');
             }

@@ -35,19 +35,21 @@ const ChangePassword = () => {
         }
 
         // Ersetze 'YOUR_API_ENDPOINT' durch den tatsächlichen API-Endpunkt auf deinem Backend.
-        const apiEndpoint = 'http://localhost:8080/api/ChangePassword';
+        const apiEndpoint = 'http://localhost:8080/api/newPw';
 
         try {
             const response = await axios.post(apiEndpoint, {
                 username: userData.username,
-                oldPassword: formData.oldPassword,
-                newPassword: formData.newPassword,
+                password: formData.oldPassword,
+                anfrageName: formData.newPassword,
             });
-
-            if (response.data === 'OK') {
+            if (response.status === 200) {
                 setMessage('Passwort wurde erfolgreich geändert.');
-                setError({});
-            } else {
+                User.password = formData.newPassword;
+                alert('Passwort wurde erfolgreich geändert');
+                window.location.href = '/login';
+                }
+            else {
                 setError({ message: 'Es kam zu einem unerwarteten Fehler. Bitte versuchen Sie es später erneut.' });
             }
         } catch (error) {
