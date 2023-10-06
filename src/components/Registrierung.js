@@ -65,6 +65,7 @@ class Registrierung extends Component {
             return <Navigate to= "/UserComponents" />
         }
 
+        // Frontend
         return (
             <div className= "centered-container">
                 <div className= "register-box">
