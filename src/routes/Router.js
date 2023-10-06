@@ -9,6 +9,7 @@ import RankingTeam from "../components/RankingTeam";
 import TeamPage from "../components/TeamPage";
 import ChangePassword from "../components/ChangePassword";
 import ChangeUsername from "../components/ChangeUsername";
+import Registrierung from "../components/Registrierung";
 
 const AppRoutes = () => {
     return (
@@ -22,6 +23,7 @@ const AppRoutes = () => {
             <Route path="/TeamPage" element={<TeamPage />}/>
             <Route path="/ChangePassword" element={< ChangePassword />}/>
             <Route path="/ChangeUsername" element={< ChangeUsername />}/>
+            <Route path="/Registrierung" element={< Registrierung />}/>
             {/* Hier können Sie Routen für andere Seiten hinzufügen */}
         </Routes>
     );

@@ -12,7 +12,7 @@ function Home() {
                     <button className="action-button">Login</button>
                 </Link>
                 &nbsp;&nbsp;&nbsp;
-                <Link to="/register">
+                <Link to="/Registrierung">
                     <button className="action-button">Registrieren</button>
                 </Link>
             </div>

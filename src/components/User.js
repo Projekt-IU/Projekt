@@ -26,6 +26,17 @@ class User {
         }
     }
 
+    register(username, firstName, lastName, courseOfStudy, email, password, repeatPassword) {
+        this.username = username;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.courseOfStudy = courseOfStudy;
+        this.email = email;
+        this.password = password;
+        this.repeatPassword = repeatPassword;
+        this.registered = true;
+    }
+
     login(id, username, firstName, lastName, password) {
         this.userId = id;
         this.username = username;
