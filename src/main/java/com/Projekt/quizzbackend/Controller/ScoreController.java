@@ -66,7 +66,7 @@ public class ScoreController {
         System.out.println("Anfrage für Score für user : " + authRequest.getUsername());
         authRequest = FilterLogin.filterLogin(authRequest);
 
-
+//benötigt AnfrageName all, gesamt, monat, woche
 
 
         User user = repository.findByUserName(authRequest.getUsername());
@@ -74,13 +74,33 @@ public class ScoreController {
 
             List<User> allUsers  = (List<User>) repository.findAll();  // Implementiere die Sortierung
 
-            allUsers.sort(Comparator.comparing(u -> u.getScoreUser().getPunkteGesamt()));
-            List<UserScoreListDTO> sortedScores = userMapper.convertUserScoresToDTO(allUsers, authRequest.getAnfrageName() );  // Implementiere die Konvertierung
+            Comparator<User> comparator;
+            switch (authRequest.getAnfrageName().toLowerCase()) {
+                case "gesammt":
+                    comparator = Comparator.comparing(u -> u.getScoreUser().getPunkteGesamt());
+                    break;
+                case "woche":
+                    comparator = Comparator.comparing(u -> u.getScoreUser().getPunkteWoche());
+                    break;
+                case "monat":
+                    comparator = Comparator.comparing(u -> u.getScoreUser().getPunkteMonat());
+                    break;
+                case "all":
+                     comparator = Comparator.comparing((User u) -> u.getScoreUser().getPunkteGesamt())
+                            .thenComparing(u -> u.getScoreUser().getPunkteMonat())
+                            .thenComparing(u -> u.getScoreUser().getPunkteWoche());
+                    break;
+                default:
+                    // Standard-Sortierung
+                    comparator = Comparator.comparing(u -> u.getScoreUser().getPunkteGesamt());
+            }
 
+            // Sortiere Benutzer nach dem ausgewählten Kriterium
+            allUsers.sort(comparator.reversed());
+
+            List<UserScoreListDTO> sortedScores = userMapper.convertUserScoresToDTO(allUsers, authRequest.getAnfrageName());  // Implementiere die Konvertierung
 
             return new ResponseEntity<>(sortedScores, HttpStatus.OK);
-
-
 
         } else {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);

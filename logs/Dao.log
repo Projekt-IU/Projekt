@@ -17548,3 +17548,69 @@ java.lang.StackOverflowError: null
 2023-10-08T18:40:07.420+02:00  INFO 63456 --- [RMI TCP Connection(2)-172.21.240.1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
 2023-10-08T18:40:07.420+02:00  INFO 63456 --- [RMI TCP Connection(2)-172.21.240.1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
 2023-10-08T18:40:07.421+02:00  INFO 63456 --- [RMI TCP Connection(2)-172.21.240.1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 1 ms
+2023-10-08T18:53:25.274+02:00  INFO 63456 --- [SpringApplicationShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2023-10-08T18:53:25.280+02:00  INFO 63456 --- [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2023-10-08T18:53:25.288+02:00  INFO 63456 --- [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+2023-10-08T18:53:30.961+02:00  INFO 45632 --- [restartedMain] com.Projekt.quizzbackend.QuizzBackend    : Starting QuizzBackend using Java 20.0.2 with PID 45632 (G:\Users\tobia\IntelliJ\Projekt\target\classes started by tobia in G:\Users\tobia\IntelliJ\Projekt)
+2023-10-08T18:53:30.963+02:00  INFO 45632 --- [restartedMain] com.Projekt.quizzbackend.QuizzBackend    : No active profile set, falling back to 1 default profile: "default"
+2023-10-08T18:53:31.008+02:00  INFO 45632 --- [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2023-10-08T18:53:31.009+02:00  INFO 45632 --- [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2023-10-08T18:53:31.785+02:00  INFO 45632 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2023-10-08T18:53:31.832+02:00  INFO 45632 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 41 ms. Found 3 JPA repository interfaces.
+2023-10-08T18:53:32.350+02:00  INFO 45632 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8080 (http)
+2023-10-08T18:53:32.361+02:00  INFO 45632 --- [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2023-10-08T18:53:32.361+02:00  INFO 45632 --- [restartedMain] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.12]
+2023-10-08T18:53:32.418+02:00  INFO 45632 --- [restartedMain] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2023-10-08T18:53:32.418+02:00  INFO 45632 --- [restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 1409 ms
+2023-10-08T18:53:32.638+02:00  INFO 45632 --- [restartedMain] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2023-10-08T18:53:32.683+02:00  INFO 45632 --- [restartedMain] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.2.7.Final
+2023-10-08T18:53:32.685+02:00  INFO 45632 --- [restartedMain] org.hibernate.cfg.Environment            : HHH000406: Using bytecode reflection optimizer
+2023-10-08T18:53:32.809+02:00  INFO 45632 --- [restartedMain] o.h.b.i.BytecodeProviderInitiator        : HHH000021: Bytecode provider name : bytebuddy
+2023-10-08T18:53:32.924+02:00  INFO 45632 --- [restartedMain] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2023-10-08T18:53:32.937+02:00  INFO 45632 --- [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2023-10-08T18:53:33.191+02:00  INFO 45632 --- [restartedMain] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@7946645b
+2023-10-08T18:53:33.192+02:00  INFO 45632 --- [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2023-10-08T18:53:33.500+02:00  INFO 45632 --- [restartedMain] o.h.b.i.BytecodeProviderInitiator        : HHH000021: Bytecode provider name : bytebuddy
+2023-10-08T18:53:34.155+02:00  INFO 45632 --- [restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2023-10-08T18:53:34.158+02:00  INFO 45632 --- [restartedMain] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2023-10-08T18:53:34.511+02:00  WARN 45632 --- [restartedMain] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2023-10-08T18:53:34.927+02:00  INFO 45632 --- [restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : LiveReload server is running on port 35729
+2023-10-08T18:53:34.933+02:00  INFO 45632 --- [restartedMain] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 1 endpoint(s) beneath base path '/actuator'
+2023-10-08T18:53:34.999+02:00  INFO 45632 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8080 (http) with context path ''
+2023-10-08T18:53:35.012+02:00  INFO 45632 --- [restartedMain] com.Projekt.quizzbackend.QuizzBackend    : Started QuizzBackend in 4.417 seconds (process running for 5.047)
+2023-10-08T18:53:35.202+02:00  INFO 45632 --- [RMI TCP Connection(2)-172.21.240.1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2023-10-08T18:53:35.202+02:00  INFO 45632 --- [RMI TCP Connection(2)-172.21.240.1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2023-10-08T18:53:35.203+02:00  INFO 45632 --- [RMI TCP Connection(2)-172.21.240.1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 1 ms
+2023-10-08T19:02:37.107+02:00  INFO 45632 --- [SpringApplicationShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2023-10-08T19:02:37.111+02:00  INFO 45632 --- [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2023-10-08T19:02:37.118+02:00  INFO 45632 --- [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+2023-10-08T19:02:41.789+02:00  INFO 65376 --- [restartedMain] com.Projekt.quizzbackend.QuizzBackend    : Starting QuizzBackend using Java 20.0.2 with PID 65376 (G:\Users\tobia\IntelliJ\Projekt\target\classes started by tobia in G:\Users\tobia\IntelliJ\Projekt)
+2023-10-08T19:02:41.791+02:00  INFO 65376 --- [restartedMain] com.Projekt.quizzbackend.QuizzBackend    : No active profile set, falling back to 1 default profile: "default"
+2023-10-08T19:02:41.834+02:00  INFO 65376 --- [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2023-10-08T19:02:41.835+02:00  INFO 65376 --- [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2023-10-08T19:02:42.594+02:00  INFO 65376 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2023-10-08T19:02:42.638+02:00  INFO 65376 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 38 ms. Found 3 JPA repository interfaces.
+2023-10-08T19:02:43.183+02:00  INFO 65376 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8080 (http)
+2023-10-08T19:02:43.190+02:00  INFO 65376 --- [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2023-10-08T19:02:43.191+02:00  INFO 65376 --- [restartedMain] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.12]
+2023-10-08T19:02:43.241+02:00  INFO 65376 --- [restartedMain] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2023-10-08T19:02:43.242+02:00  INFO 65376 --- [restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 1407 ms
+2023-10-08T19:02:43.458+02:00  INFO 65376 --- [restartedMain] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2023-10-08T19:02:43.506+02:00  INFO 65376 --- [restartedMain] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.2.7.Final
+2023-10-08T19:02:43.508+02:00  INFO 65376 --- [restartedMain] org.hibernate.cfg.Environment            : HHH000406: Using bytecode reflection optimizer
+2023-10-08T19:02:43.635+02:00  INFO 65376 --- [restartedMain] o.h.b.i.BytecodeProviderInitiator        : HHH000021: Bytecode provider name : bytebuddy
+2023-10-08T19:02:43.756+02:00  INFO 65376 --- [restartedMain] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2023-10-08T19:02:43.769+02:00  INFO 65376 --- [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2023-10-08T19:02:44.031+02:00  INFO 65376 --- [restartedMain] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@640a21d2
+2023-10-08T19:02:44.033+02:00  INFO 65376 --- [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2023-10-08T19:02:44.321+02:00  INFO 65376 --- [restartedMain] o.h.b.i.BytecodeProviderInitiator        : HHH000021: Bytecode provider name : bytebuddy
+2023-10-08T19:02:45.011+02:00  INFO 65376 --- [restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2023-10-08T19:02:45.014+02:00  INFO 65376 --- [restartedMain] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2023-10-08T19:02:45.353+02:00  WARN 65376 --- [restartedMain] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2023-10-08T19:02:45.778+02:00  INFO 65376 --- [restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : LiveReload server is running on port 35729
+2023-10-08T19:02:45.785+02:00  INFO 65376 --- [restartedMain] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 1 endpoint(s) beneath base path '/actuator'
+2023-10-08T19:02:45.856+02:00  INFO 65376 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8080 (http) with context path ''
+2023-10-08T19:02:45.869+02:00  INFO 65376 --- [restartedMain] com.Projekt.quizzbackend.QuizzBackend    : Started QuizzBackend in 4.462 seconds (process running for 5.241)
+2023-10-08T19:02:46.381+02:00  INFO 65376 --- [RMI TCP Connection(3)-172.21.240.1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2023-10-08T19:02:46.382+02:00  INFO 65376 --- [RMI TCP Connection(3)-172.21.240.1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2023-10-08T19:02:46.383+02:00  INFO 65376 --- [RMI TCP Connection(3)-172.21.240.1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 1 ms
