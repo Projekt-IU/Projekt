@@ -13,6 +13,7 @@ public class UserDTO {
         private String courseOfStudy;
         private Integer matrikelNr;
         private String role;
+        private String teamName;
         private boolean fullAccess;
         private Timestamp dateOfRegistration;
         private boolean loggedIn;
@@ -157,5 +158,13 @@ public class UserDTO {
 
     public void setUserID(Integer userID) {
         this.userID = userID;
+    }
+
+    public String getTeamName() {
+        return teamName;
+    }
+
+    public void setTeamName(String teamName) {
+        this.teamName = teamName;
     }
 }

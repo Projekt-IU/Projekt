@@ -1,6 +1,7 @@
 package com.Projekt.quizzbackend.Controller;
 
 import com.Projekt.quizzbackend.Dao.DTO.Templates.UserDTO;
+import com.Projekt.quizzbackend.Dao.DTO.Templates.UserWithScore;
 import com.Projekt.quizzbackend.Dao.DTO.UserMapper;
 import com.Projekt.quizzbackend.Dao.UserRepository;
 import com.Projekt.quizzbackend.Mail.EmailService;
@@ -74,15 +75,15 @@ public class UserController {
         }
 
     @PostMapping("getProfil")
-    public ResponseEntity<User> getProfil(@RequestBody AuthRequest authRequest) {
+    public ResponseEntity<?> getProfil(@RequestBody AuthRequest authRequest) {
 
         System.out.println("Profieldaten angefrage " + authRequest.getUsername() + authRequest.getPassword());
         authRequest = FilterLogin.filterLogin(authRequest);
 
         User user = repository.findByUserName(authRequest.getUsername());
         if (user != null && passwordEncoder.matches(authRequest.getPassword(), user.getPassword())) {
-            user.setPassword(null);
-            return ResponseEntity.ok(user);
+            UserWithScore userDto = userMapper.entityWithScoreToDto(user);
+            return ResponseEntity.ok(userDto);
         } else {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
         }
@@ -168,7 +169,7 @@ public class UserController {
 
 
         String rawPassword = user.getPassword();
-        user.setPassword(passwordEncoder.encode(rawPassword));
+        registryUser.setPassword(passwordEncoder.encode(rawPassword));
         System.out.println("Passwort verschlüsselt:  " + registryUser.getUserName() +registryUser.getPassword());
 
         repository.save(registryUser);

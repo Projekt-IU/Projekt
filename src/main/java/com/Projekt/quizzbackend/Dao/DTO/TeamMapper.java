@@ -18,7 +18,7 @@ public class TeamMapper {
     private UserMapper userMapper;
     //erfordert ein true für die Ausgabe Team + score, bei einem false nur Team
 
-    public TeamDTO convertToDTO(Teams team, boolean includeScoreTeam) {
+    public TeamDTO entityToDTO(Teams team, boolean includeScoreTeam) {
         TeamDTO dto = new TeamDTO();
         dto.setTeamsId(team.getTeamsId());
         dto.setName(team.getName());
@@ -26,6 +26,7 @@ public class TeamMapper {
         dto.setAdminUserId(team.getAdmin().getUserID());
         dto.setAdminUsername(team.getAdmin().getUserName());
         dto.setMembers(userMapper.convertToTeamDTO(team.getMembers()));
+
 
         if (includeScoreTeam) {
             ScoresTeam scoreTeam = team.getScoreTeam();
@@ -45,7 +46,10 @@ public class TeamMapper {
             memberDTO.setUserName(member.getUserName());
             memberDTO.setUserID(member.getUserID());
             memberDTO.setCourseOfStudy(member.getCourseOfStudy());
-
+            if (dto.getAdminUsername().equals(member.getUserName()))
+            {
+                memberDTO.setAdmin_team(true);
+            }
             // ... (setzen Sie alle anderen Eigenschaften)
             memberDTOs.add(memberDTO);
         }
@@ -58,9 +62,10 @@ public class TeamMapper {
     public List<TeamDTO> convertToDTO(Iterable<Teams> teams) {
         List<TeamDTO> dtos = new ArrayList<>();
         for (Teams team : teams) {
-            dtos.add(convertToDTO(team, true));
+            dtos.add(entityToDTO(team, true));
         }
         return dtos;
     }
+
 
 }

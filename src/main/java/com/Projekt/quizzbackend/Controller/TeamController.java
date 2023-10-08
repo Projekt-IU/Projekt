@@ -67,7 +67,7 @@ public class TeamController {
         Teams teams = teamsRepository.findByName(authRequest.getAnfrageName());
 
         if (user != null && passwordEncoder.matches(authRequest.getPassword(), user.getPassword())) {
-            TeamDTO dto = teamMapper.convertToDTO(teams, true);
+            TeamDTO dto = teamMapper.entityToDTO(teams, true);
             return ResponseEntity.ok(dto);
         } else {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);

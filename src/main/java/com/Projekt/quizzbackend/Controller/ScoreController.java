@@ -2,6 +2,8 @@ package com.Projekt.quizzbackend.Controller;
 
 import com.Projekt.quizzbackend.Dao.DTO.TeamMapper;
 import com.Projekt.quizzbackend.Dao.DTO.Templates.TeamDTO;
+import com.Projekt.quizzbackend.Dao.DTO.Templates.UserScoreListDTO;
+import com.Projekt.quizzbackend.Dao.DTO.UserMapper;
 import com.Projekt.quizzbackend.Dao.TeamsRepository;
 import com.Projekt.quizzbackend.Dao.UserRepository;
 import com.Projekt.quizzbackend.Team.Teams;
@@ -17,12 +19,17 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Comparator;
+import java.util.List;
+
 
 @RestController
 @RequestMapping("/api/score")
 
 public class ScoreController {
 
+    @Autowired
+    private UserMapper userMapper;
     @Autowired
     private TeamMapper teamMapper;
     @Autowired
@@ -53,6 +60,34 @@ public class ScoreController {
         }
     }
 
+
+    @PostMapping("/getScoreUserList")
+    public ResponseEntity<?> getScoreUserList(@RequestBody AuthRequest authRequest) {
+        System.out.println("Anfrage für Score für user : " + authRequest.getUsername());
+        authRequest = FilterLogin.filterLogin(authRequest);
+
+
+
+
+        User user = repository.findByUserName(authRequest.getUsername());
+        if (user != null && passwordEncoder.matches(authRequest.getPassword(), user.getPassword())) {
+
+            List<User> allUsers  = (List<User>) repository.findAll();  // Implementiere die Sortierung
+
+            allUsers.sort(Comparator.comparing(u -> u.getScoreUser().getPunkteGesamt()));
+            List<UserScoreListDTO> sortedScores = userMapper.convertUserScoresToDTO(allUsers, authRequest.getAnfrageName() );  // Implementiere die Konvertierung
+
+
+            return new ResponseEntity<>(sortedScores, HttpStatus.OK);
+
+
+
+        } else {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
+        }
+    }
+
+
     @PostMapping("/getScoreTeam")
     public ResponseEntity<?> getScore(@RequestBody AuthRequest authRequest) {
         System.out.println("Anfrage für Score für Team : " + authRequest.getAnfrageName());
@@ -64,7 +99,7 @@ public class ScoreController {
         if (user != null && passwordEncoder.matches(authRequest.getPassword(), user.getPassword())) {
 
 
-            TeamDTO dto1 = teamMapper.convertToDTO(teams, true);
+            TeamDTO dto1 = teamMapper.entityToDTO(teams, true);
             return ResponseEntity.ok(dto1.getScoreTeam());
         } else {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
