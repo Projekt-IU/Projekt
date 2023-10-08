@@ -5,11 +5,10 @@ import com.Projekt.quizzbackend.Dao.DTO.UserMapper;
 import com.Projekt.quizzbackend.Dao.UserRepository;
 import com.Projekt.quizzbackend.Mail.EmailService;
 import com.Projekt.quizzbackend.Mail.Mail;
-import com.Projekt.quizzbackend.User.Login.FilterLogin;
 import com.Projekt.quizzbackend.User.Login.AuthRequest;
+import com.Projekt.quizzbackend.User.Login.FilterLogin;
 import com.Projekt.quizzbackend.User.Logout.LogoutRequest;
 import com.Projekt.quizzbackend.User.Registation.Filter;
-import com.Projekt.quizzbackend.User.Registation.NewPasswort;
 import com.Projekt.quizzbackend.User.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -31,7 +30,8 @@ public class UserController {
 
         @Autowired
         private final UserRepository repository;
-
+    @Autowired
+    private UserMapper userMapper;
 
         public UserController(UserRepository repository) {
             this.repository = repository;
@@ -48,14 +48,13 @@ public class UserController {
     @PostMapping("/login")
     public ResponseEntity<UserDTO> login(@RequestBody AuthRequest authRequest) {
         System.out.println("login anfrage erhalten: " + authRequest.getUsername() + authRequest.getPassword());
-        authRequest = FilterLogin.filterLogin(authRequest);
 
         User user = repository.findByUserName(authRequest.getUsername());
         if (user != null && passwordEncoder.matches(authRequest.getPassword(), user.getPassword())) {
             user.login();
             System.out.println(user.isLoggedIn());
 
-            UserDTO dto = UserMapper.entityToDto(user);
+            UserDTO dto = userMapper.entityToDto(user);
             return ResponseEntity.ok(dto);
         } else {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
@@ -155,18 +154,18 @@ public class UserController {
 
                 user.setUserName(authRequest.getAnfrageName());
                 repository.save(user);
-            UserDTO dto = UserMapper.entityToDto(user);
+            UserDTO dto = userMapper.entityToDto(user);
             return ResponseEntity.ok(dto);
         } else {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).body("UserName bereits vergeben");
         }
     }
 
-    @PostMapping(path="/userRegistrieren") //
+    @PostMapping(path="/userRegistrieren")
     public ResponseEntity<User> registry(@RequestBody User user) {
         User registryUser = Filter.filterUser(user);
-        System.out.println("Registrierungsanfrage:  " + registryUser.getUserName() +registryUser.getPassword());
-        //sollte als objekt übergeben werden. Muss noch um andere Daten ergänzt werden!
+        System.out.println("Registrierungsanfrage:  " + user.getUserName() );
+
 
         String rawPassword = user.getPassword();
         user.setPassword(passwordEncoder.encode(rawPassword));

@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
 import java.io.Serializable;
+import java.util.List;
 import java.util.Objects;
 @SessionAttributes
 @Entity
@@ -22,13 +23,15 @@ public class Teams  implements Serializable {
 
 
     @OneToOne(cascade = CascadeType.ALL)
+
     @JoinColumn(name = "admin_id", referencedColumnName = "benutzer_id")
     private User admin;
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "scores_id", referencedColumnName = "scores_id")
     private ScoresTeam scoreTeam;
-
+    @OneToMany(mappedBy = "team", cascade = CascadeType.ALL)
+    private List<User> members;
     @PrePersist
     public void prePersist() {
 
@@ -39,10 +42,16 @@ public class Teams  implements Serializable {
             this.scoreTeam.setPunkteWoche(0);
             this.scoreTeam.setFrageRichtig(0);
             this.scoreTeam.setFragenGesamt(0);
-            this.scoreTeam.setScoresTeamId(getTeamsId());
+            this.scoreTeam.setScoresTeamId(this.teamsId);
         }
     }
+    public List<User> getMembers() {
+        return members;
+    }
 
+    public void setMembers(List<User> members) {
+        this.members = members;
+    }
     public Integer getTeamsId() {
         return teamsId;
     }
@@ -86,7 +95,9 @@ public class Teams  implements Serializable {
 
     public void setAdmin(User admin) {
         this.admin = admin;
+
     }
+
 
     public ScoresTeam getScoreTeam() {
         return scoreTeam;

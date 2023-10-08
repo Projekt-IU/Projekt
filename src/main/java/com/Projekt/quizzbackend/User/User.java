@@ -1,5 +1,6 @@
 package com.Projekt.quizzbackend.User;
 
+import com.Projekt.quizzbackend.Team.Teams;
 import com.Projekt.quizzbackend.User.UserScore.ScoreUser;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
@@ -9,10 +10,12 @@ import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.Objects;
 
+
 @SessionAttributes
 @Entity
 @Table(name = "benutzer" )
 public class User implements Serializable {
+
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     @Column(name = "benutzer_id", nullable = false, unique=true)
@@ -55,7 +58,9 @@ public class User implements Serializable {
     @JoinColumn(name = "scores_id", referencedColumnName = "scores_id")
     @JsonManagedReference
     private ScoreUser scoreUser;
-
+    @ManyToOne
+    @JoinColumn(name = "team_id")
+    private Teams team;
     @PrePersist
     public void prePersist() {
         if (dateOfRegistration == null) {
@@ -71,6 +76,7 @@ public class User implements Serializable {
             this.scoreUser.setFragenGesamt(0);
             this.scoreUser.setUser(this);  // Diese Zeile setzt die Beziehung
         }
+
     }
 
     private static final String ROLE_ADMIN = "Admin";
@@ -146,7 +152,13 @@ this.dateOfRegistration = getDateOfRegistration();
         System.out.println("Ausloggen by User.logout()");
     }
 
+    public Teams getTeam() {
+        return team;
+    }
 
+    public void setTeam(Teams team) {
+        this.team = team;
+    }
     public Integer getUserID() {
         return userID;
     }

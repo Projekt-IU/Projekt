@@ -5,8 +5,8 @@ import com.Projekt.quizzbackend.Dao.DTO.Templates.TeamDTO;
 import com.Projekt.quizzbackend.Dao.TeamsRepository;
 import com.Projekt.quizzbackend.Dao.UserRepository;
 import com.Projekt.quizzbackend.Team.Teams;
-import com.Projekt.quizzbackend.User.Login.FilterLogin;
 import com.Projekt.quizzbackend.User.Login.AuthRequest;
+import com.Projekt.quizzbackend.User.Login.FilterLogin;
 import com.Projekt.quizzbackend.User.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -63,8 +63,9 @@ public class ScoreController {
         Teams teams = teamsRepository.findByName(authRequest.getAnfrageName());
         if (user != null && passwordEncoder.matches(authRequest.getPassword(), user.getPassword())) {
 
-            TeamDTO dto = teamMapper.convertToDTO(teams, true);
-            return ResponseEntity.ok(dto);
+
+            TeamDTO dto1 = teamMapper.convertToDTO(teams, true);
+            return ResponseEntity.ok(dto1.getScoreTeam());
         } else {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
         }
