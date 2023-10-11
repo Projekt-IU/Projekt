@@ -2,6 +2,7 @@ package com.Projekt.quizzbackend.Dao.DTO;
 
 import com.Projekt.quizzbackend.Dao.DTO.Templates.ScoreTeamDTO;
 import com.Projekt.quizzbackend.Dao.DTO.Templates.TeamDTO;
+import com.Projekt.quizzbackend.Dao.DTO.Templates.TeamScoreListDTO;
 import com.Projekt.quizzbackend.Dao.DTO.Templates.UserToTeamListDTO;
 import com.Projekt.quizzbackend.Team.ScoresTeam;
 import com.Projekt.quizzbackend.Team.Teams;
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Component
 public class TeamMapper {
@@ -66,6 +68,44 @@ public class TeamMapper {
         }
         return dtos;
     }
+
+    public List<TeamScoreListDTO> convertTeamScoresToDTO(List<Teams> allteams, String scoreType) {
+        return allteams.stream()
+                .map(teams -> {
+                    TeamScoreListDTO dto = new TeamScoreListDTO();
+                    dto.setTeamsId(teams.getTeamsId());
+                    dto.setName(teams.getName());
+
+                    switch (scoreType.toLowerCase()) {
+                        case "woche":
+                            dto.setPunkteWoche(teams.getScoreTeam().getPunkteWoche());
+                            break;
+                        case "monat":
+                            dto.setPunkteMonat(teams.getScoreTeam().getPunkteMonat());
+                            break;
+                        case "gesamt":
+                            dto.setPunkteGesamt(teams.getScoreTeam().getPunkteGesamt());
+                            break;
+                        case "all":
+                            dto.setPunkteWoche(teams.getScoreTeam().getPunkteWoche());
+                            dto.setPunkteMonat(teams.getScoreTeam().getPunkteMonat());
+                            dto.setPunkteGesamt(teams.getScoreTeam().getPunkteGesamt());
+                            break;
+                        default:
+                            dto.setPunkteWoche(teams.getScoreTeam().getPunkteWoche());
+                            dto.setPunkteMonat(teams.getScoreTeam().getPunkteMonat());
+                            dto.setPunkteGesamt(teams.getScoreTeam().getPunkteGesamt());
+                            break;
+                    }
+                    dto.setFrageRichtig(teams.getScoreTeam().getFrageRichtig());
+                    dto.setFragenGesamt(teams.getScoreTeam().getFragenGesamt());
+                    dto.setStudiengang(teams.getStudiengang());
+
+                    return dto;
+                })
+                .collect(Collectors.toList());
+    }
+
 
 
 }

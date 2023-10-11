@@ -131,7 +131,7 @@ public class TeamController {
 
 
     //Test
-    @PostMapping("/newTeamDemp")
+    @PostMapping("/newTeamDemo")
     public ResponseEntity<?> newTeamDemo(@RequestBody AuthRequest authRequest) {
        User user = userRepository.findUserByUserID(1);
 

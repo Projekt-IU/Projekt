@@ -34,6 +34,7 @@ public class UserController {
     @Autowired
     private UserMapper userMapper;
 
+
         public UserController(UserRepository repository) {
             this.repository = repository;
 

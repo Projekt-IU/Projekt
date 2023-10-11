@@ -1,5 +1,6 @@
 package com.Projekt.quizzbackend.User;
 
+import com.Projekt.quizzbackend.Quiz.Fragen;
 import com.Projekt.quizzbackend.Team.Teams;
 import com.Projekt.quizzbackend.User.UserScore.ScoreUser;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
@@ -8,6 +9,7 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 
 import java.io.Serializable;
 import java.sql.Timestamp;
+import java.util.List;
 import java.util.Objects;
 
 
@@ -61,6 +63,30 @@ public class User implements Serializable {
     @ManyToOne
     @JoinColumn(name = "team_id")
     private Teams team;
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<Fragen> fragen;
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "userID=" + userID +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", userName='" + userName + '\'' +
+                ", email='" + email + '\'' +
+                ", password='" + password + '\'' +
+                ", courseOfStudy='" + courseOfStudy + '\'' +
+                ", matrikelNr=" + matrikelNr +
+                ", role='" + role + '\'' +
+                ", fullAccess=" + fullAccess +
+                ", dateOfRegistration=" + dateOfRegistration +
+                ", loggedIn=" + loggedIn +
+                ", scoreUser=" + scoreUser +
+                ", team=" + team +
+                ", fragen=" + fragen +
+                '}';
+    }
+
     @PrePersist
     public void prePersist() {
         if (dateOfRegistration == null) {
@@ -286,4 +312,11 @@ this.dateOfRegistration = getDateOfRegistration();
         return Objects.hash(userID, firstName, lastName, userName, email, password, courseOfStudy, matrikelNr, dateOfRegistration,role);
     }
 
+    public List<Fragen> getFragen() {
+        return fragen;
+    }
+
+    public void setFragen(List<Fragen> fragen) {
+        this.fragen = fragen;
+    }
 }

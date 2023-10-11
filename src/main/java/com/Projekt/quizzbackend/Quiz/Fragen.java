@@ -1,14 +1,16 @@
 package com.Projekt.quizzbackend.Quiz;
 
+import com.Projekt.quizzbackend.User.User;
 import jakarta.persistence.*;
 
+import java.io.Serializable;
 import java.util.Objects;
 
 @Entity
-public class Fragen {
+public class Fragen  implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
-    @Column(name = "fragen_id", nullable = false)
+    @Column(name = "fragen_id", nullable = false , unique=true)
     private Integer fragenId;
     @Basic
     @Column(name = "frage", nullable = false, length = 255)
@@ -28,17 +30,31 @@ public class Fragen {
     @Basic
     @Column(name = "antwort_vier", nullable = false, length = 255)
     private String antwortVier;
+
+
+
     @Basic
     @Column(name = "richtige_antwort", nullable = false, length = 12)
     private String richtigeAntwort;
+
+
+
+    @ManyToOne
+    @JoinColumn(name = "benutzer_id")
+    private User user;
+
+
+
+
+
+
+
+
 
     public Integer getFragenId() {
         return fragenId;
     }
 
-    public void setFragenId(Integer fragenId) {
-        this.fragenId = fragenId;
-    }
 
     public String getFrage() {
         return frage;
@@ -108,4 +124,31 @@ public class Fragen {
     public int hashCode() {
         return Objects.hash(fragenId, frage, modul, antwortEins, antwortZwei, antwortDrei, antwortVier, richtigeAntwort);
     }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+
+    @Override
+    public String toString() {
+        return "Fragen{" +
+                "fragenId=" + fragenId +
+                ", frage='" + frage + '\'' +
+                ", modul='" + modul + '\'' +
+                ", antwortEins='" + antwortEins + '\'' +
+                ", antwortZwei='" + antwortZwei + '\'' +
+                ", antwortDrei='" + antwortDrei + '\'' +
+                ", antwortVier='" + antwortVier + '\'' +
+                ", richtigeAntwort='" + richtigeAntwort + '\'' +
+                ", user=" + user +
+                '}';
+    }
 }
+
+
+

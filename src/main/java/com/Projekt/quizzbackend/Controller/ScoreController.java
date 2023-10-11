@@ -2,6 +2,7 @@ package com.Projekt.quizzbackend.Controller;
 
 import com.Projekt.quizzbackend.Dao.DTO.TeamMapper;
 import com.Projekt.quizzbackend.Dao.DTO.Templates.TeamDTO;
+import com.Projekt.quizzbackend.Dao.DTO.Templates.TeamScoreListDTO;
 import com.Projekt.quizzbackend.Dao.DTO.Templates.UserScoreListDTO;
 import com.Projekt.quizzbackend.Dao.DTO.UserMapper;
 import com.Projekt.quizzbackend.Dao.TeamsRepository;
@@ -66,6 +67,11 @@ public class ScoreController {
         System.out.println("Anfrage für Score für user : " + authRequest.getUsername());
         authRequest = FilterLogin.filterLogin(authRequest);
 
+        if (authRequest.getAnfrageName()==null)
+
+        {
+            authRequest.setAnfrageName("all");
+        }
 //benötigt AnfrageName all, gesamt, monat, woche
 
 
@@ -125,4 +131,61 @@ public class ScoreController {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
         }
     }
+
+
+
+    @PostMapping("/getScoreTeamList")
+    public ResponseEntity<?> getScoreTeamList(@RequestBody AuthRequest authRequest) {
+        System.out.println("Anfrage für Score für user : " + authRequest.getUsername());
+        authRequest = FilterLogin.filterLogin(authRequest);
+
+        if (authRequest.getAnfrageName()==null)
+
+        {
+            authRequest.setAnfrageName("all");
+        }
+//benötigt AnfrageName all, gesamt, monat, woche
+
+
+        User user = repository.findByUserName(authRequest.getUsername());
+        if (user != null && passwordEncoder.matches(authRequest.getPassword(), user.getPassword())) {
+
+            List<Teams> allTeams  = (List<Teams>) teamsRepository.findAll();  // Implementiere die Sortierung
+
+            Comparator<Teams> comparator;
+            switch (authRequest.getAnfrageName().toLowerCase()) {
+                case "gesammt":
+                    comparator = Comparator.comparing(t -> t.getScoreTeam().getPunkteGesamt());
+                    break;
+                case "woche":
+                    comparator = Comparator.comparing(t -> t.getScoreTeam().getPunkteWoche());
+                    break;
+                case "monat":
+                    comparator = Comparator.comparing(t -> t.getScoreTeam().getPunkteMonat());
+                    break;
+                case "all":
+                    comparator = Comparator.comparing((Teams t) -> t.getScoreTeam().getPunkteGesamt())
+                            .thenComparing(t -> t.getScoreTeam().getPunkteMonat())
+                            .thenComparing(t -> t.getScoreTeam().getPunkteWoche());
+                    break;
+                default:
+                    // Standard-Sortierung
+                    comparator = Comparator.comparing(t -> t.getScoreTeam().getPunkteGesamt());
+            }
+
+            // Sortiere Teams nach dem ausgewählten Kriterium
+            allTeams.sort(comparator.reversed());
+
+            // Implementiere die Konvertierung
+            List<TeamScoreListDTO> sortedScores = teamMapper.convertTeamScoresToDTO(allTeams, authRequest.getAnfrageName());
+
+            return new ResponseEntity<>(sortedScores, HttpStatus.OK);
+
+        } else {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
+        }
+    }
+
+
+
     }
