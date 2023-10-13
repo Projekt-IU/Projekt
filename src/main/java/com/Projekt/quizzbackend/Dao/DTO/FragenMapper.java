@@ -1,6 +1,7 @@
 package com.Projekt.quizzbackend.Dao.DTO;
 
 import com.Projekt.quizzbackend.Dao.DTO.Templates.FrageErstellen;
+import com.Projekt.quizzbackend.Dao.DTO.Templates.FragenSendDTO;
 import com.Projekt.quizzbackend.Quiz.Fragen;
 
 public class FragenMapper {
@@ -31,4 +32,15 @@ public class FragenMapper {
         fragen.setUser(fragenDTO.getUser());  // Hier setzen wir den ganzen User, eventuell möchten Sie nur die ID oder den Benutzernamen setzen
         return fragen;
     }
+    public static FragenSendDTO toSendDTO(Fragen fragen) {
+        FragenSendDTO fragenSendDTO = new FragenSendDTO();
+        fragenSendDTO.setFragenId(fragen.getFragenId());
+        fragenSendDTO.setFrage(fragen.getFrage());
+        fragenSendDTO.setAntwortEins(fragen.getAntwortEins());
+        fragenSendDTO.setAntwortZwei(fragen.getAntwortZwei());
+        fragenSendDTO.setAntwortDrei(fragen.getAntwortDrei());
+        fragenSendDTO.setAntwortVier(fragen.getAntwortVier());
+        return fragenSendDTO;
+    }
+
 }

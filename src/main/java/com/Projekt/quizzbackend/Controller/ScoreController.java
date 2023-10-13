@@ -118,6 +118,12 @@ public class ScoreController {
     public ResponseEntity<?> getScore(@RequestBody AuthRequest authRequest) {
         System.out.println("Anfrage für Score für Team : " + authRequest.getAnfrageName());
 
+        if (authRequest.getAnfrageName()==null)
+
+        {
+            authRequest.setAnfrageName("all");
+        }
+
         authRequest = FilterLogin.filterLogin(authRequest);
 
         User user = repository.findByUserName(authRequest.getUsername());
