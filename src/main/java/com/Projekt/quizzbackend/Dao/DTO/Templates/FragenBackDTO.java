@@ -5,8 +5,8 @@ import com.Projekt.quizzbackend.User.Login.AuthRequest;
 public class FragenBackDTO extends AuthRequest{
 
         private Integer fragenId;
-        private String antwort;
-        private String richtigeAntwort;
+        private Integer antwort;
+
 
         public Integer getFragenId() {
                 return fragenId;
@@ -16,21 +16,14 @@ public class FragenBackDTO extends AuthRequest{
                 this.fragenId = fragenId;
         }
 
-        public String getAntwort() {
+        public Integer getAntwort() {
                 return antwort;
         }
 
-        public void setAntwort(String antwort) {
+        public void setAntwort(Integer antwort) {
                 this.antwort = antwort;
         }
 
-        public String getRichtigeAntwort() {
-                return richtigeAntwort;
-        }
-
-        public void setRichtigeAntwort(String richtigeAntwort) {
-                this.richtigeAntwort = richtigeAntwort;
-        }
 
 
         // Getter und Setter

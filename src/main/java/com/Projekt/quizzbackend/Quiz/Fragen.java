@@ -35,7 +35,7 @@ public class Fragen  implements Serializable {
 
     @Basic
     @Column(name = "richtige_antwort", nullable = false, length = 12)
-    private String richtigeAntwort;
+    private Integer richtigeAntwort;
 
 
 
@@ -104,11 +104,11 @@ public class Fragen  implements Serializable {
         this.antwortVier = antwortVier;
     }
 
-    public String getRichtigeAntwort() {
+    public Integer getRichtigeAntwort() {
         return richtigeAntwort;
     }
 
-    public void setRichtigeAntwort(String richtigeAntwort) {
+    public void setRichtigeAntwort(Integer richtigeAntwort) {
         this.richtigeAntwort = richtigeAntwort;
     }
 

@@ -12,7 +12,7 @@ public class FrageErstellen extends AuthRequest {
     private String antwortZwei;
     private String antwortDrei;
     private String antwortVier;
-    private String richtigeAntwort;
+    private Integer richtigeAntwort;
     private User user;
 
     public String getFrage() {
@@ -63,11 +63,11 @@ public class FrageErstellen extends AuthRequest {
         this.antwortVier = antwortVier;
     }
 
-    public String getRichtigeAntwort() {
+    public Integer getRichtigeAntwort() {
         return richtigeAntwort;
     }
 
-    public void setRichtigeAntwort(String richtigeAntwort) {
+    public void setRichtigeAntwort(Integer richtigeAntwort) {
         this.richtigeAntwort = richtigeAntwort;
     }
 

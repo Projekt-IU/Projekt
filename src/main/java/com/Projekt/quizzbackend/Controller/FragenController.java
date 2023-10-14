@@ -2,6 +2,7 @@ package com.Projekt.quizzbackend.Controller;
 
 import com.Projekt.quizzbackend.Dao.DTO.FragenMapper;
 import com.Projekt.quizzbackend.Dao.DTO.Templates.FrageErstellen;
+import com.Projekt.quizzbackend.Dao.DTO.Templates.FragenBackDTO;
 import com.Projekt.quizzbackend.Dao.DTO.Templates.FragenSendDTO;
 import com.Projekt.quizzbackend.Dao.FragenRepository;
 import com.Projekt.quizzbackend.Dao.TeamsRepository;
@@ -22,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.Random;
 
 @RestController
@@ -88,19 +90,20 @@ public class FragenController {
 
             // Konvertieren Sie die Frage in ein DTO
             FragenSendDTO fragenSendDTO = FragenMapper.toSendDTO(zufaelligeFrage);
+
             ScoreUser scoreUser = user.getScoreUser();
             scoreUser.setFragenGesamt(scoreUser.getFragenGesamt() + 1);
+
             userRepository.save(user);
 
-            if (user.getTeam() != null)
-
-            {
+            if (user.getTeam() != null) {
                 Teams team = user.getTeam();
                 ScoresTeam scoreTeam = team.getScoreTeam();
                 scoreTeam.setFragenGesamt(scoreTeam.getFragenGesamt() + 1);
+
+
                 teamsRepository.save(team);
             }
-
             return ResponseEntity.ok(fragenSendDTO);
 
         } else {
@@ -110,22 +113,51 @@ public class FragenController {
 
     @PostMapping("/frageBeantworten")
 
-    public ResponseEntity<?> FrageBeantworten(@RequestBody FrageErstellen frageErstellen) {
-        User user = userRepository.findByUserName(frageErstellen.getUsername());
+    public ResponseEntity<?> FrageBeantworten(@RequestBody FragenBackDTO fragenBackDTO) {
+        User user = userRepository.findByUserName(fragenBackDTO.getUsername());
+System.out.println("Antwort eingeganger");
+        if (user != null && passwordEncoder.matches(fragenBackDTO.getPassword(), user.getPassword())) {
 
-        if (user != null && passwordEncoder.matches(frageErstellen.getPassword(), user.getPassword())) {
-            frageErstellen.setUser(user);
-            Fragen fragen = FragenMapper.toEntity(frageErstellen);  // Stellen Sie sicher, dass der Mapper die User-ID setzt
-            fragen.setUser(user);
-            fragenRepository.save(fragen);  // Speichern der Frage
+            Optional<Fragen> optFragen = fragenRepository.findById(fragenBackDTO.getFragenId());
+            if (!optFragen.isPresent()) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Frage nicht gefunden");
+            }
+            Fragen fragen = optFragen.get();
+
+            // Antwort überprüfen
+            boolean istRichtig = fragen.getRichtigeAntwort().equals(fragenBackDTO.getAntwort());
+
+            if (istRichtig) {
+                System.out.println("Antwort richtig");
+                Punkte(user);
 
 
-            return ResponseEntity.ok().build();
+                return ResponseEntity.ok().build();
 
-        } else {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
+            } else {
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
+            }
         }
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
     }
 
+    private void Punkte(User user) {
 
+        ScoreUser scoreUser = user.getScoreUser();
+        scoreUser.setFrageRichtig(scoreUser.getFrageRichtig() + 1);
+        scoreUser.setPunkteGesamt(scoreUser.getPunkteGesamt() + 1);
+        scoreUser.setPunkteMonat(scoreUser.getPunkteMonat() + 1);
+        scoreUser.setPunkteWoche(scoreUser.getPunkteWoche() + 1);
+        userRepository.save(user);
+
+        if (user.getTeam() != null) {
+            Teams team = user.getTeam();
+            ScoresTeam scoreTeam = team.getScoreTeam();
+            scoreTeam.setFrageRichtig(scoreTeam.getFrageRichtig() + 1);
+            scoreTeam.setPunkteGesamt(scoreTeam.getPunkteGesamt() + 1);
+            scoreTeam.setPunkteMonat(scoreTeam.getPunkteMonat() + 1);
+            scoreTeam.setPunkteWoche(scoreTeam.getPunkteWoche() + 1);
+            teamsRepository.save(team);
+        }
+    }
 }

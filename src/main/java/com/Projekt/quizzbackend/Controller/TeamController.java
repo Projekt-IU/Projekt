@@ -130,6 +130,50 @@ public class TeamController {
     }
 
 
+
+
+    @PostMapping("/dropTeam")
+    @Transactional
+    public ResponseEntity<?> dropTeam(@RequestBody AuthRequest authRequest) {
+        User user = userRepository.findByUserName(authRequest.getUsername());
+
+        if (user != null && passwordEncoder.matches(authRequest.getPassword(), user.getPassword())) {
+            if (user.getTeam() != null)
+            {
+                Teams team = user.getTeam();
+                teamsRepository.delete(team);
+                return ResponseEntity.ok().build();
+
+            }
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
+
+        } else {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
+        }}
+
+
+    @PostMapping("/newAdmin")
+    @Transactional
+    public ResponseEntity<?> newAdmin(@RequestBody AuthRequest authRequest) {
+        User user = userRepository.findByUserName(authRequest.getUsername());
+
+        if (user != null && passwordEncoder.matches(authRequest.getPassword(), user.getPassword())) {
+            if (user.getTeam() != null)
+            {
+                Teams team = user.getTeam();
+                User newAdmin = userRepository.findByUserName(authRequest.getAnfrageName());
+                team.setAdmin(newAdmin);
+                teamsRepository.save(team);
+                return ResponseEntity.ok().build();
+
+            }
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
+
+        } else {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
+        }}
+
+
     //Test
     @PostMapping("/newTeamDemo")
     public ResponseEntity<?> newTeamDemo(@RequestBody AuthRequest authRequest) {
