@@ -62,4 +62,20 @@ public class Chat {
     public int hashCode() {
         return Objects.hash(chatId, nachricht, created);
     }
+
+    public Teams getTeam() {
+        return team;
+    }
+
+    public void setTeam(Teams team) {
+        this.team = team;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
 }

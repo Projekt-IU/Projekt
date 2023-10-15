@@ -1,0 +1,83 @@
+package com.Projekt.quizzbackend.Controller;
+
+import com.Projekt.quizzbackend.Dao.DTO.ChatMapper;
+import com.Projekt.quizzbackend.Dao.DTO.Templates.ChatDTO;
+import com.Projekt.quizzbackend.Dao.DTO.Templates.ChatMessageInDTO;
+import com.Projekt.quizzbackend.Dao.TeamsRepository;
+import com.Projekt.quizzbackend.Dao.UserRepository;
+import com.Projekt.quizzbackend.Team.Chat;
+import com.Projekt.quizzbackend.Team.ChatService;
+import com.Projekt.quizzbackend.Team.Teams;
+import com.Projekt.quizzbackend.User.Login.AuthRequest;
+import com.Projekt.quizzbackend.User.Login.FilterLogin;
+import com.Projekt.quizzbackend.User.User;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
+@RestController
+@RequestMapping("/api/chat")
+public class ChatController {
+    @Autowired
+    private final UserRepository repository;
+    @Autowired
+    private final TeamsRepository teamsRepository;
+    @Autowired
+    private ChatService chatService;
+    @Autowired
+    private ChatMapper chatMapper;
+    @Autowired
+    private BCryptPasswordEncoder passwordEncoder;
+
+    public ChatController(UserRepository repository, TeamsRepository teamsRepository) {
+        this.repository = repository;
+        this.teamsRepository = teamsRepository;
+    }
+
+    @PostMapping("/send")
+    public ResponseEntity<?> sendMessage(@RequestBody ChatMessageInDTO chatMessageInDTO) {
+
+
+        AuthRequest authRequest = FilterLogin.filterLogin(chatMessageInDTO);
+
+        User user = repository.findByUserName(authRequest.getUsername());
+        if (user != null && passwordEncoder.matches(authRequest.getPassword(), user.getPassword())) {
+
+
+            Chat chat = new Chat();
+            chat.setNachricht(chatMessageInDTO.getNachricht());
+            chat.setUser(user);
+            chat.setTeam(user.getTeam());
+            chatService.addMessage(chat);
+
+            return ResponseEntity.ok().build();
+        }
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
+    }
+    @PostMapping("/messages/{teamName}")
+    public ResponseEntity<List<ChatDTO>> getMessages(@PathVariable String teamName, @RequestBody AuthRequest authRequest) {
+        User user = repository.findByUserName(authRequest.getUsername());
+        if (user == null || !passwordEncoder.matches(authRequest.getPassword(), user.getPassword())) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
+        }
+
+        Teams team = teamsRepository.findByName(teamName);  // Ihre Logik, um das Team zu finden
+        if (team == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        }
+
+        // Optional: Überprüfen, ob der Benutzer Mitglied des Teams ist
+        if (!team.getMembers().contains(user)) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body(null);
+        }
+
+        List<Chat> chats = chatService.getMessages(team);
+        List<ChatDTO> chatDTOs = chatMapper.entitiesToDTOs(chats);
+        return ResponseEntity.ok(chatDTOs);
+    }
+
+}

@@ -4,7 +4,7 @@ import com.Projekt.quizzbackend.Dao.DTO.Templates.ScoreTeamDTO;
 import com.Projekt.quizzbackend.Dao.DTO.Templates.TeamDTO;
 import com.Projekt.quizzbackend.Dao.DTO.Templates.TeamScoreListDTO;
 import com.Projekt.quizzbackend.Dao.DTO.Templates.UserToTeamListDTO;
-import com.Projekt.quizzbackend.Team.ScoresTeam;
+import com.Projekt.quizzbackend.Score.ScoresTeam;
 import com.Projekt.quizzbackend.Team.Teams;
 import com.Projekt.quizzbackend.User.User;
 import org.springframework.beans.factory.annotation.Autowired;

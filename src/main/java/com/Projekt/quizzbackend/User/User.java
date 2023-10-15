@@ -1,8 +1,8 @@
 package com.Projekt.quizzbackend.User;
 
 import com.Projekt.quizzbackend.Quiz.Fragen;
+import com.Projekt.quizzbackend.Score.ScoreUser;
 import com.Projekt.quizzbackend.Team.Teams;
-import com.Projekt.quizzbackend.User.UserScore.ScoreUser;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import org.springframework.web.bind.annotation.SessionAttributes;

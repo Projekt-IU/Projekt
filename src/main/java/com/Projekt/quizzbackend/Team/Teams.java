@@ -1,5 +1,6 @@
 package com.Projekt.quizzbackend.Team;
 
+import com.Projekt.quizzbackend.Score.ScoresTeam;
 import com.Projekt.quizzbackend.User.User;
 import jakarta.persistence.*;
 import org.springframework.web.bind.annotation.SessionAttributes;
