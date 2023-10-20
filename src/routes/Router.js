@@ -10,6 +10,7 @@ import TeamPage from "../components/TeamPage";
 import ChangePassword from "../components/ChangePassword";
 import ChangeUsername from "../components/ChangeUsername";
 import Registrierung from "../components/Registrierung";
+import Quiz from "../components/Quiz";
 
 const AppRoutes = () => {
     return (
@@ -24,6 +25,7 @@ const AppRoutes = () => {
             <Route path="/ChangePassword" element={< ChangePassword />}/>
             <Route path="/ChangeUsername" element={< ChangeUsername />}/>
             <Route path="/Registrierung" element={< Registrierung />}/>
+            <Route path="/Quiz" element={< Quiz />}/>
             {/* Hier können Sie Routen für andere Seiten hinzufügen */}
         </Routes>
     );
