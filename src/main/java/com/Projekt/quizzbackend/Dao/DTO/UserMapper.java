@@ -24,6 +24,7 @@ public class UserMapper {
         dto.setCourseOfStudy(entity.getCourseOfStudy());
         dto.setEmail(entity.getEmail());
         dto.setRole(entity.getRole());
+        dto.setTeamName(entity.getTeam().getName());
         if (entity.getTeam() != null) {
             dto.setTeamName(entity.getTeam().getName());
         }

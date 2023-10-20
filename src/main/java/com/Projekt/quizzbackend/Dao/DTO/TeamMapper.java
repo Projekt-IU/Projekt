@@ -52,7 +52,7 @@ public class TeamMapper {
             {
                 memberDTO.setAdmin_team(true);
             }
-            // ... (setzen Sie alle anderen Eigenschaften)
+
             memberDTOs.add(memberDTO);
         }
         dto.setMembers(memberDTOs);

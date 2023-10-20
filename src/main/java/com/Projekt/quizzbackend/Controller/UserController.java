@@ -64,6 +64,7 @@ public class UserController {
             System.out.println(user.isLoggedIn());
 
             UserDTO dto = userMapper.entityToDto(user);
+            System.out.println(dto.toString());
             return ResponseEntity.ok(dto);
         } else {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
@@ -129,7 +130,7 @@ public class UserController {
         return ResponseEntity.ok().build();
     }
 
-    //neu
+
     @PostMapping("/newPw")
     public ResponseEntity<?> newPasswordMail(@RequestBody AuthRequest authRequest) {
 

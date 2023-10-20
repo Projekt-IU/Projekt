@@ -6,7 +6,7 @@ public class UserDTO {
 
 
         private Integer userID;
-        private String firstName;
+    private String firstName;
         private String lastName;
         private String userName;
         private String email;
@@ -167,4 +167,25 @@ public class UserDTO {
     public void setTeamName(String teamName) {
         this.teamName = teamName;
     }
+
+
+    @Override
+    public String toString() {
+        return "UserDTO{" +
+                "userID=" + userID +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", userName='" + userName + '\'' +
+                ", email='" + email + '\'' +
+                ", courseOfStudy='" + courseOfStudy + '\'' +
+                ", matrikelNr=" + matrikelNr +
+                ", role='" + role + '\'' +
+                ", teamName='" + teamName + '\'' +
+                ", fullAccess=" + fullAccess +
+                ", dateOfRegistration=" + dateOfRegistration +
+                ", loggedIn=" + loggedIn +
+                '}';
+    }
+
 }
+

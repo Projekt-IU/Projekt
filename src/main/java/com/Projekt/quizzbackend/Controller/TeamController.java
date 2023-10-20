@@ -189,7 +189,45 @@ public class TeamController {
 
 
         return ResponseEntity.ok(teams);
-    }}
+    }
+
+
+    @PostMapping("/dropUser")
+    @Transactional
+    public ResponseEntity<?> dropUser(@RequestBody AuthRequest authRequest) {
+        User user = userRepository.findByUserName(authRequest.getUsername());
+
+        if (user != null && passwordEncoder.matches(authRequest.getPassword(), user.getPassword())) {
+            if (user.getTeam() != null)
+            {
+                Teams team = user.getTeam();
+                if (team.getAdmin() != user)
+                {
+
+
+
+                user.setTeam(null);
+                userRepository.save(user);
+                return ResponseEntity.ok().build();
+            }
+                else {
+
+                    return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Admin kann nicht entfernt werden");
+
+                }
+
+            }
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
+
+        } else {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
+        }}
+
+
+
+
+
+}
 
 
 

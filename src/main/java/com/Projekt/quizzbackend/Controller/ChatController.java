@@ -40,7 +40,7 @@ public class ChatController {
 
     @PostMapping("/send")
     public ResponseEntity<?> sendMessage(@RequestBody ChatMessageInDTO chatMessageInDTO) {
-
+        System.out.println("Anfrage für Chat für user : " + chatMessageInDTO.getUsername());
 
         AuthRequest authRequest = FilterLogin.filterLogin(chatMessageInDTO);
 
