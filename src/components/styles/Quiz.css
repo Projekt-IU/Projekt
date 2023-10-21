@@ -1,0 +1,58 @@
+/* Stil für den gesamten Quiz-Bereich */
+#root {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* Stil für den Quiz-Titel */
+h2 {
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+/* Stil für die Fragen */
+ul {
+    list-style: none;
+    padding: 0;
+}
+
+li {
+    margin-bottom: 10px;
+}
+
+/* Stil für die Antwortoptionen */
+input[type="radio"] {
+    margin-right: 10px;
+}
+
+label {
+    cursor: pointer;
+}
+
+/* Stil für den Ergebnisbereich */
+.result {
+    font-size: 18px;
+    margin-top: 20px;
+}
+
+/* Stil für den Weiter-Button */
+button {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+/* Stil für den Quiz abgeschlossen Text */
+.completed {
+    font-size: 18px;
+    margin-top: 20px;
+}

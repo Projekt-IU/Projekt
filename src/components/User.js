@@ -6,6 +6,7 @@ class User {
         this.lastName = null;
         this.loggedIn = false;
         this.password = null;
+        this.teamName =null
     }
 
 
@@ -24,6 +25,7 @@ class User {
             this.loggedIn = user.loggedIn;
             this.password = user.password;
             this.teamName = user.teamName;
+            this.role = user.role;
         }
     }
 

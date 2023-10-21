@@ -11,6 +11,8 @@ import ChangePassword from "../components/ChangePassword";
 import ChangeUsername from "../components/ChangeUsername";
 import Registrierung from "../components/Registrierung";
 import ChatEinbindungExample from "../components/ChatEinbindungExample";
+import Quiz from "../components/Quiz";
+
 const AppRoutes = () => {
     return (
         <Routes>
@@ -25,6 +27,7 @@ const AppRoutes = () => {
             <Route path="/ChangeUsername" element={< ChangeUsername />}/>
             <Route path="/Registrierung" element={< Registrierung />}/>
             <Route path="/ChatEinbindungExample" element={< ChatEinbindungExample />}/>
+            <Route path="/Quiz" element={< Quiz />}/>
             {/* Hier können Sie Routen für andere Seiten hinzufügen */}
         </Routes>
     );
