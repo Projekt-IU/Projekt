@@ -23,6 +23,7 @@ class User {
             this.lastName = user.lastName;
             this.loggedIn = user.loggedIn;
             this.password = user.password;
+            this.teamName = user.teamName;
         }
     }
 
@@ -37,13 +38,14 @@ class User {
         this.registered = true;
     }
 
-    login(id, username, firstName, lastName, password) {
+    login(id, username, firstName, lastName, password, teamName) {
         this.userId = id;
         this.username = username;
         this.firstName = firstName;
         this.lastName = lastName;
         this.loggedIn = true;
         this.password = password;
+        this.teamName = teamName;
     }
 
     logout() {
