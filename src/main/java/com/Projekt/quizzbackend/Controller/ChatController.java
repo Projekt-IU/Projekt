@@ -62,21 +62,28 @@ public class ChatController {
     public ResponseEntity<List<ChatDTO>> getMessages(@PathVariable String teamName, @RequestBody AuthRequest authRequest) {
         User user = repository.findByUserName(authRequest.getUsername());
         if (user == null || !passwordEncoder.matches(authRequest.getPassword(), user.getPassword())) {
+            System.out.println("Chat nicht autorisiert ");
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
+
+
         }
 
         Teams team = teamsRepository.findByName(teamName);  // Ihre Logik, um das Team zu finden
         if (team == null) {
+            System.out.println("Chat nicht autorisiert, da Team nicht existent: " + teamName);
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+
         }
 
         // Optional: Überprüfen, ob der Benutzer Mitglied des Teams ist
         if (!team.getMembers().contains(user)) {
+            System.out.println("Chat nicht autorisiert, da nicht im team: " + teamName);
             return ResponseEntity.status(HttpStatus.FORBIDDEN).body(null);
         }
 
         List<Chat> chats = chatService.getMessages(team);
         List<ChatDTO> chatDTOs = chatMapper.entitiesToDTOs(chats);
+        System.out.println("Chat : " + chatDTOs.toString());
         return ResponseEntity.ok(chatDTOs);
     }
 

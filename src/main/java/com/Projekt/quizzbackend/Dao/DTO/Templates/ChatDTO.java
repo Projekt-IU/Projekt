@@ -32,4 +32,13 @@ public class ChatDTO {
     public void setCreated(Timestamp created) {
         this.created = created;
     }
+
+    @Override
+    public String toString() {
+        return "ChatDTO{" +
+                "nachricht='" + nachricht + '\'' +
+                ", username='" + username + '\'' +
+                ", created=" + created +
+                '}';
+    }
 }
