@@ -2,6 +2,7 @@ package com.Projekt.quizzbackend.Controller;
 
 import com.Projekt.quizzbackend.Dao.DTO.TeamMapper;
 import com.Projekt.quizzbackend.Dao.DTO.Templates.AddUserToTeam;
+import com.Projekt.quizzbackend.Dao.DTO.Templates.DropUserTeam;
 import com.Projekt.quizzbackend.Dao.DTO.Templates.NewTeamDTO;
 import com.Projekt.quizzbackend.Dao.DTO.Templates.TeamDTO;
 import com.Projekt.quizzbackend.Dao.TeamsRepository;
@@ -200,20 +201,20 @@ public class TeamController {
 
     @PostMapping("/dropUser")
     @Transactional
-    public ResponseEntity<?> dropUser(@RequestBody AuthRequest authRequest) {
+    public ResponseEntity<?> dropUser(@RequestBody DropUserTeam authRequest) {
         User user = userRepository.findByUserName(authRequest.getUsername());
-
+        User dropUser = userRepository.findByUserName(authRequest.getUserToDrop());
         if (user != null && passwordEncoder.matches(authRequest.getPassword(), user.getPassword())) {
-            if (user.getTeam() != null)
+            if (dropUser.getTeam() != null)
             {
-                Teams team = user.getTeam();
+                Teams team = dropUser.getTeam();
                 if (team.getAdmin() != user)
                 {
 
 
 
-                user.setTeam(null);
-                userRepository.save(user);
+                dropUser.setTeam(null);
+                userRepository.save(dropUser);
                 return ResponseEntity.ok().build();
             }
                 else {
