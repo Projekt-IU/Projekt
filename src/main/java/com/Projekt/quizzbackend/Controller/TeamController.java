@@ -1,6 +1,7 @@
 package com.Projekt.quizzbackend.Controller;
 
 import com.Projekt.quizzbackend.Dao.DTO.TeamMapper;
+import com.Projekt.quizzbackend.Dao.DTO.Templates.AddUserToTeam;
 import com.Projekt.quizzbackend.Dao.DTO.Templates.NewTeamDTO;
 import com.Projekt.quizzbackend.Dao.DTO.Templates.TeamDTO;
 import com.Projekt.quizzbackend.Dao.TeamsRepository;
@@ -76,15 +77,20 @@ public class TeamController {
 
     @PostMapping("/addUser")
     @Transactional
-    public ResponseEntity<?> addUser(@RequestBody AuthRequest authRequest) {
+    public ResponseEntity<?> addUser(@RequestBody AddUserToTeam authRequest) {
 
         System.out.println("Frage Team ab: " + authRequest.getAnfrageName() +authRequest.getUsername() + authRequest.getPassword());
 
         User user = userRepository.findByUserName(authRequest.getUsername());
+        User newMember = userRepository.findByUserName(authRequest.getNewMember());
         System.out.println("User: " + user.getUserName());
         Teams team = teamsRepository.findByName(authRequest.getAnfrageName());
 
         if (user == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
+        }
+
+        if (authRequest.getNewMember() == null) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
         }
 
@@ -93,8 +99,8 @@ public class TeamController {
         }
 
         if (user != null && passwordEncoder.matches(authRequest.getPassword(), user.getPassword())) {
-            user.setTeam(team);
-            userRepository.save(user);
+            newMember.setTeam(team);
+            userRepository.save(newMember);
             return ResponseEntity.ok().build();
         } else {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
