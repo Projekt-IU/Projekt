@@ -1,134 +1,104 @@
-// RankingUser.js
-import React, { useState } from 'react';
-import './styles/Ranking.css'; // Importiere das Stylesheet für RankingUser
-// eslint-disable-next-line
-import User from "./User";
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import User from './User';
 
 const RankingTeam = () => {
-    const [activeTab, setActiveTab] = useState('total'); // Aktiver Tab
+    const [activeTab, setActiveTab] = useState('total');
+    const [rankingData, setRankingData] = useState([]);
+    const [rangplatz, setRangplatz] = useState(null);
+    const [scoreGesamt, setScoreGesamt] = useState(0);
+    const [scoreMonat, setScoreMonat] = useState(0);
+    const [scoreWoche, setScoreWoche] = useState(0);
+    const [teamName, setTeamName] = useState('');
+    const [userTeamIndex, setUserTeamIndex] = useState(null);
 
-    // Beispielwerte für die RankingUser-Tabellen
-    const totalRankingData = Array(30).fill(null).map((_, index) => ({
-        name: `Benutzer ${index + 1}`,
-        courseOfStudy: `Studiengang ${index + 1}`,
-        score: Math.floor(Math.random() * 1000), // Zufällige Punktzahl zwischen 0 und 1000
-    }));
+    const fetchRankingData = async () => {
+        try {
+            const response = await axios.post('http://localhost:8080/api/score/getScoreTeamList', {
+                username: User.username,
+                password: User.password,
+                anfrageName: 'all',
+            });
+            setRankingData(response.data);
+        } catch (error) {
+            console.error('Fehler beim Abrufen der Daten:', error);
+        }
+    };
 
-    // Sortiere die RankingUser-Daten nach Punktzahl absteigend
-    totalRankingData.sort((a, b) => b.score - a.score);
+    useEffect(() => {
+        fetchRankingData();
+    }, [activeTab]);
 
-    // Wähle die ersten 15 Benutzer aus
-    const top15TotalRankingData = totalRankingData.slice(0, 15);
+    useEffect(() => {
+        // Find the index of the user's team and set the user's team index
+        if (rankingData.length > 0) {
+            const userTeam = rankingData.find((user) => user.username === User.username);
+            if (userTeam) {
+                setTeamName(userTeam.name);
+                setUserTeamIndex(rankingData.indexOf(userTeam));
+            }
+        }
+    }, [rankingData]);
 
-    // Beispielwerte für Punkte im Monat
-    const monthlyRankingData = Array(30).fill(null).map((_, index) => ({
-        name: `Benutzer ${index + 1}`,
-        courseOfStudy: `Studiengang ${index + 1}`,
-        score: Math.floor(Math.random() * 500), // Zufällige Punktzahl zwischen 0 und 500
-    }));
-
-    // Sortiere die RankingUser-Daten nach Punktzahl absteigend
-    monthlyRankingData.sort((a, b) => b.score - a.score);
-
-    // Wähle die ersten 15 Benutzer aus
-    const top15MonthlyRankingData = monthlyRankingData.slice(0, 15);
-
-    // Beispielwerte für Punkte in der Woche
-    const weeklyRankingData = Array(30).fill(null).map((_, index) => ({
-        name: `Benutzer ${index + 1}`,
-        courseOfStudy: `Studiengang ${index + 1}`,
-        score: Math.floor(Math.random() * 100), // Zufällige Punktzahl zwischen 0 und 100
-    }));
-
-    // Sortiere die RankingUser-Daten nach Punktzahl absteigend
-    weeklyRankingData.sort((a, b) => b.score - a.score);
-
-    // Wähle die ersten 15 Benutzer aus
-    const top15WeeklyRankingData = weeklyRankingData.slice(0, 15);
+    useEffect(() => {
+        // Find the position of the user's team
+        if (userTeamIndex !== null) {
+            setRangplatz(userTeamIndex + 1);
+            setScoreGesamt(rankingData[userTeamIndex].punkteGesamt);
+            setScoreMonat(rankingData[userTeamIndex].punkteMonat);
+            setScoreWoche(rankingData[userTeamIndex].punkteWoche);
+        }
+    }, [userTeamIndex, rankingData]);
 
     return (
         <div className="ranking-container">
-            {/* Tabs für RankingUser-Tabelle auswählen */}
             <div className="ranking-tabs">
                 <button onClick={() => setActiveTab('total')}>Punkte gesamt</button>
                 <button onClick={() => setActiveTab('monthly')}>Punkte im Monat</button>
                 <button onClick={() => setActiveTab('weekly')}>Punkte in der Woche</button>
             </div>
 
-            {/* Anhand des ausgewählten Tabs die entsprechende RankingUser-Tabelle anzeigen */}
-            {activeTab === 'total' && (
-                <div className="ranking-table">
-                    <h2>Punkte gesamt</h2>
-                    <table>
-                        <thead>
-                        <tr>
-                            <th>Rangplatz</th>
-                            <th>Team</th>
-                            <th>Studiengang</th>
-                            <th>Punktzahl</th>
+            <div className="ranking-table">
+                <h2>{`Punkte ${activeTab === 'total' ? 'gesamt' : activeTab === 'monthly' ? 'im Monat' : 'in der Woche'}`}</h2>
+                <table>
+                    <thead>
+                    <tr>
+                        <th>Rangplatz</th>
+                        <th>Team</th>
+                        <th>Studiengang</th>
+                        <th>{activeTab === 'total' ? 'Punktzahl' : activeTab === 'monthly' ? 'Punktzahl' : 'Punktzahl'}</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {rankingData.slice(0, 15).map((user, index) => (
+                        <tr key={index} className={user.name === User.teamName ? 'user-team' : ''}>
+                            <td>{index + 1}</td>
+                            <td>{user.name === User.teamName ? <strong>{user.name}</strong> : user.name}</td>
+                            <td>{user.studiengang}</td>
+                            <td>
+                                {activeTab === 'total'
+                                    ? user.punkteGesamt
+                                    : activeTab === 'monthly'
+                                        ? user.punkteMonat
+                                        : user.punkteWoche
+                                }
+                            </td>
                         </tr>
-                        </thead>
-                        <tbody>
-                        {top15TotalRankingData.map((user, index) => (
-                            <tr key={index}>
-                                <td>{index + 1}</td>
-                                <td>{user.name}</td>
-                                <td>{user.courseOfStudy}</td>
-                                <td>{user.score}</td>
-                            </tr>
-                        ))}
-                        </tbody>
-                    </table>
-                </div>
-            )}
-            {activeTab === 'monthly' && (
-                <div className="ranking-table">
-                    <h2>Punkte im Monat</h2>
-                    <table>
-                        <thead>
-                        <tr>
-                            <th>Rangplatz</th>
-                            <th>Team</th>
-                            <th>Studiengang</th>
-                            <th>Punktzahl</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        {top15MonthlyRankingData.map((user, index) => (
-                            <tr key={index}>
-                                <td>{index + 1}</td>
-                                <td>{user.name}</td>
-                                <td>{user.courseOfStudy}</td>
-                                <td>{user.score}</td>
-                            </tr>
-                        ))}
-                        </tbody>
-                    </table>
-                </div>
-            )}
-            {activeTab === 'weekly' && (
-                <div className="ranking-table">
-                    <h2>Punkte in der Woche</h2>
-                    <table>
-                        <thead>
-                        <tr>
-                            <th>Rangplatz</th>
-                            <th>Team</th>
-                            <th>Studiengang</th>
-                            <th>Punktzahl</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        {top15WeeklyRankingData.map((user, index) => (
-                            <tr key={index}>
-                                <td>{index + 1}</td>
-                                <td>{user.name}</td>
-                                <td>{user.courseOfStudy}</td>
-                                <td>{user.score}</td>
-                            </tr>
-                        ))}
-                        </tbody>
-                    </table>
+                    ))}
+                    </tbody>
+                </table>
+            </div>
+
+            {rangplatz !== null && (
+                <div className="user-rank-info">
+                    <p>{`Dein Rangplatz: ${rangplatz}`}</p>
+                    <p>{`Dein Punktzahl: ${
+                        activeTab === 'total'
+                            ? scoreGesamt
+                            : activeTab === 'monthly'
+                                ? scoreMonat
+                                : scoreWoche
+                    }`}</p>
                 </div>
             )}
         </div>
