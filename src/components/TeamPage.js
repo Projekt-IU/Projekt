@@ -67,11 +67,14 @@ const TeamPage = () => {
 
             try {
                 console.log(User.username);
+                console.log(User.teamName);
+                console.log(username);
                 const response = await axios.post('http://localhost:8080/api/Team/addUser', {
                     username: User.username,
                     password: User.password,
                     teamName: User.teamName,
-                    newMember: username
+                    newMember: username,
+                    anfrageName: User.teamName
                 });
 
                 if (response.status === 200) {
