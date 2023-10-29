@@ -62,9 +62,13 @@ public class TeamController {
     @PostMapping("/getTeam")
     public ResponseEntity<?> getTeam(@RequestBody AuthRequest authRequest) {
 
-        System.out.println("Frage Team ab: " + authRequest.getAnfrageName() +authRequest.getUsername() + authRequest.getPassword());
+
 
         User user = userRepository.findByUserName(authRequest.getUsername());
+        if(authRequest.getAnfrageName()== null)
+        {authRequest.setAnfrageName(user.getTeam().getName());}
+        System.out.println("Frage Team ab: " + authRequest.getAnfrageName() +authRequest.getUsername() + authRequest.getPassword());
+
         System.out.println("User: " + user.getUserName());
         Teams teams = teamsRepository.findByName(authRequest.getAnfrageName());
 
