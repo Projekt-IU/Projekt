@@ -44,9 +44,13 @@ public class TeamController {
     @PostMapping("/getAllTeams")
     public ResponseEntity<?> getAllTeams(@RequestBody AuthRequest authRequest) {
 
-        System.out.println("Frage Team ab: " + authRequest.getAnfrageName() +authRequest.getUsername() + authRequest.getPassword());
+
 
         User user = userRepository.findByUserName(authRequest.getUsername());
+        if(authRequest.getAnfrageName()== null)
+        {authRequest.setAnfrageName(user.getTeam().getName());}
+        System.out.println("Frage Team ab: " + authRequest.getAnfrageName() +authRequest.getUsername() + authRequest.getPassword());
+
         System.out.println("User: " + user.getUserName());
 
         Iterable<Teams> teams = teamsRepository.findAll();
