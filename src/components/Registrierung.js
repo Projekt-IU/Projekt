@@ -1,16 +1,16 @@
-import React, {Component,} from 'react';
+import React, { Component } from 'react';
 import './styles/Login.css';
 import axios from "axios";
-import {Navigate} from "react-router-dom";
+import { Navigate } from "react-router-dom";
 import User from "./User";
 
 class Registrierung extends Component {
     constructor() {
         super();
         this.state = {
+            userName: '',
             firstName: '',
             lastName: '',
-            username: '',
             courseOfStudy: '',
             email: '',
             matrikelNr: '',
@@ -18,7 +18,6 @@ class Registrierung extends Component {
             confirmPassword: '',
             registered: false,
             error: '',
-
         };
     }
 
@@ -28,50 +27,36 @@ class Registrierung extends Component {
 
     handleSubmit = (e) => {
         e.preventDefault();
-        const { firstName, lastName, userName, courseOfStudy, email, matrikelNr, password, confirmPassword } = this.state;
+        const { userName, firstName, lastName, courseOfStudy, email, matrikelNr, password, confirmPassword } = this.state;
 
         // Axios URL noch ändern!
-        axios.post('http://localhost:8080/api/login',
-            { firstName, lastName, userName, courseOfStudy, email, matrikelNr, password, confirmPassword })
+        axios.post('http://localhost:8080/api/userRegistrieren', { userName, firstName, lastName, courseOfStudy, email, matrikelNr, password, confirmPassword })
             .then(response => {
-                if (response.data) {
-                    const { userName, firstName, lastName, courseOfStudy,
-                        email, matrikelNr, password, confirmPassword} = response.data;
-                    // Benutzer registrieren!
-                    User.register(userName, firstName, lastName, courseOfStudy, email, matrikelNr,
-                        password, confirmPassword);
-                    console.log(response);
-                    this.setState({ error: 'Registrierung erfolgreich!' });
-                    this.setState({ registered: true, user: userName });
-
-                    console.log(this.state);
-                    console.log(User)
+                if (response.status === 200) {
+                    this.setState({ error: "Registrierung erfolgreich!", registered: true });
                 } else {
-                    this.setState({ error: 'Registrierung fehlgeschlagen!' })
+                    this.setState({ error: "Registrierung fehlgeschlagen!" });
                 }
             })
-
             .catch(error => {
-                console.error('Registrierung fehlgeschlagen', error);
-                this.setState({ error: '' });
+                console.error("Registrierung fehlgeschlagen", error);
+                this.setState({ error: "Registrierung fehlgeschlagen" });
             });
-
-        // console.log('Anmeldung mit:', userName, password);
     };
 
     render() {
-        if (User.registered) {
-            return <Navigate to= "/UserComponents" />
+        if (this.state.registered) {
+            return <Navigate to="/UserComponents" />
         }
 
         // Frontend
         return (
-            <div className= "centered-container">
-                <div className= "register-box">
+            <div className="centered-container">
+                <div className="register-box">
                     <h2>Registrierung</h2>
                     <form onSubmit={this.handleSubmit}>
                         <div>
-                            <label htmlFor="userName">Benutzername</label>
+                            <label htmlFor="username">Benutzername</label>
                             <input
                                 type="text"
                                 id="username"
@@ -117,7 +102,7 @@ class Registrierung extends Component {
                         <div>
                             <label htmlFor="matrikelNr">Matrikelnummer</label>
                             <input
-                                type="matrikelNr"
+                                type="text"
                                 id="matrikelNr"
                                 name="matrikelNr"
                                 className="register-input"
@@ -127,12 +112,12 @@ class Registrierung extends Component {
                         </div>
                         <div>
                             <label htmlFor="courseOfStudy">Studiengang</label>
-                            <select>
+                            <select
                                 id="courseOfStudy"
                                 name="courseOfStudy"
                                 value={this.state.courseOfStudy}
                                 onChange={this.handleChange}
-
+                            >
                                 <option value="">Bitte auswählen:</option>
                                 <option value="course1">Informatik</option>
                                 <option value="course2">Wirtschaftsinformatik</option>
@@ -161,10 +146,11 @@ class Registrierung extends Component {
                                 onChange={this.handleChange}
                             />
                         </div>
+                        <button type="submit">Registrieren</button>  {/* Hinzufügen einer Schaltfläche zum Absenden des Formulars */}
                     </form>
                 </div>
             </div>
-        )
+        );
     }
 }
 

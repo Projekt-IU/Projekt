@@ -158,6 +158,9 @@ const Profile = () => {
                         <p>
                             <Link to="/RankingTeam">Zu den Rankings Team</Link>
                         </p>
+                        <p>
+                            <Link to="/Quiz">Zum Quiz</Link>
+                        </p>
                     </div>
                 </div>
 
