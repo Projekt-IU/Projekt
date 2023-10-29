@@ -100,6 +100,7 @@ public class UserController {
         User user = repository.findByUserName(authRequest.getUsername());
         if (user != null && passwordEncoder.matches(authRequest.getPassword(), user.getPassword())&& user.isAccess()) {
             UserWithScore userDto = userMapper.entityWithScoreToDto(user);
+            System.out.println("Profieldaten angefrage erfolgreich " + userDto.toString());
             return ResponseEntity.ok(userDto);
         } else {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
