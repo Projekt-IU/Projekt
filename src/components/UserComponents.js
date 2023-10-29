@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Navigate } from "react-router-dom";
 import User from "./User";
 import axios from "axios"; // Importieren Sie die useUser-Hook
-
+import ChatComponent from './ChatComponent';
 class UserComponents extends Component {
     constructor() {
         super();

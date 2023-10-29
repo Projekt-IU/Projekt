@@ -13,6 +13,7 @@ class Login extends Component {
             email: '',  // Für Passwort vergessen
             showForgotPasswordDialog: false,  // Für Passwort vergessen Dialog
             loggedIn: false,
+            teamName: null,
             error: ''
         };
     }
@@ -30,8 +31,8 @@ class Login extends Component {
             .then(response => {
                 // Wenn die Anmeldung erfolgreich ist, können Sie den Benutzer weiterleiten oder andere Aktionen ausführen
                 if (response.data) {
-                    const { userID, userName, firstName, lastName } = response.data;
-                    User.login(userID, userName, firstName, lastName, password); // Benutzer einloggen
+                    const { userID, userName, firstName, lastName,teamName } = response.data;
+                    User.login(userID, userName, firstName, lastName, password,teamName); // Benutzer einloggen
                     User.saveToSession();
                     console.log(User);
                     this.setState({ error: 'Login erfolgreich' });
