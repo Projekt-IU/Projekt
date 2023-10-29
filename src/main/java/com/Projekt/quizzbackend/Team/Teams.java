@@ -6,11 +6,15 @@ import jakarta.persistence.*;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+
+
 @SessionAttributes
 @Entity
 public class Teams  implements Serializable {
+
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     @Column(name = "team_id", nullable = false)
@@ -23,16 +27,19 @@ public class Teams  implements Serializable {
     private String studiengang;
 
 
-    @OneToOne(cascade = CascadeType.ALL)
-
+    @OneToOne
     @JoinColumn(name = "admin_id", referencedColumnName = "benutzer_id")
     private User admin;
 
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "scores_id", referencedColumnName = "scores_id")
+    @JoinColumn(name = "scores_id", referencedColumnName = "scores_id", unique = true)
     private ScoresTeam scoreTeam;
-    @OneToMany(mappedBy = "team", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "team")
     private List<User> members;
+
+    public Teams() {
+    }
+
     @PrePersist
     public void prePersist() {
 
@@ -43,8 +50,17 @@ public class Teams  implements Serializable {
             this.scoreTeam.setPunkteWoche(0);
             this.scoreTeam.setFrageRichtig(0);
             this.scoreTeam.setFragenGesamt(0);
-            this.scoreTeam.setScoresTeamId(this.teamsId);
         }
+// Sicherstellen, dass die members-Liste initialisiert ist
+        if (members == null) {
+            members = new ArrayList<>();
+        }
+
+        // Sicherstellen, dass der Admin auch ein Mitglied des Teams ist
+    if(!this.members.contains(this.admin))
+    {
+        members.add(admin);
+    }
     }
     public List<User> getMembers() {
         return members;

@@ -11,9 +11,7 @@ public class ScoresTeam {
     @Id
     @Column(name = "scores_id", nullable = false)
     private Integer scoresId;
-    @Basic
-    @Column(name = "scoresTeam_Id", nullable = true)
-    private Integer scoresTeamId;
+
     @Basic
     @Column(name = "punkte_gesamt", nullable = true)
     private Integer punkteGesamt;
@@ -30,13 +28,7 @@ public class ScoresTeam {
     @Column(name = "fragen_gesamt", nullable = true)
     private Integer fragenGesamt;
 
-    public Integer getScoresTeamId() {
-        return scoresTeamId;
-    }
 
-    public void setScoresTeamId(Integer scoresTeamId) {
-        this.scoresTeamId = scoresTeamId;
-    }
 
     public Integer getPunkteGesamt() {
         return punkteGesamt;
@@ -83,12 +75,12 @@ public class ScoresTeam {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         ScoresTeam that = (ScoresTeam) o;
-        return Objects.equals(scoresTeamId, that.scoresTeamId) && Objects.equals(punkteGesamt, that.punkteGesamt) && Objects.equals(punkteMonat, that.punkteMonat) && Objects.equals(punkteWoche, that.punkteWoche) && Objects.equals(frageRichtig, that.frageRichtig) && Objects.equals(fragenGesamt, that.fragenGesamt);
+        return Objects.equals(punkteGesamt, that.punkteGesamt) && Objects.equals(punkteMonat, that.punkteMonat) && Objects.equals(punkteWoche, that.punkteWoche) && Objects.equals(frageRichtig, that.frageRichtig) && Objects.equals(fragenGesamt, that.fragenGesamt);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(scoresTeamId, punkteGesamt, punkteMonat, punkteWoche, frageRichtig, fragenGesamt);
+        return Objects.hash(punkteGesamt, punkteMonat, punkteWoche, frageRichtig, fragenGesamt);
     }
 
     public Integer getScoresId() {

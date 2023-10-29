@@ -5,7 +5,6 @@ import com.Projekt.quizzbackend.Score.ScoreUser;
 import com.Projekt.quizzbackend.Team.Teams;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
-import org.springframework.web.bind.annotation.SessionAttributes;
 
 import java.io.Serializable;
 import java.sql.Timestamp;
@@ -13,7 +12,6 @@ import java.util.List;
 import java.util.Objects;
 
 
-@SessionAttributes
 @Entity
 @Table(name = "benutzer" )
 public class User implements Serializable {
@@ -32,7 +30,7 @@ public class User implements Serializable {
     @Column(name = "benutzername", nullable = false, length = 30, unique=true)
     private String userName;
     @Basic
-    @Column(name = "email", nullable = true, length = 255, unique=true)
+    @Column(name = "email", nullable = false, length = 255, unique=true)
     private String email;
     @Basic
     @Column(name = "passwort", nullable = false, length = 255)
@@ -49,44 +47,30 @@ public class User implements Serializable {
     private String role;
     @Transient
     private boolean fullAccess;
+
+    @Transient
+    private boolean Access;
     @Basic
-    @Column(name = "registrierungsdatum", nullable = true)
+
+    @Column(name = "registrierungsdatum", updatable = false,  nullable = true)
     private Timestamp dateOfRegistration;
 
     @Transient //wird nicht in der datenbank benötigt
     private boolean loggedIn;
 
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true,fetch = FetchType.EAGER)
     @JoinColumn(name = "scores_id", referencedColumnName = "scores_id")
     @JsonManagedReference
     private ScoreUser scoreUser;
     @ManyToOne
-    @JoinColumn(name = "team_id")
+    @JoinColumn(name = "team_id", nullable = true)
+
     private Teams team;
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "user")
     private List<Fragen> fragen;
 
-    @Override
-    public String toString() {
-        return "User{" +
-                "userID=" + userID +
-                ", firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
-                ", userName='" + userName + '\'' +
-                ", email='" + email + '\'' +
-                ", password='" + password + '\'' +
-                ", courseOfStudy='" + courseOfStudy + '\'' +
-                ", matrikelNr=" + matrikelNr +
-                ", role='" + role + '\'' +
-                ", fullAccess=" + fullAccess +
-                ", dateOfRegistration=" + dateOfRegistration +
-                ", loggedIn=" + loggedIn +
-                ", scoreUser=" + scoreUser +
-                ", team=" + team +
-                ", fragen=" + fragen +
-                '}';
-    }
 
+    //wird vor dem Speichern in die Datenbank aufgerufen
     @PrePersist
     public void prePersist() {
         if (dateOfRegistration == null) {
@@ -104,9 +88,18 @@ public class User implements Serializable {
         }
 
     }
+//wird nach dem Laden aus der Datenbank aufgerufen
+    @PostLoad
+    public void onPostLoad() {
+        this.setAccess();
+    }
+
+
+
 
     private static final String ROLE_ADMIN = "Admin";
     private static final String ROLE_USER = "User";
+    private static final String ROLE_PlaceHolder = "PlaceHolder";
 
     // Getter und Setter
     public ScoreUser getScoreUser() {
@@ -278,6 +271,20 @@ this.dateOfRegistration = getDateOfRegistration();
         return this.fullAccess;
     }
 
+    public void setAccess() {
+        if(this.role.equals("User")) {
+            this.Access = true;
+        }
+        else if(this.role.equals("Admin")){
+            this.fullAccess = true;
+        }
+        else {this.fullAccess=false;}
+    }
+
+    public boolean isAccess() {
+
+        return Access;
+    }
     public void setFullAccess() {
         if(this.role.equals("User")) {
             this.fullAccess = false;
@@ -298,6 +305,16 @@ this.dateOfRegistration = getDateOfRegistration();
         return role;
     }
 
+    public List<Fragen> getFragen() {
+        return fragen;
+    }
+
+    public void setFragen(List<Fragen> fragen) {
+        this.fragen = fragen;
+    }
+
+
+
 
     @Override
     public boolean equals(Object o) {
@@ -312,11 +329,29 @@ this.dateOfRegistration = getDateOfRegistration();
         return Objects.hash(userID, firstName, lastName, userName, email, password, courseOfStudy, matrikelNr, dateOfRegistration,role);
     }
 
-    public List<Fragen> getFragen() {
-        return fragen;
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "userID=" + userID +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", userName='" + userName + '\'' +
+                ", email='" + email + '\'' +
+                ", password='" + password + '\'' +
+                ", courseOfStudy='" + courseOfStudy + '\'' +
+                ", matrikelNr=" + matrikelNr +
+                ", role='" + role + '\'' +
+                ", fullAccess=" + fullAccess +
+                ", dateOfRegistration=" + dateOfRegistration +
+                ", loggedIn=" + loggedIn +
+                ", scoreUser=" + scoreUser +
+                ", team=" + team +
+                ", fragen=" + fragen +
+                '}';
     }
 
-    public void setFragen(List<Fragen> fragen) {
-        this.fragen = fragen;
-    }
+
+
+
 }

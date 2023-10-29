@@ -16,7 +16,7 @@ public class Chat {
     @Column(name = "nachricht", nullable = false, length = 500)
     private String nachricht;
     @Basic
-    @Column(name = "created", nullable = false)
+    @Column(name = "created", nullable = false, updatable = false)
     private Timestamp created;
 
     @ManyToOne

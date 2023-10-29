@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
+//Adress Pfad Chat Anbindung
 @RequestMapping("/api/chat")
 public class ChatController {
     @Autowired
@@ -38,6 +39,7 @@ public class ChatController {
         this.teamsRepository = teamsRepository;
     }
 
+    //senden von Nachrichten
     @PostMapping("/send")
     public ResponseEntity<?> sendMessage(@RequestBody ChatMessageInDTO chatMessageInDTO) {
         System.out.println("Anfrage für Chat für user : " + chatMessageInDTO.getUsername());
@@ -45,7 +47,7 @@ public class ChatController {
         AuthRequest authRequest = FilterLogin.filterLogin(chatMessageInDTO);
 
         User user = repository.findByUserName(authRequest.getUsername());
-        if (user != null && passwordEncoder.matches(authRequest.getPassword(), user.getPassword())) {
+        if (user != null && passwordEncoder.matches(authRequest.getPassword(), user.getPassword()) && user.isAccess()) {
 
 
             Chat chat = new Chat();
@@ -58,10 +60,12 @@ public class ChatController {
         }
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
     }
+
+    //Nachrichten nAbrufen
     @PostMapping("/messages/{teamName}")
     public ResponseEntity<List<ChatDTO>> getMessages(@PathVariable String teamName, @RequestBody AuthRequest authRequest) {
         User user = repository.findByUserName(authRequest.getUsername());
-        if (user == null || !passwordEncoder.matches(authRequest.getPassword(), user.getPassword())) {
+        if (user == null || !passwordEncoder.matches(authRequest.getPassword(), user.getPassword())&& user.isAccess()) {
             System.out.println("Chat nicht autorisiert ");
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
 

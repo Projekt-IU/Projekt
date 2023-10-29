@@ -27,6 +27,7 @@ import java.util.Optional;
 import java.util.Random;
 
 @RestController
+//Pfad für das Quizsystem
 @RequestMapping("/api/quiz")
 
 public class FragenController {
@@ -46,13 +47,13 @@ public class FragenController {
 
     @Autowired
     private BCryptPasswordEncoder passwordEncoder;
-
+//frage erstellen
     @PostMapping("/frageErstellen")
 
     public ResponseEntity<?> FrageErstellen(@RequestBody FrageErstellen frageErstellen) {
         User user = userRepository.findByUserName(frageErstellen.getUsername());
 
-        if (user != null && passwordEncoder.matches(frageErstellen.getPassword(), user.getPassword())) {
+        if (user != null && passwordEncoder.matches(frageErstellen.getPassword(), user.getPassword())&& user.isAccess()) {
             frageErstellen.setUser(user);
             Fragen fragen = FragenMapper.toEntity(frageErstellen);  // Stellen Sie sicher, dass der Mapper die User-ID setzt
             fragen.setUser(user);
@@ -65,12 +66,12 @@ public class FragenController {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
         }
     }
-
+//Frage holen
     @PostMapping("/frageHolen")
     public ResponseEntity<?> FrageHolen(@RequestBody FrageHolen frageHolen) {
         User user = userRepository.findByUserName(frageHolen.getUsername());
 
-        if (user != null && passwordEncoder.matches(frageHolen.getPassword(), user.getPassword())) {
+        if (user != null && passwordEncoder.matches(frageHolen.getPassword(), user.getPassword())&& user.isAccess()) {
             List<Fragen> alleFragen;
 
             if (frageHolen.getModul() != null) {
@@ -110,13 +111,13 @@ public class FragenController {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
         }
     }
-
+//frage beantworten
     @PostMapping("/frageBeantworten")
 
     public ResponseEntity<?> FrageBeantworten(@RequestBody FragenBackDTO fragenBackDTO) {
         User user = userRepository.findByUserName(fragenBackDTO.getUsername());
 System.out.println("Antwort eingeganger");
-        if (user != null && passwordEncoder.matches(fragenBackDTO.getPassword(), user.getPassword())) {
+        if (user != null && passwordEncoder.matches(fragenBackDTO.getPassword(), user.getPassword())&& user.isAccess()) {
 
             Optional<Fragen> optFragen = fragenRepository.findById(fragenBackDTO.getFragenId());
             if (!optFragen.isPresent()) {

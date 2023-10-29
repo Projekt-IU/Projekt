@@ -1,12 +1,16 @@
 package com.Projekt.quizzbackend.Controller;
 
+import com.Projekt.quizzbackend.Dao.ChatRepository;
 import com.Projekt.quizzbackend.Dao.DTO.Templates.UserDTO;
 import com.Projekt.quizzbackend.Dao.DTO.Templates.UserWithScore;
 import com.Projekt.quizzbackend.Dao.DTO.UserMapper;
+import com.Projekt.quizzbackend.Dao.FragenRepository;
 import com.Projekt.quizzbackend.Dao.TeamsRepository;
 import com.Projekt.quizzbackend.Dao.UserRepository;
 import com.Projekt.quizzbackend.Mail.EmailService;
 import com.Projekt.quizzbackend.Mail.Mail;
+import com.Projekt.quizzbackend.Quiz.Fragen;
+import com.Projekt.quizzbackend.Team.Chat;
 import com.Projekt.quizzbackend.Team.Teams;
 import com.Projekt.quizzbackend.User.Login.AuthRequest;
 import com.Projekt.quizzbackend.User.Login.FilterLogin;
@@ -34,16 +38,18 @@ import java.util.Random;
 
 public class UserController {
 
-    @Autowired
+    private final TeamsRepository teamsRepository;
     private final UserRepository repository;
+
     @Autowired
     private UserMapper userMapper;
     @Autowired
-    private final TeamsRepository teamsRepository;
-
+    private FragenRepository fragenRepository;
+    @Autowired
+    private ChatRepository chatRepository;
+    @Autowired
     public UserController(UserRepository repository, TeamsRepository teamsRepository) {
         this.repository = repository;
-
         this.teamsRepository = teamsRepository;
     }
 
@@ -59,7 +65,9 @@ public class UserController {
         System.out.println("login anfrage erhalten: " + authRequest.getUsername() + authRequest.getPassword());
 
         User user = repository.findByUserName(authRequest.getUsername());
-        if (user != null && passwordEncoder.matches(authRequest.getPassword(), user.getPassword())) {
+
+
+        if (user != null && passwordEncoder.matches(authRequest.getPassword(), user.getPassword())&& user.isAccess()) {
             user.login();
             System.out.println(user.isLoggedIn());
 
@@ -90,7 +98,7 @@ public class UserController {
         authRequest = FilterLogin.filterLogin(authRequest);
 
         User user = repository.findByUserName(authRequest.getUsername());
-        if (user != null && passwordEncoder.matches(authRequest.getPassword(), user.getPassword())) {
+        if (user != null && passwordEncoder.matches(authRequest.getPassword(), user.getPassword())&& user.isAccess()) {
             UserWithScore userDto = userMapper.entityWithScoreToDto(user);
             return ResponseEntity.ok(userDto);
         } else {
@@ -109,25 +117,27 @@ public class UserController {
             // Benutzer mit der angegebenen E-Mail-Adresse wurde nicht gefunden
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
         }
+        if (user.isAccess()) {
+            // Generiere ein temporäres Passwort
+            SecureRandom random = new SecureRandom();
+            byte[] bytes = new byte[20];
+            random.nextBytes(bytes);
+            String tempPassword = Base64.getEncoder().encodeToString(bytes);
 
-        // Generiere ein temporäres Passwort
-        SecureRandom random = new SecureRandom();
-        byte[] bytes = new byte[20];
-        random.nextBytes(bytes);
-        String tempPassword = Base64.getEncoder().encodeToString(bytes);
+            // Verschlüssle und speichere das temporäre Passwort
+            user.setPassword(passwordEncoder.encode(tempPassword));
+            repository.save(user);
 
-        // Verschlüssle und speichere das temporäre Passwort
-        user.setPassword(passwordEncoder.encode(tempPassword));
-        repository.save(user);
+            // Sende das temporäre Passwort per E-Mail
+            emailService.sendSimpleMessage(
+                    email.getEmail(),
+                    "Ihr temporäres Passwort",
+                    "Ihr temporäres Passwort lautet: " + tempPassword
+            );
 
-        // Sende das temporäre Passwort per E-Mail
-        emailService.sendSimpleMessage(
-                email.getEmail(),
-                "Ihr temporäres Passwort",
-                "Ihr temporäres Passwort lautet: " + tempPassword
-        );
-
-        return ResponseEntity.ok().build();
+            return ResponseEntity.ok().build();
+        }
+        return ResponseEntity.badRequest().build();
     }
 
 
@@ -138,7 +148,7 @@ public class UserController {
         authRequest = FilterLogin.filterLogin(authRequest);
 
         User user = repository.findByUserName(authRequest.getUsername());
-        if (user != null && passwordEncoder.matches(authRequest.getPassword(), user.getPassword())) {
+        if (user != null && passwordEncoder.matches(authRequest.getPassword(), user.getPassword())&& user.isAccess()) {
 
 
             // Verschlüssle und speichere das neue Passwort
@@ -160,7 +170,7 @@ public class UserController {
         authRequest = FilterLogin.filterLogin(authRequest);
 
         User user = repository.findByUserName(authRequest.getUsername());
-        if (user != null && passwordEncoder.matches(authRequest.getPassword(), user.getPassword()) && repository.findByUserName(authRequest.getAnfrageName()) == null) {
+        if (user != null && passwordEncoder.matches(authRequest.getPassword(), user.getPassword()) && repository.findByUserName(authRequest.getAnfrageName()) == null && user.isAccess())  {
 
             user.setUserName(authRequest.getAnfrageName());
             repository.save(user);
@@ -177,7 +187,7 @@ public class UserController {
         System.out.println("Registrierungsanfrage:  " + user.getUserName());
 
 
-        String rawPassword = user.getPassword();
+        String rawPassword = registryUser.getPassword();
         registryUser.setPassword(passwordEncoder.encode(rawPassword));
         System.out.println("Passwort verschlüsselt:  " + registryUser.getUserName() + registryUser.getPassword());
 
@@ -193,11 +203,8 @@ public class UserController {
 
         User user = repository.findByUserName(authRequest.getUsername());
         Teams team = user.getTeam();
-        if (user != null && passwordEncoder.matches(authRequest.getPassword(), user.getPassword())) {
-            // Benutzer löschen
+        if (user != null && passwordEncoder.matches(authRequest.getPassword(), user.getPassword())&& user.isAccess()) {
             System.out.println(user.getUserName());
-            repository.delete(user);
-            System.out.println("gelöscht");
 
             // Überprüfen, ob der Benutzer der Admin eines Teams war
             if (team != null && team.getAdmin().equals(user)) {
@@ -216,11 +223,62 @@ public class UserController {
                 }
             }
 
+            // Platzhalter-Benutzer holen oder erstellen
+            User deletedUser = createOrGetDeletedUser();
+
+            // Alle Chat-Nachrichten des gelöschten Benutzers auf den Platzhalter-Benutzer umstellen
+            List<Chat> chats = chatRepository.findByUser(user);
+            for (Chat chat : chats) {
+                chat.setUser(deletedUser);
+            }
+            chatRepository.saveAll(chats);
+
+            //Fragen Platzhalter einfügen
+            List<Fragen> fragen = fragenRepository.findByUser(user);
+            for (Fragen frage : fragen) {
+                frage.setUser(deletedUser);
+
+            }
+            fragenRepository.saveAll(fragen);
+
+
+
+
+            repository.delete(user);
+            System.out.println("gelöscht");
+
             return ResponseEntity.ok().build();
         } else {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
         }
     }
+
+
+    //platzhalter User
+    public User createOrGetDeletedUser() {
+        String placeholderName = "gelöschter Benutzer";
+
+        // Überprüfen, ob ein Benutzer mit diesem Namen bereits existiert
+        User deletedUser = repository.findByUserName(placeholderName);
+
+        // Wenn nicht, erstellen Sie einen neuen
+        if (deletedUser == null) {
+            deletedUser = new User();
+            deletedUser.setUserName(placeholderName);
+            deletedUser.setFirstName("gelöschter");
+            deletedUser.setLastName("Benutzer");
+            deletedUser.setMatrikelNr(00000);
+            deletedUser.setCourseOfStudy("nicht verfügbar");
+            deletedUser.setPassword(passwordEncoder.encode("System"));
+            deletedUser.setEmail("service@quiz.de");
+            deletedUser.setRole("PlaceHolder");
+            repository.save(deletedUser);
+        }
+
+        return deletedUser;
+    }
+
+
 }
 
 

@@ -52,7 +52,7 @@ public class ScoreController {
         authRequest = FilterLogin.filterLogin(authRequest);
 
         User user = repository.findByUserName(authRequest.getUsername());
-        if (user != null && passwordEncoder.matches(authRequest.getPassword(), user.getPassword())) {
+        if (user != null && passwordEncoder.matches(authRequest.getPassword(), user.getPassword())&& user.isAccess()) {
 
 
             return ResponseEntity.ok(user.getScoreUser());
@@ -76,7 +76,7 @@ public class ScoreController {
 
 
         User user = repository.findByUserName(authRequest.getUsername());
-        if (user != null && passwordEncoder.matches(authRequest.getPassword(), user.getPassword())) {
+        if (user != null && passwordEncoder.matches(authRequest.getPassword(), user.getPassword())&& user.isAccess()) {
 
             List<User> allUsers  = (List<User>) repository.findAll();  // Implementiere die Sortierung
 
@@ -128,7 +128,7 @@ public class ScoreController {
 
         User user = repository.findByUserName(authRequest.getUsername());
         Teams teams = teamsRepository.findByName(authRequest.getAnfrageName());
-        if (user != null && passwordEncoder.matches(authRequest.getPassword(), user.getPassword())) {
+        if (user != null && passwordEncoder.matches(authRequest.getPassword(), user.getPassword())&& user.isAccess()) {
 
 
             TeamDTO dto1 = teamMapper.entityToDTO(teams, true);
@@ -154,7 +154,7 @@ public class ScoreController {
 
 
         User user = repository.findByUserName(authRequest.getUsername());
-        if (user != null && passwordEncoder.matches(authRequest.getPassword(), user.getPassword())) {
+        if (user != null && passwordEncoder.matches(authRequest.getPassword(), user.getPassword())&& user.isAccess()) {
 
             List<Teams> allTeams  = (List<Teams>) teamsRepository.findAll();  // Implementiere die Sortierung
 

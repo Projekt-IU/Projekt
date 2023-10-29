@@ -51,7 +51,7 @@ public class TeamController {
 
         Iterable<Teams> teams = teamsRepository.findAll();
         Iterable<TeamDTO> teamDTOs = teamMapper.convertToDTO(teams);
-        if (user != null && passwordEncoder.matches(authRequest.getPassword(), user.getPassword())) {
+        if (user != null && passwordEncoder.matches(authRequest.getPassword(), user.getPassword())&& user.isAccess()) {
 
             return ResponseEntity.ok(teamDTOs);
         } else {
@@ -68,7 +68,7 @@ public class TeamController {
         System.out.println("User: " + user.getUserName());
         Teams teams = teamsRepository.findByName(authRequest.getAnfrageName());
 
-        if (user != null && passwordEncoder.matches(authRequest.getPassword(), user.getPassword())) {
+        if (user != null && passwordEncoder.matches(authRequest.getPassword(), user.getPassword())&& user.isAccess()) {
             TeamDTO dto = teamMapper.entityToDTO(teams, true);
             return ResponseEntity.ok(dto);
         } else {
@@ -80,12 +80,11 @@ public class TeamController {
     @Transactional
     public ResponseEntity<?> addUser(@RequestBody AddUserToTeam authRequest) {
 
-        System.out.println("Frage Team ab: " + authRequest.getAnfrageName() +authRequest.getUsername() + authRequest.getPassword());
-
+//anfrage namen vom team entfernt
         User user = userRepository.findByUserName(authRequest.getUsername());
         User newMember = userRepository.findByUserName(authRequest.getNewMember());
         System.out.println("User: " + user.getUserName());
-        Teams team = teamsRepository.findByName(authRequest.getAnfrageName());
+        Teams team = user.getTeam();
 
         if (user == null) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
@@ -99,7 +98,7 @@ public class TeamController {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
         }
 
-        if (user != null && passwordEncoder.matches(authRequest.getPassword(), user.getPassword())) {
+        if (user != null && passwordEncoder.matches(authRequest.getPassword(), user.getPassword())&& user.isAccess()) {
             newMember.setTeam(team);
             userRepository.save(newMember);
             return ResponseEntity.ok().build();
@@ -114,7 +113,7 @@ public class TeamController {
         System.out.println("User: " + user.getUserName());
 
 
-        if (user != null && passwordEncoder.matches(authRequest.getPassword(), user.getPassword())) {
+        if (user != null && passwordEncoder.matches(authRequest.getPassword(), user.getPassword())&& user.isAccess()) {
             if (teamsRepository.findByName(authRequest.getName()) == null)
             {
                 Teams team = new Teams();
@@ -144,10 +143,16 @@ public class TeamController {
     public ResponseEntity<?> dropTeam(@RequestBody AuthRequest authRequest) {
         User user = userRepository.findByUserName(authRequest.getUsername());
 
-        if (user != null && passwordEncoder.matches(authRequest.getPassword(), user.getPassword())) {
+        if (user != null && passwordEncoder.matches(authRequest.getPassword(), user.getPassword())&& user.isAccess()) {
             if (user.getTeam() != null)
             {
                 Teams team = user.getTeam();
+
+                for (User userTeam : team.getMembers()) {
+                    userTeam.setTeam(null);
+                    userRepository.save(user);
+                }
+
                 teamsRepository.delete(team);
                 return ResponseEntity.ok().build();
 
@@ -164,7 +169,7 @@ public class TeamController {
     public ResponseEntity<?> newAdmin(@RequestBody AuthRequest authRequest) {
         User user = userRepository.findByUserName(authRequest.getUsername());
 
-        if (user != null && passwordEncoder.matches(authRequest.getPassword(), user.getPassword())) {
+        if (user != null && passwordEncoder.matches(authRequest.getPassword(), user.getPassword())&& user.isAccess()) {
             if (user.getTeam() != null)
             {
                 Teams team = user.getTeam();
@@ -204,12 +209,13 @@ public class TeamController {
     public ResponseEntity<?> dropUser(@RequestBody DropUserTeam authRequest) {
         User user = userRepository.findByUserName(authRequest.getUsername());
         User dropUser = userRepository.findByUserName(authRequest.getUserToDrop());
-        if (user != null && passwordEncoder.matches(authRequest.getPassword(), user.getPassword())) {
+        if (user != null && passwordEncoder.matches(authRequest.getPassword(), user.getPassword())&& user.isAccess()) {
             if (dropUser.getTeam() != null)
             {
                 Teams team = dropUser.getTeam();
                 if (team.getAdmin() != user)
                 {
+
 
 
 
