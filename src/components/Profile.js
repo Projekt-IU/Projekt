@@ -28,6 +28,7 @@ const Profile = () => {
 
         axios.post('http://localhost:8080/api/getProfil', userData)
             .then(response => {
+                console.log(response.data);
                 if (response.status === 200) {
                     const {
                         firstName,
@@ -35,7 +36,11 @@ const Profile = () => {
                         userName, // Aktualisierte Schlüsselname
                         email,
                         dateOfRegistration, // Aktualisierte Schlüsselname
-                        scoreUser,
+                        punkteGesamt,
+                        punkteMonat,
+                        punkteWoche,
+                        frageRichtig,
+                        fragenGesamt,
                         matrikelNr,
                         role,
                         teamName,
@@ -49,11 +54,11 @@ const Profile = () => {
                         matrikelNr,
                         email,
                         registrationDate: formatDate(dateOfRegistration),
-                        totalScore: scoreUser.punkteGesamt,
-                        monthlyScore: scoreUser.punkteMonat,
-                        weeklyScore: scoreUser.punkteWoche,
-                        frageRichtig: scoreUser.frageRichtig,
-                        fragenGesamt: scoreUser.fragenGesamt,
+                        totalScore: punkteGesamt,
+                        monthlyScore: punkteMonat,
+                        weeklyScore: punkteWoche,
+                        frageRichtig: frageRichtig,
+                        fragenGesamt: fragenGesamt,
                         role,
                         teamName,
                         courseOfStudy,
@@ -78,7 +83,6 @@ const Profile = () => {
 
         if (confirmDelete) {
             try {
-                // Ersetze 'YOUR_API_ENDPOINT' durch den tatsächlichen API-Endpunkt auf deinem Backend.
                 const apiEndpoint = 'http://localhost:8080/api/dropUser';
 
                 const response = await axios.post(apiEndpoint, {
@@ -150,7 +154,7 @@ const Profile = () => {
                             <strong>Fragen Gesamt:</strong> {profileData.fragenGesamt}
                         </p>
                         <p>
-                            <strong>Teamname:</strong> <Link to="/team">{profileData.teamName}</Link>
+                            <strong>Teamname:</strong> <Link to="/TeamPage">{profileData.teamName}</Link>
                         </p>
                         <p>
                             <Link to="/RankingUser">Zu den Rankings User</Link>
@@ -159,7 +163,7 @@ const Profile = () => {
                             <Link to="/RankingTeam">Zu den Rankings Team</Link>
                         </p>
                         <p>
-                            <Link to="/Quiz">Zum Quiz</Link>
+                            <Link to="/Quiz">Quiz</Link>
                         </p>
                     </div>
                 </div>

@@ -27,10 +27,10 @@ class Registrierung extends Component {
 
     handleSubmit = (e) => {
         e.preventDefault();
-        const { userName, firstName, lastName, courseOfStudy, email, matrikelNr, password, confirmPassword } = this.state;
+        const { userName, firstName, lastName, courseOfStudy, email, matrikelNr, password } = this.state;
 
         // Axios URL noch ändern!
-        axios.post('http://localhost:8080/api/userRegistrieren', { userName, firstName, lastName, courseOfStudy, email, matrikelNr, password, confirmPassword })
+        axios.post('http://localhost:8080/api/userRegistrieren', { userName, firstName, lastName, courseOfStudy, email, matrikelNr, password })
             .then(response => {
                 if (response.status === 200) {
                     this.setState({ error: "Registrierung erfolgreich!", registered: true });
@@ -56,13 +56,13 @@ class Registrierung extends Component {
                     <h2>Registrierung</h2>
                     <form onSubmit={this.handleSubmit}>
                         <div>
-                            <label htmlFor="username">Benutzername</label>
+                            <label htmlFor="userName">Benutzername</label>
                             <input
                                 type="text"
-                                id="username"
-                                name="username"
+                                id="userName"
+                                name="userName"
                                 className="register-input"
-                                value={this.state.username}
+                                value={this.state.userName}
                                 onChange={this.handleChange}
                             />
                         </div>
@@ -119,9 +119,9 @@ class Registrierung extends Component {
                                 onChange={this.handleChange}
                             >
                                 <option value="">Bitte auswählen:</option>
-                                <option value="course1">Informatik</option>
-                                <option value="course2">Wirtschaftsinformatik</option>
-                                <option value="course3">Medieninformatik</option>
+                                <option value="Informatik">Informatik</option>
+                                <option value="Wirtschaftsinformatik">Wirtschaftsinformatik</option>
+                                <option value="Medieninformatik">Medieninformatik</option>
                             </select>
                         </div>
                         <div>
