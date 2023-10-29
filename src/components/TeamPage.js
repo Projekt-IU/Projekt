@@ -135,6 +135,9 @@ const TeamPage = () => {
         fetchTeamInfo();
     }, []);
 
+    // Überprüfen Sie die Team-Rolle des eingeloggten Benutzers
+    const isCurrentUserAdmin = teamInfo.members.some((member) => member.userName === User.username && member.admin_team);
+
     return (
         <div className="team-page-container">
             <div className="team-info-box">
@@ -154,53 +157,59 @@ const TeamPage = () => {
                         <tr className="team-members-th">
                             <th>ID</th>
                             <th>Name</th>
+                            <th>Team-Rolle</th>
+                            <th>Studiengang</th>
                         </tr>
                         </thead>
                         <tbody>
                         {teamInfo.members.map((member, index) => (
                             <tr key={index} className="team-members-td">
                                 <td>{index + 1}</td>
-                                <td>{member.userName}</td>
+                                <td>{member.userName === User.username ? <strong>{member.userName}</strong> : member.userName}</td>
+                                <td>{member.admin_team ? 'Admin' : 'Mitglied'}</td>
+                                <td>{member.courseOfStudy}</td>
                             </tr>
                         ))}
                         </tbody>
                     </table>
                 )}
             </div>
-            <div className="admin-controls">
-                <button onClick={handleTeamDissolve}>Team auflösen</button>
-                <button onClick={addTeamMember}>Mitglied hinzufügen</button>
-                <div>
-                    <select
-                        id="removeDropdown"
-                        value={selectedMember}
-                        onChange={(e) => setSelectedMember(e.target.value)}
-                    >
-                        <option value="">Mitglied auswählen</option>
-                        {teamInfo.members.map((member, index) => (
-                            <option key={index} value={member.userName}>
-                                {member.userName}
-                            </option>
-                        ))}
-                    </select>
-                    <button onClick={removeTeamMember}>Mitglied entfernen</button>
+            {isCurrentUserAdmin && (
+                <div className="admin-controls">
+                    <button onClick={handleTeamDissolve}>Team auflösen</button>
+                    <button onClick={addTeamMember}>Mitglied hinzufügen</button>
+                    <div>
+                        <select
+                            id="removeDropdown"
+                            value={selectedMember}
+                            onChange={(e) => setSelectedMember(e.target.value)}
+                        >
+                            <option value="">Mitglied auswählen</option>
+                            {teamInfo.members.map((member, index) => (
+                                <option key={index} value={member.userName}>
+                                    {member.userName}
+                                </option>
+                            ))}
+                        </select>
+                        <button onClick={removeTeamMember}>Mitglied entfernen</button>
+                    </div>
+                    <div>
+                        <select
+                            id="adminDropdown"
+                            value={adminSelectedMember}
+                            onChange={(e) => setAdminSelectedMember(e.target.value)}
+                        >
+                            <option value="">Admin auswählen</option>
+                            {teamInfo.members.map((member, index) => (
+                                <option key={index} value={member.userName}>
+                                    {member.userName}
+                                </option>
+                            ))}
+                        </select>
+                        <button onClick={setAdminRole}>Admin Rolle vergeben</button>
+                    </div>
                 </div>
-                <div>
-                    <select
-                        id="adminDropdown"
-                        value={adminSelectedMember}
-                        onChange={(e) => setAdminSelectedMember(e.target.value)}
-                    >
-                        <option value="">Admin auswählen</option>
-                        {teamInfo.members.map((member, index) => (
-                            <option key={index} value={member.userName}>
-                                {member.userName}
-                            </option>
-                        ))}
-                    </select>
-                    <button onClick={setAdminRole}>Admin Rolle vergeben</button>
-                </div>
-            </div>
+            )}
         </div>
     );
 };
