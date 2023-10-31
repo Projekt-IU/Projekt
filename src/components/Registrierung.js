@@ -27,7 +27,7 @@ class Registrierung extends Component {
 
     handleSubmit = (e) => {
         e.preventDefault();
-        const { userName, firstName, lastName, courseOfStudy, email, matrikelNr, password } = this.state;
+        const { userName, firstName, lastName, courseOfStudy, email, matrikelNr, password, confirmPassword  } = this.state;
 
         // Überprüfen, ob Passwort und Passwortbestätigung übereinstimmen
         if (password !== confirmPassword) {
