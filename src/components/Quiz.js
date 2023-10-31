@@ -10,19 +10,22 @@ class Quiz extends Component {
             userAnswers: [],
             showResult: false,
             selectedCategory: null,
-            selectedStudyProgram: null, // Neuer State für den ausgewählten Studiengang
+            selectedStudyProgram: null,
+            currentQuestion: null,
         };
     }
 
     handleStudyProgramSelect = (studyProgram) => {
         this.setState({
             selectedStudyProgram: studyProgram,
-            selectedCategory: null, // Zurücksetzen der ausgewählten Kategorie
+            selectedCategory: null,
         });
     };
 
     handleCategorySelect = (category) => {
-        this.setState({ selectedCategory: category });
+        this.setState({ selectedCategory: category }, () => {
+            this.fetchQuestionFromBackend(); // Fetch-Funktion aufrufen, nachdem die Kategorie ausgewählt wurde
+        });
     };
 
     handleAnswerSubmit = (selectedAnswer) => {
@@ -37,6 +40,37 @@ class Quiz extends Component {
     showResult = () => {
         this.setState({ showResult: true });
     };
+
+    async fetchQuestionFromBackend() {
+        const { selectedCategory } = this.state;
+
+        try {
+            const response = await fetch(`/api/quiz/frageHolen`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    username: 'Benutzername', // Benutzername ersetzen
+                    password: 'Passwort', // Passwort ersetzen
+                    modul: selectedCategory,
+                    studiengang: 'Informatik', // Studiengang ersetzen
+                }),
+            });
+
+            if (response.ok) {
+                const questionData = await response.json();
+                this.setState({ currentQuestion: questionData });
+            } else if (response.status === 401) {
+                // Benutzer nicht autorisiert, hier kannst du entsprechende Aktionen durchführen
+            } else if (response.status === 400) {
+                // Ungültige Anfrage, hier kannst du entsprechende Aktionen durchführen
+            }
+        } catch (error) {
+            // Fehler beim Abrufen der Frage, hier kannst du Fehlerbehandlung hinzufügen
+            console.error('Fehler beim Abrufen der Frage:', error);
+        }
+    }
 
     renderStudyProgramSelection() {
         const studyPrograms = ['Informatik', 'Wirtschaftsinformatik', 'Medieninformatik'];
@@ -83,72 +117,42 @@ class Quiz extends Component {
     }
 
     renderQuiz() {
-        const { currentQuestionIndex, userAnswers, showResult, selectedCategory, selectedStudyProgram } = this.state;
-
-        const questions = {
-            Mathematik: [
-                {
-                    questionText: 'Frage 1: Was ist 2 + 2?',
-                    answerOptions: ['3', '4', '5', '6'],
-                    correctAnswer: '4',
-                },
-                // Weitere Fragen für Mathematik hinzufügen
-            ],
-            Programmierung: [
-                {
-                    questionText: 'Frage 1: Was ist ein Array?',
-                    answerOptions: ['Eine Programmiersprache', 'Eine Datenstruktur', 'Ein Algorithmus'],
-                    correctAnswer: 'Eine Datenstruktur',
-                },
-                // Weitere Fragen für Programmierung hinzufügen
-            ],
-            // Weitere Kategorien mit Fragen hier hinzufügen
-        };
-
-        if (!selectedStudyProgram) {
-            return this.renderStudyProgramSelection();
-        }
-
-        if (!selectedCategory) {
-            return this.renderCategorySelection();
-        }
+        const { currentQuestion, showResult, currentQuestionIndex } = this.state;
 
         if (showResult) {
             return (
                 <div>
                     <h2>Quiz Ergebnisse</h2>
                     <p>
-                        Richtig beantwortete Fragen: {userAnswers.filter(
-                        (answer, index) => answer === questions[selectedCategory][index].correctAnswer
+                        Richtig beantwortete Fragen: {this.state.userAnswers.filter(
+                        (answer, index) => answer === this.state.questions[this.state.selectedCategory][index].correctAnswer
                     ).length}
                     </p>
                     <p>
-                        Falsch beantwortete Fragen: {questions[selectedCategory].length - userAnswers.length}
+                        Falsch beantwortete Fragen: {this.state.questions[this.state.selectedCategory].length - this.state.userAnswers.length}
                     </p>
                 </div>
             );
-        } else if (currentQuestionIndex < questions[selectedCategory].length) {
-            const question = questions[selectedCategory][currentQuestionIndex];
-
+        } else if (currentQuestion) {
             return (
                 <div>
-                    <h2>{question.questionText}</h2>
+                    <h2>{currentQuestion.frage}</h2>
                     <ul>
-                        {question.answerOptions.map((option, index) => (
+                        {['antwortEins', 'antwortZwei', 'antwortDrei', 'antwortVier'].map((answer, index) => (
                             <li key={index}>
                                 <input
                                     type="radio"
                                     id={`option-${index}`}
-                                    value={option}
-                                    checked={userAnswers[currentQuestionIndex] === option}
-                                    onChange={() => this.handleAnswerSubmit(option)}
+                                    value={currentQuestion[answer]}
+                                    checked={this.state.userAnswers[currentQuestionIndex] === currentQuestion[answer]}
+                                    onChange={() => this.handleAnswerSubmit(currentQuestion[answer])}
                                 />
-                                <label htmlFor={`option-${index}`}>{option}</label>
+                                <label htmlFor={`option-${index}`}>{currentQuestion[answer]}</label>
                             </li>
                         ))}
                     </ul>
                     <button onClick={this.showResult}>
-                        {currentQuestionIndex === questions[selectedCategory].length - 1
+                        {currentQuestionIndex === this.state.questions[this.state.selectedCategory].length - 1
                             ? 'Ergebnisse anzeigen'
                             : 'Weiter'}
                     </button>
@@ -171,4 +175,3 @@ class Quiz extends Component {
 ReactDOM.render(<Quiz />, document.getElementById('root'));
 
 export default Quiz;
-
