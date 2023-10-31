@@ -194,23 +194,6 @@ public class TeamController {
         }}
 
 
-    //Test
-    @PostMapping("/newTeamDemo")
-    public ResponseEntity<?> newTeamDemo(@RequestBody AuthRequest authRequest) {
-       User user = userRepository.findUserByUserID(1);
-
-        Teams teams = new Teams ();
-        teams.setTeamsId(1);
-        teams.setName("Winners");
-        teams.setStudiengang("Informatik");
-        teams.setAdmin(user);
-        teamsRepository.save(teams);
-
-
-
-        return ResponseEntity.ok(teams);
-    }
-
 
     @PostMapping("/dropUser")
     @Transactional
@@ -223,27 +206,22 @@ public class TeamController {
                     Teams team = dropUser.getTeam();
                     if( team.getAdmin() == user)
                     {
-
                     if (team.getAdmin() != dropUser) {
-
-                        System.out.println("gut");
                         dropUser.setTeam(null);
                         userRepository.save(dropUser);
                         return ResponseEntity.ok().build();
                     } else {
-                        System.out.println("Admin kann nicht entfernt werden");
                         return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Admin kann nicht entfernt werden");
-
                     }
                 } else {
                     return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Der User ist dazu nicht berechtigt ");
                 }}
-                else { System.out.println("nicht befugt"); return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Der User ist nicht im selben Team oder der User ist nicht dazu berechtigt");}
+                else { return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Der User ist nicht im selben Team oder der User ist nicht dazu berechtigt");}
                 }
-            System.out.println("f1");
-            System.out.println("nicht befugt"); return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Der User ist nicht in einem Team ");
 
-            } else {  System.out.println("f2");
+           return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Der User ist nicht in einem Team ");
+
+            } else {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
         }}
 

@@ -134,10 +134,10 @@ System.out.println("Antwort eingeganger");
                 Punkte(user);
 
 
-                return ResponseEntity.ok().build();
+                return ResponseEntity.status(HttpStatus.OK).body("Richtig");
 
             } else {
-                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
+                return ResponseEntity.status(HttpStatus.OK).body(fragen.getRichtigeAntwort());
             }
         }
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
