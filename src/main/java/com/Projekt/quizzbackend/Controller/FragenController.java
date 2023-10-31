@@ -69,6 +69,7 @@ public class FragenController {
 //Frage holen
     @PostMapping("/frageHolen")
     public ResponseEntity<?> FrageHolen(@RequestBody FrageHolen frageHolen) {
+        System.out.println(frageHolen.toString());
         User user = userRepository.findByUserName(frageHolen.getUsername());
 
         if (user != null && passwordEncoder.matches(frageHolen.getPassword(), user.getPassword())&& user.isAccess()) {

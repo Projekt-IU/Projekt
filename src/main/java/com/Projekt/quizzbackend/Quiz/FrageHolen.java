@@ -22,4 +22,14 @@ public class FrageHolen extends AuthRequest {
     public void setStudiengang(String studiengang) {
         this.studiengang = studiengang;
     }
+
+    @Override
+    public String toString() {
+        return "FrageHolen{" +
+                "modul='" + modul + '\'' +
+                ", studiengang='" + studiengang + '\'' +
+                ", user='" + getUsername() + '\'' +
+                ", pw ='" + getPassword() + '\'' +
+                '}';
+    }
 }
