@@ -29,8 +29,14 @@ class Registrierung extends Component {
         e.preventDefault();
         const { userName, firstName, lastName, courseOfStudy, email, matrikelNr, password, confirmPassword } = this.state;
 
+        // Überprüfen, ob Passwort und Passwortbestätigung übereinstimmen
+        if (password !== confirmPassword) {
+            this.setState({ error: "Passwörter stimmen nicht überein!" });
+            return;  // Beenden der Funktion, da die Passwörter nicht übereinstimmen
+        }
+
         // Axios URL noch ändern!
-        axios.post('http://localhost:8080/api/userRegistrieren', { userName, firstName, lastName, courseOfStudy, email, matrikelNr, password, confirmPassword })
+        axios.post('http://localhost:8080/api/userRegistrieren', { userName, firstName, lastName, courseOfStudy, email, matrikelNr, password })
             .then(response => {
                 if (response.status === 200) {
                     this.setState({ error: "Registrierung erfolgreich!", registered: true });
@@ -148,6 +154,7 @@ class Registrierung extends Component {
                         </div>
                         <button type="submit">Registrieren</button>  {/* Hinzufügen einer Schaltfläche zum Absenden des Formulars */}
                     </form>
+                    {this.state.error && <p className="error-message">{this.state.error}</p>}
                 </div>
             </div>
         );
