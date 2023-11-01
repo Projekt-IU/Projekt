@@ -28,7 +28,6 @@ const Profile = () => {
 
         axios.post('http://localhost:8080/api/getProfil', userData)
             .then(response => {
-                console.log(response.data);
                 if (response.status === 200) {
                     const {
                         firstName,
@@ -83,6 +82,7 @@ const Profile = () => {
 
         if (confirmDelete) {
             try {
+                // Ersetze 'YOUR_API_ENDPOINT' durch den tatsächlichen API-Endpunkt auf deinem Backend.
                 const apiEndpoint = 'http://localhost:8080/api/dropUser';
 
                 const response = await axios.post(apiEndpoint, {

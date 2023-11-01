@@ -12,7 +12,7 @@ import ChangeUsername from "../components/ChangeUsername";
 import Registrierung from "../components/Registrierung";
 import ChatEinbindungExample from "../components/ChatEinbindungExample";
 import Quiz from "../components/Quiz";
-
+import FragenErstellen from "../components/FragenErstellen";
 const AppRoutes = () => {
     return (
         <Routes>
@@ -28,6 +28,7 @@ const AppRoutes = () => {
             <Route path="/Registrierung" element={< Registrierung />}/>
             <Route path="/ChatEinbindungExample" element={< ChatEinbindungExample />}/>
             <Route path="/Quiz" element={< Quiz />}/>
+            <Route path="/FragenErstellen" element={< FragenErstellen />}/>
             {/* Hier können Sie Routen für andere Seiten hinzufügen */}
         </Routes>
     );

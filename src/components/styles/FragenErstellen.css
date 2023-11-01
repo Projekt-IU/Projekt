@@ -1,0 +1,44 @@
+/* Container für eine einzelne Zeile (Label, Eingabefeld, Checkbox) */
+.fragen-box .input-container {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+}
+.centered-container
+
+{
+    text-align: left;
+}
+.centered-container h2
+
+{
+    text-align: center;
+}
+
+/* Label Stil */
+.fragen-box label {
+
+    margin-right: 10px;
+    box-sizing: border-box;  /* Neu */
+    width: 10%;
+
+}
+
+/* Eingabefeld Stil */
+.fragen-box input[type="text"], .fragen-box select {
+    flex: 2;
+    padding: 10px;
+    margin-right: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;  /* Neu */
+}
+
+
+/* Checkbox Stil */
+.fragen-box input[type="checkbox"] {
+    flex: 0;
+    margin-left: 10px;
+    height: 20px;
+    width: 20px;
+}
