@@ -17,28 +17,30 @@
 
 /* Label Stil */
 .fragen-box label {
-
+    display:inline-block;
     margin-right: 10px;
-    box-sizing: border-box;  /* Neu */
-    width: 10%;
+
+    width: 20%;
 
 }
 
 /* Eingabefeld Stil */
 .fragen-box input[type="text"], .fragen-box select {
-    flex: 2;
+
+    margin-top: 10px;
     padding: 10px;
     margin-right: 10px;
     border: 1px solid #ccc;
     border-radius: 4px;
-    box-sizing: border-box;  /* Neu */
+
 }
 
 
 /* Checkbox Stil */
 .fragen-box input[type="checkbox"] {
-    flex: 0;
-    margin-left: 10px;
+
+    padding: 10px;
+    margin-left: 5px;
     height: 20px;
     width: 20px;
 }
