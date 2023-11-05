@@ -1,177 +1,154 @@
-import React, { Component } from 'react';
-import ReactDOM from 'react-dom';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import User from './User';
 import './styles/Quiz.css';
+import { useLocation, useParams } from 'react-router-dom';
+import NavigationBar from "./NavigationBar";
 
-class Quiz extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            currentQuestionIndex: 0,
-            userAnswers: [],
-            showResult: false,
-            selectedCategory: null,
-            selectedStudyProgram: null,
-            currentQuestion: null,
-        };
-    }
 
-    handleStudyProgramSelect = (studyProgram) => {
-        this.setState({
-            selectedStudyProgram: studyProgram,
-            selectedCategory: null,
-        });
-    };
+const Quiz = () => {
+    const user = User;
+    const { selectedModule } = useParams();
+    const [questions, setQuestions] = useState([]);
+    const [currentQuestion, setCurrentQuestion] = useState(0);
+    const [selectedAnswer, setSelectedAnswer] = useState(null);
+    const [feedback, setFeedback] = useState('');
+    const [quizCompleted, setQuizCompleted] = useState(false);
+    const [loadingQuestion, setLoadingQuestion] = useState(true);
+    const [correctAnswers, setCorrectAnswers] = useState(0);
+    const [nextQuestionButtonClicked, setNextQuestionButtonClicked] = useState(false);
+    const [quizEnded, setQuizEnded] = useState(false);
 
-    handleCategorySelect = (category) => {
-        this.setState({ selectedCategory: category }, () => {
-            this.fetchQuestionFromBackend(); // Fetch-Funktion aufrufen, nachdem die Kategorie ausgewählt wurde
-        });
-    };
-
-    handleAnswerSubmit = (selectedAnswer) => {
-        const { currentQuestionIndex, userAnswers } = this.state;
-        userAnswers[currentQuestionIndex] = selectedAnswer;
-        this.setState({
-            userAnswers,
-            currentQuestionIndex: currentQuestionIndex + 1,
-        });
-    };
-
-    showResult = () => {
-        this.setState({ showResult: true });
-    };
-
-    async fetchQuestionFromBackend() {
-        const { selectedCategory } = this.state;
-
+    const fetchNextQuestion = async () => {
         try {
-            const response = await fetch(`/api/quiz/frageHolen`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    username: 'Benutzername', // Benutzername ersetzen
-                    password: 'Passwort', // Passwort ersetzen
-                    modul: selectedCategory,
-                    studiengang: 'Informatik', // Studiengang ersetzen
-                }),
-            });
+            if (user.username && user.password) {
+                const response = await axios.post('http://localhost:8080/api/quiz/frageHolen', {
+                    username: user.username,
+                    password: user.password,
+                    modul: selectedModule
+                });
 
-            if (response.ok) {
-                const questionData = await response.json();
-                this.setState({ currentQuestion: questionData });
-            } else if (response.status === 401) {
-                // Benutzer nicht autorisiert, hier kannst du entsprechende Aktionen durchführen
-            } else if (response.status === 400) {
-                // Ungültige Anfrage, hier kannst du entsprechende Aktionen durchführen
+                if (response.status === 200) {
+                    const question = response.data;
+                    setQuestions([...questions, question]);
+                    setLoadingQuestion(false);
+                    setFeedback('');
+                }
             }
         } catch (error) {
-            // Fehler beim Abrufen der Frage, hier kannst du Fehlerbehandlung hinzufügen
-            console.error('Fehler beim Abrufen der Frage:', error);
+            console.error('Fehler beim Abrufen der Fragen', error);
         }
-    }
+    };
 
-    renderStudyProgramSelection() {
-        const studyPrograms = ['Informatik', 'Wirtschaftsinformatik', 'Medieninformatik'];
-        return (
-            <div>
-                <h2>Wähle deinen Studiengang:</h2>
-                <ul>
-                    {studyPrograms.map((program, index) => (
-                        <li key={index}>
-                            <button onClick={() => this.handleStudyProgramSelect(program)}>
-                                {program}
-                            </button>
-                        </li>
-                    ))}
-                </ul>
-            </div>
-        );
-    }
-
-    renderCategorySelection() {
-        const { selectedStudyProgram } = this.state;
-        const categories = {
-            Informatik: ['Mathematik', 'Programmierung', 'Datenbanken'],
-            Wirtschaftsinformatik: ['Wirtschaft', 'Informatik', 'Management'],
-            Medieninformatik: ['Design', 'Medientechnik', 'Kommunikation'],
-        };
-
-        const availableCategories = categories[selectedStudyProgram];
-
-        return (
-            <div>
-                <h2>Wähle eine Kategorie:</h2>
-                <ul>
-                    {availableCategories.map((category, index) => (
-                        <li key={index}>
-                            <button onClick={() => this.handleCategorySelect(category)}>
-                                {category}
-                            </button>
-                        </li>
-                    ))}
-                </ul>
-            </div>
-        );
-    }
-
-    renderQuiz() {
-        const { currentQuestion, showResult, currentQuestionIndex } = this.state;
-
-        if (showResult) {
-            return (
-                <div>
-                    <h2>Quiz Ergebnisse</h2>
-                    <p>
-                        Richtig beantwortete Fragen: {this.state.userAnswers.filter(
-                        (answer, index) => answer === this.state.questions[this.state.selectedCategory][index].correctAnswer
-                    ).length}
-                    </p>
-                    <p>
-                        Falsch beantwortete Fragen: {this.state.questions[this.state.selectedCategory].length - this.state.userAnswers.length}
-                    </p>
-                </div>
-            );
-        } else if (currentQuestion) {
-            return (
-                <div>
-                    <h2>{currentQuestion.frage}</h2>
-                    <ul>
-                        {['antwortEins', 'antwortZwei', 'antwortDrei', 'antwortVier'].map((answer, index) => (
-                            <li key={index}>
-                                <input
-                                    type="radio"
-                                    id={`option-${index}`}
-                                    value={currentQuestion[answer]}
-                                    checked={this.state.userAnswers[currentQuestionIndex] === currentQuestion[answer]}
-                                    onChange={() => this.handleAnswerSubmit(currentQuestion[answer])}
-                                />
-                                <label htmlFor={`option-${index}`}>{currentQuestion[answer]}</label>
-                            </li>
-                        ))}
-                    </ul>
-                    <button onClick={this.showResult}>
-                        {currentQuestionIndex === this.state.questions[this.state.selectedCategory].length - 1
-                            ? 'Ergebnisse anzeigen'
-                            : 'Weiter'}
-                    </button>
-                </div>
-            );
-        } else {
-            return <div>Quiz abgeschlossen.</div>;
+    const startQuiz = () => {
+        if (user.username && user.password) {
+            fetchNextQuestion();
         }
-    }
+    };
 
-    render() {
+    useEffect(() => {
+        startQuiz();
+    }, []);
+
+    const checkAnswer = async (answer) => {
+        const currentQuestionObj = questions[currentQuestion];
+
+        if (user.username && user.password && currentQuestionObj && answer !== null && selectedAnswer === null) {
+            try {
+                setSelectedAnswer(answer);
+                const response = await axios.post('http://localhost:8080/api/quiz/frageBeantworten', {
+                    username: user.username,
+                    password: user.password,
+                    fragenId: currentQuestionObj.fragenId,
+                    antwort: answer,
+                });
+
+                if (response.status === 200) {
+                    if (response.data === 'Richtig') {
+                        setFeedback('Richtig!');
+                        setCorrectAnswers(correctAnswers + 1);
+                        currentQuestionObj.korrekteAntwort = true;
+                    } else {
+                        setFeedback('Falsch!');
+                        currentQuestionObj.korrekteAntwort = false;
+                    }
+                } else {
+                    console.error('Unbekannter Fehler', response);
+                }
+            } catch (error) {
+                setFeedback('Falsch!');
+                console.error('Fehler bei der Antwortüberprüfung', error);
+            }
+        }
+    };
+
+    const moveToNextQuestion = () => {
+        if (user.username && user.password) {
+            setNextQuestionButtonClicked(true);
+
+            if (nextQuestionButtonClicked) {
+                if (currentQuestion + 1 < questions.length) {
+                    setCurrentQuestion(currentQuestion + 1);
+                    setSelectedAnswer(null);
+                    setFeedback('');
+                } else if (currentQuestion + 1 === 10) {
+                    setQuizCompleted(true);
+                } else {
+                    fetchNextQuestion();
+                }
+            }
+        }
+    };
+
+    useEffect(() => {
+        if (nextQuestionButtonClicked && questions.length > 0 && !loadingQuestion) {
+            moveToNextQuestion();
+        }
+    }, [nextQuestionButtonClicked, questions, loadingQuestion]);
+
+    if (quizCompleted) {
         return (
             <div>
-                {this.renderQuiz()}
+                <NavigationBar/>
+                <h1>Quiz beendet</h1>
+                <p>{correctAnswers}/{questions.length} Fragen richtig beantwortet</p>
+                {quizEnded ? (
+                    <button onClick={() => window.location.href = '/'}>Quizmodus beenden</button>
+                ) : (
+                    <div>
+                        <button onClick={() => window.location.href = '/QuizSelection'}>Neues Quiz starten</button>
+                        <button onClick={() => window.location.href = '/Profile'}>Quiz beenden</button>
+                    </div>
+                )}
             </div>
         );
     }
-}
 
-ReactDOM.render(<Quiz />, document.getElementById('root'));
+    const questionBoxClass = `question-box ${feedback === 'Falsch' ? 'incorrect' : ''}`;
+    const answerButtonClass = `answer-button ${feedback === 'Richtig' ? 'correct' : ''} ${selectedAnswer !== null ? 'disabled' : ''}`;
+
+    if (questions.length > 0 && questions[currentQuestion]) {
+        const question = questions[currentQuestion];
+
+        return (
+            <div>
+                <h2>Quizfrage {currentQuestion + 1}</h2>
+                <div className={questionBoxClass}>
+                    <h1>{question.frage}</h1>
+                </div>
+                <button className={answerButtonClass} onClick={() => checkAnswer(1)}>{question.antwortEins}</button>
+                <button className={answerButtonClass} onClick={() => checkAnswer(2)}>{question.antwortZwei}</button>
+                <button className={answerButtonClass} onClick={() => checkAnswer(3)}>{question.antwortDrei}</button>
+                <button className={answerButtonClass} onClick={() => checkAnswer(4)}>{question.antwortVier}</button>
+                {feedback && <p>{feedback}</p>}
+                <button className={'next-question'} onClick={moveToNextQuestion}>
+                    {currentQuestion + 1 === 10 ? 'Quiz beenden' : 'Nächste Frage'}
+                </button>
+            </div>
+        );
+    } else {
+        return <p>Frage wird geladen...</p>;
+    }
+};
 
 export default Quiz;
