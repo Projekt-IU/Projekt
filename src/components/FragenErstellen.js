@@ -25,8 +25,6 @@ class FragenErstellen extends Component {
             error: '',
         };
     }
-
-
     handleCheckboxChange = (e) => {
         this.setState({ richtigeAntwort: e.target.value });
     };
@@ -57,7 +55,6 @@ class FragenErstellen extends Component {
         if (this.state.frageErstellt) {
             return <Navigate to="/FragenErstellen" />
         }
-
 
         return (
             <div className="centered-container">

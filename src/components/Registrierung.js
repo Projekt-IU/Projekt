@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import './styles/Login.css';
+import './styles/Registrierung.css';
 import axios from "axios";
 import { Navigate } from "react-router-dom";
 import User from "./User";
