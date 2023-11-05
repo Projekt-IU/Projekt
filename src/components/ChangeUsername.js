@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import './styles/ChangeUsername.module.css'; // Importiere die CSS-Datei
+import './styles/ChangeUsername.css'; // Importiere die CSS-Datei
 import User from "./User";
 
 const ChangeUsername = () => {

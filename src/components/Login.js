@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import './styles/Login.css';
+import styles from './styles/Login.css';
+
 import axios from "axios";
 import { Navigate } from "react-router-dom";
 import User from "./User";
@@ -79,7 +80,7 @@ class Login extends Component {
 
     render() {
         if (this.state.loggedIn) {
-            return <Navigate to="/Profile" />;
+            return <Navigate to="/FragenErstellen" />;
         }
 
         return (

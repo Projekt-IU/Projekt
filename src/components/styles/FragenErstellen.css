@@ -25,18 +25,28 @@
 }
 
 /* Eingabefeld Stil */
-.fragen-box input[type="text"], .fragen-box select {
-
+.fragen-box input[type="text"]  {
+    width: 50%;
     margin-top: 10px;
     padding: 10px;
     margin-right: 10px;
     border: 1px solid #ccc;
     border-radius: 4px;
 
+
+}
+.fragen-box select{
+    width: 57%;
+    margin-top: 10px;
+    padding: 10px;
+    margin-right: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+
+
 }
 
-
-/* Checkbox Stil */
+    /* Checkbox Stil */
 .fragen-box input[type="checkbox"] {
 
     margin-left: 5px;

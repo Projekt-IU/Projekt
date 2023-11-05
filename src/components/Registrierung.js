@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import './styles/Registrierung.css';
+import styles from './styles/Registrierung.css';
 import axios from "axios";
 import { Navigate } from "react-router-dom";
 import User from "./User";
@@ -57,7 +57,7 @@ class Registrierung extends Component {
 
         // Frontend
         return (
-            <div className="centered-container">
+            <div className="registrierung centered-container">
                 <div className="register-box">
                     <h2>Registrierung</h2>
                     <form onSubmit={this.handleSubmit}>

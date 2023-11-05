@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import User from './User';
-import './styles/Quiz.css';
+import styles from './styles/Quiz.css';
 import { useLocation, useParams } from 'react-router-dom';
 import NavigationBar from "./NavigationBar";
 

@@ -1,5 +1,4 @@
-/* Stil für den äußeren Container, zentriert den Inhalt */
-.centered-container {
+.registrierung .centered-container {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -7,8 +6,7 @@
     background-color: #f5f5f5;
 }
 
-/* Stil für die Registrierungsbox */
-.register-box {
+.registrierung .register-box {
     background-color: #ffffff;
     padding: 20px;
     border-radius: 10px;
@@ -16,14 +14,13 @@
     width: 500px; /* Sie können die Breite nach Bedarf anpassen */
 }
 
-h2 {
+.registrierung h2 {
     text-align: center;
     margin-bottom: 20px;
 }
 
-/* Stil für die Formularfelder */
-.register-input {
-    width: 90%;
+.registrierung .register-input {
+    width: 95%;
     padding: 10px;
     margin-top: 5px;
     border: 1px solid #ccc;
@@ -31,27 +28,24 @@ h2 {
     font-size: 16px;
 }
 
-/* Dropdown-Stil */
-select {
-    width: 94%;
+.registrierung select {
+    width: 99%;
     padding: 10px;
     margin-top: 5px;
     border: 1px solid #ccc;
     border-radius: 5px;
     font-size: 16px;
-    appearance: none; /* Verhindert das Standard-Dropdown-Aussehen */
+    appearance: none;
     background-color: #ffffff;
 }
 
-/* Stil für den Fehler */
-.error-message {
+.registrierung .error-message {
     color: red;
     text-align: center;
     margin-top: 10px;
 }
 
-/* Stil für den Registrieren-Button */
-button {
+.registrierung button {
     display: block;
     width: 100%;
     padding: 10px;
@@ -65,12 +59,11 @@ button {
     transition: background-color 0.3s;
 }
 
-button:hover {
+.registrierung button:hover {
     background-color: #0056b3;
 }
 
-/* Stil für die Labels */
-label {
+.registrierung label {
     margin-bottom: 5px;
     font-weight: bold;
 }
