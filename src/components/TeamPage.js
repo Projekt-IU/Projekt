@@ -3,6 +3,7 @@ import axios from 'axios';
 import User from './User';
 import './styles/TeamPage.css';
 import ChatComponent from './ChatComponent';
+import NavigationBar from "./NavigationBar";
 
 const TeamPage = () => {
     const [teamInfo, setTeamInfo] = useState({
@@ -144,6 +145,7 @@ const TeamPage = () => {
     const isCurrentUserAdmin = teamInfo.members.some((member) => member.userName === User.username && member.admin_team == true);
     return (
         <div className="team-page-container">
+            <NavigationBar/>
             <div className="team-info-box">
                 <h1>{teamInfo.name}</h1>
                 <p>Punktestand gesamt: {teamInfo.scoreTeam.punkteGesamt}</p>
