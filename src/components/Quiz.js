@@ -132,21 +132,30 @@ const Quiz = () => {
 
         return (
             <div>
-                <NavigationBar/>
-                <h2>Quizfrage {currentQuestion + 1}</h2>
-                <div className={questionBoxClass}>
-                    <h1>{question.frage}</h1>
+                <NavigationBar />
+                <div className="content-container">
+                    <h2>Quizfrage {currentQuestion + 1}</h2>
+                    <div className={questionBoxClass}>
+                        <h1>{question.frage}</h1>
+                    </div>
+                    <div className="answer-button-container">
+                        <button className={answerButtonClass} onClick={() => checkAnswer(1)}>{question.antwortEins}</button>
+                        <button className={answerButtonClass} onClick={() => checkAnswer(2)}>{question.antwortZwei}</button>
+                    </div>
+                    <div className="answer-button-container">
+                        <button className={answerButtonClass} onClick={() => checkAnswer(3)}>{question.antwortDrei}</button>
+                        <button className={answerButtonClass} onClick={() => checkAnswer(4)}>{question.antwortVier}</button>
+                    </div>
+                    {feedback && <p>{feedback}</p>}
+                    <button className={'next-question'} onClick={moveToNextQuestion}>
+                        {currentQuestion + 1 === 10 ? 'Quiz beenden' : 'Nächste Frage'}
+                    </button>
                 </div>
-                <button className={answerButtonClass} onClick={() => checkAnswer(1)}>{question.antwortEins}</button>
-                <button className={answerButtonClass} onClick={() => checkAnswer(2)}>{question.antwortZwei}</button>
-                <button className={answerButtonClass} onClick={() => checkAnswer(3)}>{question.antwortDrei}</button>
-                <button className={answerButtonClass} onClick={() => checkAnswer(4)}>{question.antwortVier}</button>
-                {feedback && <p>{feedback}</p>}
-                <button className={'next-question'} onClick={moveToNextQuestion}>
-                    {currentQuestion + 1 === 10 ? 'Quiz beenden' : 'Nächste Frage'}
-                </button>
             </div>
         );
+
+
+
     } else {
         return <p>Frage wird geladen...</p>;
     }

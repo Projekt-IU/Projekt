@@ -24,21 +24,28 @@
 .answer-container {
     display: flex;
     flex-direction: column; /* Anordnung der Antwortboxen in einer Spalte */
-    gap: 10px; /* Abstand zwischen den Antwortboxen */
+    gap: 20px; /* Abstand zwischen den Antwortboxen */
 }
 
-/* Stil für die Antwortbuttons */
+.answer-button-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px; /* Abstand zwischen den Buttons */
+}
+
 .answer-button {
-    width: 50%;
-    background-color: #fff; /* Hintergrundfarbe für die Antwortboxen */
-    color: #000000; /* Textfarbe für die Antworttexte */
-    border: 1px solid #000000; /* Rahmen um die Antwortboxen */
-    border-radius: 15px; /* Runde Ecken */
+    width: calc(50% - 5px); /* Breite auf 50% des Containers, Abstand zwischen den Buttons abziehen */
+    background-color: #fff;
+    color: #000000;
+    border: 1px solid #000000;
+    border-radius: 15px;
     padding: 10px;
     text-align: center;
     cursor: pointer;
-    transition: background-color 0.3s; /* Übergangseffekt für die Hervorhebung */
+    transition: background-color 0.3s;
 }
+
+
 .next-question {
     text-align: center;
     padding: 3px;
