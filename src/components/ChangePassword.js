@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import './styles/ChangePassword.css'; // Importiere die CSS-Datei
 import User from "./User";
+import NavigationBar from "./NavigationBar";
 
 const ChangePassword = () => {
     User.loadFromSession();
@@ -60,6 +61,7 @@ const ChangePassword = () => {
 
     return (
         <div className="container">
+            <NavigationBar/>
             <h1>Passwort ändern</h1>
             <form onSubmit={handleSubmit}>
                 <div className="form-group">

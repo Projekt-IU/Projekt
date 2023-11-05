@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import './styles/ChangeUsername.css'; // Importiere die CSS-Datei
 import User from "./User";
+import NavigationBar from "./NavigationBar";
 
 const ChangeUsername = () => {
     User.loadFromSession();
@@ -55,6 +56,7 @@ const ChangeUsername = () => {
 
     return (
         <div className="container">
+            <NavigationBar/>
             <h1>Benutzernamen ändern</h1>
             <form onSubmit={handleSubmit}>
                 <div className="form-group">

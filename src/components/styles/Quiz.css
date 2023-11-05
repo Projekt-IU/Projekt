@@ -50,6 +50,8 @@
     text-align: center;
     padding: 3px;
     margin-top: 10px;
+    width: 25%;
+    align-self: auto;
 }
 
 /* Stil für den Nächste-Frage-Button */
@@ -58,9 +60,10 @@
     color: #fff; /* Textfarbe für den Button */
     border: none;
     border-radius: 15px; /* Runde Ecken */
-    padding: 10px 20px;
+    padding: 10px;
     margin-top: 20px; /* Abstand zum nächsten Element */
     cursor: pointer;
+    align-self: auto;
 }
 h2 {
     margin-top: 50px;

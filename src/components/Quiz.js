@@ -136,7 +136,7 @@ const Quiz = () => {
                 <div className="content-container">
                     <h2>Quizfrage {currentQuestion + 1}</h2>
                     <div className={questionBoxClass}>
-                        <h1>{question.frage}</h1>
+                        <h1 className={"Frage"}>{question.frage}</h1>
                     </div>
                     <div className="answer-button-container">
                         <button className={answerButtonClass} onClick={() => checkAnswer(1)}>{question.antwortEins}</button>
