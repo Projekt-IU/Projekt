@@ -132,6 +132,7 @@ const Quiz = () => {
 
         return (
             <div>
+                <NavigationBar/>
                 <h2>Quizfrage {currentQuestion + 1}</h2>
                 <div className={questionBoxClass}>
                     <h1>{question.frage}</h1>

@@ -3,7 +3,7 @@
 /* Stil für den gesamten Quiz-Container */
 .quiz-container {
     max-width: 800px; /* Maximalbreite für den Container anpassen */
-    margin: 0 auto; /* Zentriert den Container auf der Seite */
+    margin: 20px; /* Zentriert den Container auf der Seite */
     padding: 20px;
     border: 2px solid #009688; /* Rahmen um den Container */
     border-radius: 15px; /* Runde Ecken */
@@ -15,7 +15,7 @@
     color: #030202; /* Textfarbe für die Frage */
     border: 2px solid #000000;
     border-radius: 15px; /* Runde Ecken */
-    padding: 10px;
+    padding: 5px;
     text-align: center;
     margin-bottom: 20px; /* Abstand zwischen Frage und Antwortboxen */
 }
@@ -54,6 +54,9 @@
     padding: 10px 20px;
     margin-top: 20px; /* Abstand zum nächsten Element */
     cursor: pointer;
+}
+h2 {
+    margin-top: 50px;
 }
 
 /* Deaktivierter Stil für Antwortbuttons */
