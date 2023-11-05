@@ -52,7 +52,7 @@ class Registrierung extends Component {
 
     render() {
         if (this.state.registered) {
-            return <Navigate to="/UserComponents" />
+            return <Navigate to="/Profile" />
         }
 
         // Frontend

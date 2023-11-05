@@ -3,6 +3,7 @@ import './styles/FragenErstellen.css';
 import axios from "axios";
 import { Navigate } from "react-router-dom";
 import User from "./User";
+import NavigationBar from "./NavigationBar";
 
 class FragenErstellen extends Component {
     constructor() {
@@ -60,6 +61,7 @@ class FragenErstellen extends Component {
 
         return (
             <div className="centered-container">
+                <NavigationBar/>
                 <div className="fragen-box">
                     <h2>Frage erstellen</h2>
                     <form onSubmit={this.handleSubmit}>

@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import './styles/Profile.css';
 import axios from "axios";
 import User from "./User";
+import NavigationBar from './NavigationBar';
 
 const Profile = () => {
     const [profileData, setProfileData] = useState({
@@ -109,6 +110,7 @@ const Profile = () => {
 
     return (
         <div className="container emp-profile">
+            <NavigationBar/>
             <h1>Dein Profil</h1>
             <div className="profile-details">
                 <div className="profile-info">
@@ -157,13 +159,10 @@ const Profile = () => {
                             <strong>Teamname:</strong> <Link to="/TeamPage">{profileData.teamName}</Link>
                         </p>
                         <p>
-                            <Link to="/RankingUser">Zu den Rankings User</Link>
-                        </p>
-                        <p>
                             <Link to="/RankingTeam">Zu den Rankings Team</Link>
                         </p>
                         <p>
-                            <Link to="/Quiz">Quiz</Link>
+                            <Link to="/QuizSelection">Quiz</Link>
                         </p>
                     </div>
                 </div>

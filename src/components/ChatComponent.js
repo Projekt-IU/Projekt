@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import User from './User';
-import './styles/ChatComponent.css'; // CSS-Import
+import './styles/ChatComponent.css';
 
 const formatDateTime = (datetimeStr) => {
     const options = { weekday: 'long', year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' };
@@ -10,28 +10,31 @@ const formatDateTime = (datetimeStr) => {
 };
 
 const ChatComponent = ({ teamName }) => {
+    const user = User; // Änderung hier
     const [message, setMessage] = useState('');
     const [chatHistory, setChatHistory] = useState([]);
 
     const fetchMessages = () => {
-        const authRequest = {
-            username: User.username,
-            password: User.password,
-        };
+        if (teamName) { // Stellen Sie sicher, dass teamName nicht null oder undefined ist
+            const authRequest = {
+                username: user.username,
+                password: user.password,
+            };
 
-        axios.post(`http://localhost:8080/api/chat/messages/${teamName}`, authRequest)
-            .then(response => {
-                setChatHistory(response.data);
-            })
-            .catch(error => {
-                console.error('Fehler beim Abrufen der Nachrichten:', error);
-            });
+            axios.post(`http://localhost:8080/api/chat/messages/${teamName}`, authRequest)
+                .then(response => {
+                    setChatHistory(response.data);
+                })
+                .catch(error => {
+                    console.error('Fehler beim Abrufen der Nachrichten:', error);
+                });
+        }
     };
 
     const sendMessage = () => {
         const chatMessageInDTO = {
-            username: User.username,
-            password: User.password,
+            username: user.username,
+            password: user.password,
             nachricht: message,
         };
 
@@ -49,7 +52,7 @@ const ChatComponent = ({ teamName }) => {
 
     useEffect(() => {
         fetchMessages();
-    }, []);
+    }, [teamName]); // Überwachen von teamName auf Änderungen
 
     return (
         <div className="chat-container">

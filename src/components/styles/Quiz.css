@@ -1,62 +1,63 @@
-/* Stil für den gesamten Quiz-Bereich */
-#root {
-    font-family: Arial, sans-serif;
-    text-align: center;
-    margin: 0 auto;
+/* Quiz.css */
+
+/* Stil für den gesamten Quiz-Container */
+.quiz-container {
+    max-width: 800px; /* Maximalbreite für den Container anpassen */
+    margin: 0 auto; /* Zentriert den Container auf der Seite */
     padding: 20px;
+    border: 2px solid #009688; /* Rahmen um den Container */
+    border-radius: 15px; /* Runde Ecken */
 }
 
-/* Stil für den Quiz-Titel */
-h2 {
-    font-size: 24px;
-    margin-bottom: 20px;
-}
-
-/* Stil für die Fragen */
-ul {
-    list-style: none;
-    padding: 0;
-}
-
-li {
-    margin-bottom: 10px;
-}
-
-/* Stil für die Antwortoptionen (hellgraue Felder) */
-ul.answers {
-    background-color: #f4f4f4;
+/* Stil für die Fragebox */
+.question-box {
+    background-color: #ffffff; /* Hintergrundfarbe für die Fragebox */
+    color: #030202; /* Textfarbe für die Frage */
+    border: 2px solid #000000;
+    border-radius: 15px; /* Runde Ecken */
     padding: 10px;
-    border-radius: 5px;
-    display: inline-block;
+    text-align: center;
+    margin-bottom: 20px; /* Abstand zwischen Frage und Antwortboxen */
 }
 
-li.answer {
-    margin-bottom: 10px;
-    padding: 5px;
+/* Stil für die Antwortboxen */
+.answer-container {
+    display: flex;
+    flex-direction: column; /* Anordnung der Antwortboxen in einer Spalte */
+    gap: 10px; /* Abstand zwischen den Antwortboxen */
 }
 
-/* Stil für den Ergebnisbereich */
-.result {
-    font-size: 18px;
-    margin-top: 20px;
-}
-
-/* Stil für den Weiter-Button */
-button {
-    background-color: #007bff;
-    color: #fff;
-    border: none;
-    padding: 10px 20px;
+/* Stil für die Antwortbuttons */
+.answer-button {
+    width: 50%;
+    background-color: #fff; /* Hintergrundfarbe für die Antwortboxen */
+    color: #000000; /* Textfarbe für die Antworttexte */
+    border: 1px solid #000000; /* Rahmen um die Antwortboxen */
+    border-radius: 15px; /* Runde Ecken */
+    padding: 10px;
+    text-align: center;
     cursor: pointer;
-    border-radius: 5px;
+    transition: background-color 0.3s; /* Übergangseffekt für die Hervorhebung */
+}
+.next-question {
+    text-align: center;
+    padding: 3px;
+    margin-top: 10px;
 }
 
-button:hover {
-    background-color: #0056b3;
+/* Stil für den Nächste-Frage-Button */
+.next-button {
+    background-color: #009688; /* Hintergrundfarbe für den Button */
+    color: #fff; /* Textfarbe für den Button */
+    border: none;
+    border-radius: 15px; /* Runde Ecken */
+    padding: 10px 20px;
+    margin-top: 20px; /* Abstand zum nächsten Element */
+    cursor: pointer;
 }
 
-/* Stil für den Quiz abgeschlossen Text */
-.completed {
-    font-size: 18px;
-    margin-top: 20px;
+/* Deaktivierter Stil für Antwortbuttons */
+.answer-button.disabled {
+    pointer-events: none; /* Verhindert Klicks auf deaktivierte Buttons */
+    opacity: 0.8; /* Reduziert die Deckkraft deaktivierter Buttons */
 }

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import './styles/Ranking.css';
 import axios from 'axios';
 import User from './User';
+import NavigationBar from "./NavigationBar";
 
 const RankingUser = () => {
     const [activeTab, setActiveTab] = useState('total');
@@ -52,8 +53,12 @@ const RankingUser = () => {
     }, [rankingData]);
 
     return (
+
         <div className="ranking-container">
+            <NavigationBar/>
+
             <div className="ranking-tabs">
+
                 <button onClick={() => setActiveTab('total')}>Punkte gesamt</button>
                 <button onClick={() => setActiveTab('monthly')}>Punkte im Monat</button>
                 <button onClick={() => setActiveTab('weekly')}>Punkte in der Woche</button>

@@ -1,12 +1,13 @@
 /* RankingUser.css */
 .ranking-container {
-    margin-top: 20px;
+    margin-top: 50px;
 }
 
 .ranking-tabs {
     display: flex;
     justify-content: center;
-    gap: 20px;
+    gap: 50px;
+    margin-top: 20px; /* Fügt 20px Abstand zum oberen Element hinzu */
 }
 
 .ranking-tabs button {

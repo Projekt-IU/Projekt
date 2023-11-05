@@ -2,14 +2,15 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import User from './User';
 import './styles/TeamPage.css';
+import ChatComponent from './ChatComponent';
 
 const TeamPage = () => {
     const [teamInfo, setTeamInfo] = useState({
         teamsId: 0,
         name: '',
         studiengang: '',
-        adminUserId: 0,
         adminUsername: '',
+        admin_team: false,
         scoreTeam: {
             punkteGesamt: 0,
             punkteMonat: 0,
@@ -23,6 +24,7 @@ const TeamPage = () => {
     const [selectedMember, setSelectedMember] = useState('');
     const [newMemberUsername, setNewMemberUsername] = useState('');
     const [adminSelectedMember, setAdminSelectedMember] = useState('');
+    const [teamName, setTeamName] = useState(User.teamName); // Zustand für den Teamnamen
 
     // Function to fetch team information
     const fetchTeamInfo = async () => {
@@ -30,14 +32,22 @@ const TeamPage = () => {
             const response = await axios.post('http://localhost:8080/api/Team/getTeam', {
                 username: User.username,
                 password: User.password,
-                anfrageName: User.teamName
+                anfrageName: teamName
             });
+            console.log(response.data);
             setTeamInfo(response.data);
+            console.log(teamName);
             setIsLoading(false);
         } catch (error) {
             console.error('Error fetching team information:', error);
         }
     };
+
+    useEffect(() => {
+        fetchTeamInfo();
+        // Aktualisiere den Teamnamen, wenn sich User.teamName ändert
+        setTeamName(User.teamName);
+    }, [teamName]); // Überwache teamName auf Änderungen
 
     const handleTeamDissolve = async () => {
         try {
@@ -47,7 +57,6 @@ const TeamPage = () => {
             });
 
             if (response.status === 200) {
-                // Display an alert and redirect to /Profile
                 alert('Das Team wurde erfolgreich gelöscht.');
                 window.location.href = '/Profile';
             } else {
@@ -59,16 +68,12 @@ const TeamPage = () => {
     };
 
     const addTeamMember = async () => {
-        // Prompt the user for the member's username
         const username = prompt('Geben Sie den Benutzernamen des Mitglieds ein:');
 
         if (username) {
-            setNewMemberUsername(username); // Update the state with the entered username
+            setNewMemberUsername(username);
 
             try {
-                console.log(User.username);
-                console.log(User.teamName);
-                console.log(username);
                 const response = await axios.post('http://localhost:8080/api/Team/addUser', {
                     username: User.username,
                     password: User.password,
@@ -79,7 +84,7 @@ const TeamPage = () => {
 
                 if (response.status === 200) {
                     alert('Mitglied wurde erfolgreich in das Team aufgenommen.');
-                    fetchTeamInfo(); // Refresh the team members list
+                    fetchTeamInfo();
                 } else {
                     alert('Mitglied konnte nicht hinzugefügt werden.');
                 }
@@ -92,18 +97,23 @@ const TeamPage = () => {
 
     const removeTeamMember = async () => {
         try {
-            const response = await axios.post('http://localhost:8080/api/Team/dropUser', {
-                username: User.username,
-                password: User.password,
-                teamName: User.teamName,
-                userToDrop: selectedMember
-            });
+            if (selectedMember) {
+                const response = await axios.post('http://localhost:8080/api/Team/dropUser', {
+                    username: User.username,
+                    password: User.password,
+                    teamName: User.teamName,
+                    userToDrop: selectedMember
+                });
 
-            if (response.status === 200) {
-                alert('Mitglied wurde erfolgreich aus dem Team entfernt.');
-                fetchTeamInfo(); // Refresh the team members list
+                if (response.status === 200) {
+                    alert('Mitglied wurde erfolgreich aus dem Team entfernt.');
+                    setSelectedMember('');
+                    fetchTeamInfo();
+                } else {
+                    alert('Ein Fehler ist aufgetreten.');
+                }
             } else {
-                alert('Ein Fehler ist aufgetreten.');
+                alert('Bitte wählen Sie ein Mitglied aus, um es zu entfernen.');
             }
         } catch (error) {
             console.error('Error removing team member:', error);
@@ -121,7 +131,7 @@ const TeamPage = () => {
 
                 if (response.status === 200) {
                     alert('Mitglied hat nun Adminrechte.');
-                    fetchTeamInfo(); // Refresh the team members list
+                    fetchTeamInfo();
                 } else {
                     alert('Mitglied kann kein Admin werden.');
                 }
@@ -131,13 +141,7 @@ const TeamPage = () => {
         }
     };
 
-    useEffect(() => {
-        fetchTeamInfo();
-    }, []);
-
-    // Überprüfen Sie die Team-Rolle des eingeloggten Benutzers
-    const isCurrentUserAdmin = teamInfo.members.some((member) => member.userName === User.username && member.admin_team);
-
+    const isCurrentUserAdmin = teamInfo.members.some((member) => member.userName === User.username && member.admin_team == true);
     return (
         <div className="team-page-container">
             <div className="team-info-box">
@@ -174,42 +178,45 @@ const TeamPage = () => {
                     </table>
                 )}
             </div>
-            {isCurrentUserAdmin && (
-                <div className="admin-controls">
-                    <button onClick={handleTeamDissolve}>Team auflösen</button>
-                    <button onClick={addTeamMember}>Mitglied hinzufügen</button>
-                    <div>
-                        <select
-                            id="removeDropdown"
-                            value={selectedMember}
-                            onChange={(e) => setSelectedMember(e.target.value)}
-                        >
-                            <option value="">Mitglied auswählen</option>
-                            {teamInfo.members.map((member, index) => (
-                                <option key={index} value={member.userName}>
-                                    {member.userName}
-                                </option>
-                            ))}
-                        </select>
-                        <button onClick={removeTeamMember}>Mitglied entfernen</button>
-                    </div>
-                    <div>
-                        <select
-                            id="adminDropdown"
-                            value={adminSelectedMember}
-                            onChange={(e) => setAdminSelectedMember(e.target.value)}
-                        >
-                            <option value="">Admin auswählen</option>
-                            {teamInfo.members.map((member, index) => (
-                                <option key={index} value={member.userName}>
-                                    {member.userName}
-                                </option>
-                            ))}
-                        </select>
-                        <button onClick={setAdminRole}>Admin Rolle vergeben</button>
-                    </div>
+            <div className="admin-controls" style={{ display: isCurrentUserAdmin ? 'block' : 'none' }}>
+                <div className="admin-controls-header"><b>Team-Verwaltung</b></div>
+                <button onClick={handleTeamDissolve}>Team auflösen</button>
+                <button onClick={addTeamMember}>Mitglied hinzufügen</button>
+                <div>
+                    <select
+                        id="removeDropdown"
+                        value={selectedMember}
+                        onChange={(e) => setSelectedMember(e.target.value)}
+                    >
+                        <option value="">Mitglied auswählen</option>
+                        {teamInfo.members.map((member, index) => (
+                            <option key={index} value={member.userName}>
+                                {member.userName}
+                            </option>
+                        ))}
+                    </select>
+                    <button onClick={removeTeamMember}>Mitglied entfernen</button>
                 </div>
-            )}
+                <div>
+                    <select
+                        id="adminDropdown"
+                        value={adminSelectedMember}
+                        onChange={(e) => setAdminSelectedMember(e.target.value)}
+                    >
+                        <option value="">Admin auswählen</option>
+                        {teamInfo.members.map((member, index) => (
+                            <option key={index} value={member.userName}>
+                                {member.userName}
+                            </option>
+                        ))}
+                    </select>
+                    <button onClick={setAdminRole}>Admin Rolle vergeben</button>
+                </div>
+            </div>
+            <div className="chat-component">
+                <div className="chat-header"><b>TeamChat</b></div>
+                <ChatComponent teamName={teamInfo.name} />
+            </div>
         </div>
     );
 };
