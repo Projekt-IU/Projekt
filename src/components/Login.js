@@ -84,7 +84,7 @@ class Login extends Component {
         }
 
         return (
-            <div className="centered-container">
+            <div className="login-centered-container">
                 <div className="login-box">
                     <h2>Anmelden</h2>
                     <form onSubmit={this.handleSubmit}>

@@ -30,7 +30,7 @@
     box-shadow: 0px 0px 10px 0px #aaa;
 }
 
-h1 {
+.container emp-profile h1 {
     font-size: 24px;
     margin-top: 40px;
     margin-bottom: 15px;

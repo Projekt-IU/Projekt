@@ -1,15 +1,27 @@
 /* Container für eine einzelne Zeile (Label, Eingabefeld, Checkbox) */
-.fragen-box .input-container {
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
-}
-.centered-container
 
+.erstellen-container
 {
-    text-align: left;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #f0f0f0;
 }
-.centered-container h2
+.fragen-box
+{
+    background-color: #fff;
+    border: 1px solid #ccc;
+    padding: 1%;
+    box-shadow: 0px 0px 10px 0px #aaa;
+    width: 50%;
+    border-radius: 1%;
+    text-align: left;
+
+}
+
+
+.erstellen-centered-container h2
 
 {
     text-align: center;
@@ -19,14 +31,15 @@
 .fragen-box label {
     display:inline-block;
     margin-right: 20px;
-
-    width: 20%;
+    margin-left: 10px;
+    text-align: left;
+    width: 9%;
 
 }
 
 /* Eingabefeld Stil */
 .fragen-box input[type="text"]  {
-    width: 50%;
+    width: 80%;
     margin-top: 10px;
     padding: 10px;
     margin-right: 10px;
@@ -36,7 +49,7 @@
 
 }
 .fragen-box select{
-    width: 57%;
+    width: 82%;
     margin-top: 10px;
     padding: 10px;
     margin-right: 10px;

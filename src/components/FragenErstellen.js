@@ -57,8 +57,10 @@ class FragenErstellen extends Component {
         }
 
         return (
-            <div className="centered-container">
-                <NavigationBar/>
+            <div> <NavigationBar/>
+            <div className="erstellen-centered-container">
+
+                <div className="erstellen-container">
                 <div className="fragen-box">
                     <h2>Frage erstellen</h2>
                     <form onSubmit={this.handleSubmit}>
@@ -162,6 +164,8 @@ class FragenErstellen extends Component {
                     </form>
                     {this.state.error && <p className="error-message">{this.state.error}</p>}
                 </div>
+            </div>
+            </div>
             </div>
         );
     }

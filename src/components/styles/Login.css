@@ -1,12 +1,13 @@
-.centered-container {
+.login-centered-container {
     display: flex;
     justify-content: center;
     align-items: center;
     height: 100vh;
     background-color: #f0f0f0;
+    
 }
 
-.login-box {
+.login-centered-container .login-box {
 
     background-color: #fff;
     border: 1px solid #ccc;
@@ -27,13 +28,13 @@
     transition: border-color 0.9s;
 }
 
-.login-input:focus {
+ .login-input:focus {
     outline: none;
     border-color: #007bff; /* Ändert die Randfarbe beim anklicken */
 }
 
 
-.login-button {
+.login-centered-container .login-button {
     background-color: #007bff;
     color: white;
     border: none;
@@ -41,13 +42,15 @@
     padding: 10px 20px;
     cursor: pointer;
     transition: background-color 1.1s;
+    width: 60%;
+    font-size: 16px;
 }
 
 .login-button:hover {
     background-color: #0056b3;
 }
 
-.forgot-password-button {
+.login-centered-container .forgot-password-button {
     background-color: #007bff;
     color: white;
     border: none;
@@ -56,8 +59,11 @@
     cursor: pointer;
     margin-top: 10px;
     transition: background-color 1.1s;
+    width: 60%;
+    font-size: 16px;
+    margin-bottom: 5px;
 }
-.overlay {
+ .overlay {
     background-color: #f0f0f0; /* Opazität auf 0.5 reduziert */
     position: fixed;
     top: 0;
@@ -81,15 +87,6 @@
     text-align: center;
 }
 
-.forgot-password-button {
-    background-color: #007bff;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    padding: 10px 20px;
-    cursor: pointer;
-    transition: background-color 1.1s;
-}
 .PWforgot-input{
 
     width: 80%;
