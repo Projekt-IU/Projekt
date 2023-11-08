@@ -132,22 +132,23 @@ const Quiz = () => {
 
         return (
             <div>
-                <NavigationBar />
+                <NavigationBar/>
+
                 <div className="content-container">
                     <h2>Quizfrage {currentQuestion + 1}</h2>
                     <div className={questionBoxClass}>
                         <h1 className={"Frage"}>{question.frage}</h1>
                     </div>
-                    <div className="answer-button-container">
+                    <div className="answer-button-container1">
                         <button className={answerButtonClass} onClick={() => checkAnswer(1)}>{question.antwortEins}</button>
                         <button className={answerButtonClass} onClick={() => checkAnswer(2)}>{question.antwortZwei}</button>
                     </div>
-                    <div className="answer-button-container">
+                    <div className="answer-button-container2">
                         <button className={answerButtonClass} onClick={() => checkAnswer(3)}>{question.antwortDrei}</button>
                         <button className={answerButtonClass} onClick={() => checkAnswer(4)}>{question.antwortVier}</button>
                     </div>
                     {feedback && <p>{feedback}</p>}
-                    <button className={'next-question'} onClick={moveToNextQuestion}>
+                    <button className={'next-button'} onClick={moveToNextQuestion}>
                         {currentQuestion + 1 === 10 ? 'Quiz beenden' : 'Nächste Frage'}
                     </button>
                 </div>

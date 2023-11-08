@@ -151,9 +151,9 @@ class FragenErstellen extends Component {
                                 onChange={this.handleChange}
                                 >
                             <option value="">Bitte auswählen:</option>
-                            <option value="Datenbanken">Informatik</option>
-                            <option value="Mathematik">Wirtschaftsinformatik</option>
-                            <option value="Statistik">Medieninformatik</option>
+                            <option value="Datenbanken">Datenbanken</option>
+                            <option value="Mathematik">Mathematik</option>
+                            <option value="Statistik">Statistik</option>
                         </select>
 
                         </div>

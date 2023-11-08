@@ -83,14 +83,12 @@ const Profile = () => {
 
         if (confirmDelete) {
             try {
-                // Ersetze 'YOUR_API_ENDPOINT' durch den tatsächlichen API-Endpunkt auf deinem Backend.
+                // Schnittstelle zu SpringBoot
                 const apiEndpoint = 'http://localhost:8080/api/dropUser';
 
                 const response = await axios.post(apiEndpoint, {
                     username: User.username, // Verwende den aktuellen Benutzernamen
-                    password: User.password,
-                    //anfrageID: 0,
-                    //anfrageName: ""
+                    password: User.password
                 });
 
                 if (response.status === 200) {
@@ -109,78 +107,82 @@ const Profile = () => {
     };
 
     return (
-        <div className="container emp-profile">
+        <div>
             <NavigationBar/>
-            <h1>Dein Profil</h1>
-            <div className="profile-details">
-                <div className="profile-info">
-                    <p>
-                        <strong>Vorname:</strong> {profileData.firstName}
-                    </p>
-                    <p>
-                        <strong>Nachname:</strong> {profileData.lastName}
-                    </p>
-                    <p>
-                        <strong>Benutzername:</strong> {profileData.username}
-                    </p>
-                    <p>
-                        <strong>Email:</strong> {profileData.email}
-                    </p>
-                    <p>
-                        <strong>Matrikel Nummer:</strong> {profileData.matrikelNr}
-                    </p>
-                    <p>
-                        <strong>Studiengang:</strong> {profileData.courseOfStudy}
-                    </p>
-                    <p>
-                        <strong>Registrierungsdatum:</strong> {profileData.registrationDate}
-                    </p>
 
-                </div>
-                <div className="profile-stats">
-                    {/* Center contents of profile-stats */}
-                    <div className="centered-content">
+            <div className="container emp-profile">
+
+                <h1>Dein Profil</h1>
+                <div className="profile-details">
+                    <div className="profile-info">
                         <p>
-                            <strong>Punktestand gesamt:</strong> {profileData.totalScore}
+                            <strong>Vorname:</strong> {profileData.firstName}
                         </p>
                         <p>
-                            <strong>Punktestand Monat:</strong> {profileData.monthlyScore}
+                            <strong>Nachname:</strong> {profileData.lastName}
                         </p>
                         <p>
-                            <strong>Punktestand Woche:</strong> {profileData.weeklyScore}
+                            <strong>Benutzername:</strong> {profileData.username}
                         </p>
                         <p>
-                            <strong>Fragen richtig:</strong> {profileData.frageRichtig}
+                            <strong>Email:</strong> {profileData.email}
                         </p>
                         <p>
-                            <strong>Fragen Gesamt:</strong> {profileData.fragenGesamt}
+                            <strong>Matrikel Nummer:</strong> {profileData.matrikelNr}
                         </p>
                         <p>
-                            <strong>Teamname:</strong> <Link to="/TeamPage">{profileData.teamName}</Link>
+                            <strong>Studiengang:</strong> {profileData.courseOfStudy}
                         </p>
                         <p>
-                            <Link to="/RankingTeam">Zu den Rankings Team</Link>
+                            <strong>Registrierungsdatum:</strong> {profileData.registrationDate}
                         </p>
-                        <p>
-                            <Link to="/QuizSelection">Quiz</Link>
-                        </p>
+
                     </div>
-                </div>
+                    <div className="profile-stats">
+                        {/* Center contents of profile-stats */}
+                        <div className="centered-content">
+                            <p>
+                                <strong>Punktestand gesamt:</strong> {profileData.totalScore}
+                            </p>
+                            <p>
+                                <strong>Punktestand Monat:</strong> {profileData.monthlyScore}
+                            </p>
+                            <p>
+                                <strong>Punktestand Woche:</strong> {profileData.weeklyScore}
+                            </p>
+                            <p>
+                                <strong>Fragen richtig:</strong> {profileData.frageRichtig}
+                            </p>
+                            <p>
+                                <strong>Fragen Gesamt:</strong> {profileData.fragenGesamt}
+                            </p>
+                            <p>
+                                <strong>Teamname:</strong> <Link to="/TeamPage">{profileData.teamName}</Link>
+                            </p>
+                            <p>
+                                <Link to="/RankingTeam">Zu den Rankings Team</Link>
+                            </p>
+                            <p>
+                                <Link to="/QuizSelection">Quiz</Link>
+                            </p>
+                        </div>
+                    </div>
 
-            </div>
-            <div className="centered-content">
-                {/* Knopf zum Ändern des Passworts */}
-                <button onClick={() => window.location.href = '/changePassword'}>
-                    Passwort ändern
-                </button>
-                {/* Knopf zum Löschen des Kontos */}
-                <button onClick={handleDeleteAccount}>
-                    Account löschen
-                </button>
-                {/* Knopf zum Ändern des Benutzernamens */}
-                <button onClick={() => window.location.href = '/changeUsername'}>
-                    Benutzernamen ändern
-                </button>
+                </div>
+                <div className="centered-content">
+                    {/* Knopf zum Ändern des Passworts */}
+                    <button onClick={() => window.location.href = '/changePassword'}>
+                        Passwort ändern
+                    </button>
+                    {/* Knopf zum Löschen des Kontos */}
+                    <button onClick={handleDeleteAccount}>
+                        Account löschen
+                    </button>
+                    {/* Knopf zum Ändern des Benutzernamens */}
+                    <button onClick={() => window.location.href = '/changeUsername'}>
+                        Benutzernamen ändern
+                    </button>
+                </div>
             </div>
         </div>
     );

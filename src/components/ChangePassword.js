@@ -60,7 +60,10 @@ const ChangePassword = () => {
     };
 
     return (
-        <div className="container">
+        <div>
+            <NavigationBar/>
+
+        <div className="changepw-container">
             <NavigationBar/>
             <h1>Passwort ändern</h1>
             <form onSubmit={handleSubmit}>
@@ -99,6 +102,7 @@ const ChangePassword = () => {
                 </div>
                 <button type="submit">Passwort ändern</button>
             </form>
+        </div>
         </div>
     );
 };

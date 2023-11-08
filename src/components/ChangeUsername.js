@@ -55,8 +55,9 @@ const ChangeUsername = () => {
     };
 
     return (
-        <div className="container">
+        <div>
             <NavigationBar/>
+        <div className="changeusername-container">
             <h1>Benutzernamen ändern</h1>
             <form onSubmit={handleSubmit}>
                 <div className="form-group">
@@ -76,6 +77,7 @@ const ChangeUsername = () => {
                 </div>
                 <button type="submit">Benutzernamen ändern</button>
             </form>
+        </div>
         </div>
     );
 };

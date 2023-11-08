@@ -80,7 +80,7 @@ class Login extends Component {
 
     render() {
         if (this.state.loggedIn) {
-            return <Navigate to="/FragenErstellen" />;
+            return <Navigate to="/Profile" />;
         }
 
         return (

@@ -13,12 +13,15 @@ const QuizSelection = () => {
     };
 
     return (
-        <div className="quiz-selection-container">
+        <div>
             <NavigationBar/>
+        <div className="quiz-selection-container">
+
             <h1 className="quiz-selection-title">Wähle ein Quiz-Modul</h1>
             <button className="quiz-selection-button" onClick={() => handleQuizStart('Mathematik')}>Mathematik</button>
             <button className="quiz-selection-button" onClick={() => handleQuizStart('Statistik')}>Statistik</button>
             <button className="quiz-selection-button" onClick={() => handleQuizStart('Datenbanken')}>Datenbanken</button>
+        </div>
         </div>
     );
 };

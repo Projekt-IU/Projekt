@@ -2,7 +2,6 @@
 
 /* Stil für den gesamten Quiz-Container */
 .quiz-container {
-    max-width: 800px; /* Maximalbreite für den Container anpassen */
     margin: 20px; /* Zentriert den Container auf der Seite */
     padding: 20px;
     border: 2px solid #009688; /* Rahmen um den Container */
@@ -11,26 +10,26 @@
 
 /* Stil für die Fragebox */
 .question-box {
-    background-color: #ffffff; /* Hintergrundfarbe für die Fragebox */
+    background-color: #969595; /* Hintergrundfarbe für die Fragebox */
     color: #030202; /* Textfarbe für die Frage */
     border: 2px solid #000000;
-    border-radius: 15px; /* Runde Ecken */
-    padding: 5px;
-    text-align: center;
-    margin-bottom: 20px; /* Abstand zwischen Frage und Antwortboxen */
+    border-radius: 10px; /* Runde Ecken */
+    align-self: center;
+    margin-bottom: 15px; /* Abstand zwischen Frage und Antwortboxen */
 }
 
-/* Stil für die Antwortboxen */
-.answer-container {
-    display: flex;
-    flex-direction: column; /* Anordnung der Antwortboxen in einer Spalte */
-    gap: 20px; /* Abstand zwischen den Antwortboxen */
-}
 
-.answer-button-container {
+.answer-button-container1 {
     display: flex;
     flex-wrap: wrap;
-    gap: 5px; /* Abstand zwischen den Buttons */
+    gap: 10px; /* Abstand zwischen den Buttons */
+}
+
+.answer-button-container2 {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px; /* Abstand zwischen den Buttons */
+    margin-top: 10px;
 }
 
 .answer-button {
@@ -44,7 +43,10 @@
     cursor: pointer;
     transition: background-color 0.3s;
 }
-
+.Frage {
+    text-align: center;
+    align-content: center;
+}
 
 .next-question {
     text-align: center;
@@ -56,17 +58,23 @@
 
 /* Stil für den Nächste-Frage-Button */
 .next-button {
-    background-color: #009688; /* Hintergrundfarbe für den Button */
-    color: #fff; /* Textfarbe für den Button */
+    background-color: #007bff;
+    color: white;
     border: none;
-    border-radius: 15px; /* Runde Ecken */
-    padding: 10px;
-    margin-top: 20px; /* Abstand zum nächsten Element */
+    border-radius: 4px;
+    padding: 10px 10px;
+    font-size: 16px;
     cursor: pointer;
-    align-self: auto;
+    transition: background-color 1.1s ease;
+    width: 300px;
+    margin-top: 10px;
 }
-h2 {
+.content-container h2 {
     margin-top: 50px;
+}
+
+.content-container h1 {
+    align-items: center;
 }
 
 /* Deaktivierter Stil für Antwortbuttons */
