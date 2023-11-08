@@ -39,19 +39,24 @@ public class FragenController {
     @Autowired
     private final TeamsRepository teamsRepository;
 
+    @Autowired
+    private BCryptPasswordEncoder passwordEncoder;
+
     public FragenController(UserRepository userRepository, TeamsRepository teamsRepository, FragenRepository fragenRepository) {
         this.userRepository = userRepository;
         this.teamsRepository = teamsRepository;
         this.fragenRepository = fragenRepository;
     }
 
-    @Autowired
-    private BCryptPasswordEncoder passwordEncoder;
+
+
+
 //frage erstellen
     @PostMapping("/frageErstellen")
 
     public ResponseEntity<?> FrageErstellen(@RequestBody FrageErstellen frageErstellen) {
         User user = userRepository.findByUserName(frageErstellen.getUsername());
+        System.out.println("Anfrage zum erstellen einer Frage: ") ;
 
         if (user != null && passwordEncoder.matches(frageErstellen.getPassword(), user.getPassword())&& user.isAccess()) {
             frageErstellen.setUser(user);

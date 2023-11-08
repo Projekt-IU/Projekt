@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 
 @RestController
@@ -64,7 +65,7 @@ public class ScoreController {
 
     @PostMapping("/getScoreUserList")
     public ResponseEntity<?> getScoreUserList(@RequestBody AuthRequest authRequest) {
-        System.out.println("Anfrage für Score für user : " + authRequest.getUsername());
+        System.out.println("Anfrage für ScoreList-User : ");
         authRequest = FilterLogin.filterLogin(authRequest);
 
         if (authRequest.getAnfrageName()==null)
@@ -79,7 +80,9 @@ public class ScoreController {
         if (user != null && passwordEncoder.matches(authRequest.getPassword(), user.getPassword())&& user.isAccess()) {
 
             List<User> allUsers  = (List<User>) repository.findAll();  // Implementiere die Sortierung
-
+            List<User> validUsers = allUsers.stream()
+                    .filter(u -> u.getRole().equals("User"))
+                    .collect(Collectors.toList());
             Comparator<User> comparator;
             switch (authRequest.getAnfrageName().toLowerCase()) {
                 case "gesammt":
@@ -102,9 +105,9 @@ public class ScoreController {
             }
 
             // Sortiere Benutzer nach dem ausgewählten Kriterium
-            allUsers.sort(comparator.reversed());
+            validUsers.sort(comparator.reversed());
 
-            List<UserScoreListDTO> sortedScores = userMapper.convertUserScoresToDTO(allUsers, authRequest.getAnfrageName());  // Implementiere die Konvertierung
+            List<UserScoreListDTO> sortedScores = userMapper.convertUserScoresToDTO(validUsers, authRequest.getAnfrageName());  // Implementiere die Konvertierung
 
             return new ResponseEntity<>(sortedScores, HttpStatus.OK);
 
@@ -116,7 +119,7 @@ public class ScoreController {
 
     @PostMapping("/getScoreTeam")
     public ResponseEntity<?> getScore(@RequestBody AuthRequest authRequest) {
-        System.out.println("Anfrage für Score für Team : " + authRequest.getAnfrageName());
+        System.out.println("Anfrage für Score für Team : ");
 
         if (authRequest.getAnfrageName()==null)
 
@@ -142,7 +145,7 @@ public class ScoreController {
 
     @PostMapping("/getScoreTeamList")
     public ResponseEntity<?> getScoreTeamList(@RequestBody AuthRequest authRequest) {
-        System.out.println("Anfrage für Score für user : " + authRequest.getUsername());
+        System.out.println("Anfrage für ScoreList-Team : ");
         authRequest = FilterLogin.filterLogin(authRequest);
 
         if (authRequest.getAnfrageName()==null)

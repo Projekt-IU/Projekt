@@ -61,7 +61,7 @@ public class ChatController {
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
     }
 
-    //Nachrichten nAbrufen
+    //Nachrichten Abrufen
     @PostMapping("/messages/{teamName}")
     public ResponseEntity<List<ChatDTO>> getMessages(@PathVariable String teamName, @RequestBody AuthRequest authRequest) {
         User user = repository.findByUserName(authRequest.getUsername());
@@ -79,7 +79,7 @@ public class ChatController {
 
         }
 
-        // Optional: Überprüfen, ob der Benutzer Mitglied des Teams ist
+        // Überprüfen, ob der Benutzer Mitglied des Teams ist
         if (!team.getMembers().contains(user)) {
             System.out.println("Chat nicht autorisiert, da nicht im team: " + teamName);
             return ResponseEntity.status(HttpStatus.FORBIDDEN).body(null);

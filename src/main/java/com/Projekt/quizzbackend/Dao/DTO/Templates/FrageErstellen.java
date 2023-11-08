@@ -78,4 +78,18 @@ public class FrageErstellen extends AuthRequest {
     public void setUser(User user) {
         this.user = user;
     }
+
+    @Override
+    public String toString() {
+        return "FrageErstellen{" +
+                "frage='" + frage + '\'' +
+                ", modul='" + modul + '\'' +
+                ", antwortEins='" + antwortEins + '\'' +
+                ", antwortZwei='" + antwortZwei + '\'' +
+                ", antwortDrei='" + antwortDrei + '\'' +
+                ", antwortVier='" + antwortVier + '\'' +
+                ", richtigeAntwort=" + richtigeAntwort +
+                ", user=" + user +
+                '}';
+    }
 }
