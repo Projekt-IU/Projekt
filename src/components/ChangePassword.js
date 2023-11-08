@@ -64,7 +64,7 @@ const ChangePassword = () => {
             <NavigationBar/>
 
         <div className="changepw-container">
-            <NavigationBar/>
+           
             <h1>Passwort ändern</h1>
             <form onSubmit={handleSubmit}>
                 <div className="form-group">

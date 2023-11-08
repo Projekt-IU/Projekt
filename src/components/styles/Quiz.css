@@ -31,6 +31,9 @@
     gap: 10px; /* Abstand zwischen den Buttons */
     margin-top: 10px;
 }
+.answer-button:hover {
+    background-color: #0056b3;
+}
 
 .answer-button {
     width: calc(50% - 5px); /* Breite auf 50% des Containers, Abstand zwischen den Buttons abziehen */
