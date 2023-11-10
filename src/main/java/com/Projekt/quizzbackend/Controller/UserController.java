@@ -37,7 +37,6 @@ import java.util.Random;
 @RequestMapping("/api")
 
 public class UserController {
-
     private final TeamsRepository teamsRepository;
     private final UserRepository repository;
 
@@ -62,17 +61,12 @@ public class UserController {
 
     @PostMapping("/login")
     public ResponseEntity<UserDTO> login(@RequestBody AuthRequest authRequest) {
-        System.out.println("login anfrage erhalten: " + authRequest.getUsername() + authRequest.getPassword());
+        System.out.println("login anfrage erhalten: ");
 
         User user = repository.findByUserName(authRequest.getUsername());
-
-
         if (user != null && passwordEncoder.matches(authRequest.getPassword(), user.getPassword())&& user.isAccess()) {
             user.login();
-            System.out.println(user.isLoggedIn());
-
             UserDTO dto = userMapper.entityToDto(user);
-            System.out.println(dto.toString());
             return ResponseEntity.ok(dto);
         } else {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
@@ -82,11 +76,7 @@ public class UserController {
     @PostMapping("logout")
     public ResponseEntity<UserDTO> logout(@RequestBody LogoutRequest logoutRequest) {
 
-        System.out.println(logoutRequest.getUserId() + logoutRequest.getUsername());
-        System.out.println("Loggout anfrage erhalten: " + logoutRequest.getUsername() + logoutRequest.getUserId());
-        System.out.println(logoutRequest);
         User user = repository.findUserByUserIDAndUserName(logoutRequest.getUserId(), (logoutRequest.getUsername()));
-        System.out.println(user);
         user.logout();
         return ResponseEntity.ok().body(null); // Erfolgreiche Logout-Antwort.
     }
@@ -94,13 +84,13 @@ public class UserController {
     @PostMapping("getProfil")
     public ResponseEntity<?> getProfil(@RequestBody AuthRequest authRequest) {
 
-        System.out.println("Profieldaten angefrage " + authRequest.getUsername() + authRequest.getPassword());
+        System.out.println("Profildaten angefragt ");
         authRequest = FilterLogin.filterLogin(authRequest);
 
         User user = repository.findByUserName(authRequest.getUsername());
         if (user != null && passwordEncoder.matches(authRequest.getPassword(), user.getPassword())&& user.isAccess()) {
             UserWithScore userDto = userMapper.entityWithScoreToDto(user);
-            System.out.println("Profieldaten angefrage erfolgreich " + userDto.toString());
+
             return ResponseEntity.ok(userDto);
         } else {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
@@ -125,7 +115,7 @@ public class UserController {
             random.nextBytes(bytes);
             String tempPassword = Base64.getEncoder().encodeToString(bytes);
 
-            // Verschlüssle und speichere das temporäre Passwort
+            // Verschlüsselt und speichert das temporäre Passwort
             user.setPassword(passwordEncoder.encode(tempPassword));
             repository.save(user);
 
@@ -144,18 +134,12 @@ public class UserController {
 
     @PostMapping("/newPw")
     public ResponseEntity<?> newPasswordMail(@RequestBody AuthRequest authRequest) {
-
-
         authRequest = FilterLogin.filterLogin(authRequest);
-
         User user = repository.findByUserName(authRequest.getUsername());
         if (user != null && passwordEncoder.matches(authRequest.getPassword(), user.getPassword())&& user.isAccess()) {
-
-
             // Verschlüssle und speichere das neue Passwort
             user.setPassword(passwordEncoder.encode(authRequest.getAnfrageName()));
             repository.save(user);
-            System.out.println("Password geändert");
             return ResponseEntity.ok().build();
         } else {
             System.out.println("Mail ungültig ");
@@ -163,7 +147,6 @@ public class UserController {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
         }
     }
-
 
     @PostMapping("/changeUserName")
     public ResponseEntity<?> changeUserName(@RequestBody AuthRequest authRequest) {
@@ -185,14 +168,17 @@ public class UserController {
     @PostMapping(path = "/userRegistrieren")
     public ResponseEntity<User> registry(@RequestBody User user) {
         User registryUser = Filter.filterUser(user);
-        System.out.println("Registrierungsanfrage:  " + user.getUserName());
-
 
         String rawPassword = registryUser.getPassword();
         registryUser.setPassword(passwordEncoder.encode(rawPassword));
-        System.out.println("Passwort verschlüsselt:  " + registryUser.getUserName() + registryUser.getPassword());
-
         repository.save(registryUser);
+
+        emailService.sendSimpleMessage(
+                registryUser.getEmail(),
+                "Willkommen bei unserem Quiz",
+                "Willkommen und danke, dass du unserer Community beigetreten bist. Wir wünschen dir viel Spaß und Erfolg "
+        );
+
         return ResponseEntity.ok().build();
     }
 
@@ -205,7 +191,6 @@ public class UserController {
         User user = repository.findByUserName(authRequest.getUsername());
         Teams team = user.getTeam();
         if (user != null && passwordEncoder.matches(authRequest.getPassword(), user.getPassword())&& user.isAccess()) {
-            System.out.println(user.getUserName());
 
             // Überprüfen, ob der Benutzer der Admin eines Teams war
             if (team != null && team.getAdmin().equals(user)) {
@@ -241,12 +226,7 @@ public class UserController {
 
             }
             fragenRepository.saveAll(fragen);
-
-
-
-
             repository.delete(user);
-            System.out.println("gelöscht");
 
             return ResponseEntity.ok().build();
         } else {

@@ -40,18 +40,14 @@ public class TeamController {
     @Autowired
     private BCryptPasswordEncoder passwordEncoder;
 
-
+//Liste aller Teams
     @PostMapping("/getAllTeams")
     public ResponseEntity<?> getAllTeams(@RequestBody AuthRequest authRequest) {
-
-
 
         User user = userRepository.findByUserName(authRequest.getUsername());
         if(authRequest.getAnfrageName()== null)
         {authRequest.setAnfrageName(user.getTeam().getName());}
-        System.out.println("Frage Team ab: " + authRequest.getAnfrageName() +authRequest.getUsername() + authRequest.getPassword());
-
-        System.out.println("User: " + user.getUserName());
+        System.out.println("Frage Teams ab: ");
 
         Iterable<Teams> teams = teamsRepository.findAll();
         Iterable<TeamDTO> teamDTOs = teamMapper.convertToDTO(teams);
@@ -71,9 +67,8 @@ public class TeamController {
         User user = userRepository.findByUserName(authRequest.getUsername());
         if(authRequest.getAnfrageName()== null)
         {authRequest.setAnfrageName(user.getTeam().getName());}
-        System.out.println("Frage Team ab: " + authRequest.getAnfrageName() +authRequest.getUsername() + authRequest.getPassword());
+        System.out.println("Frage Team ab: ");
 
-        System.out.println("User: " + user.getUserName());
         Teams teams = teamsRepository.findByName(authRequest.getAnfrageName());
 
         if (user != null && passwordEncoder.matches(authRequest.getPassword(), user.getPassword())&& user.isAccess()) {
@@ -88,10 +83,9 @@ public class TeamController {
     @Transactional
     public ResponseEntity<?> addUser(@RequestBody AddUserToTeam authRequest) {
 
-//anfrage namen vom team entfernt
+
         User user = userRepository.findByUserName(authRequest.getUsername());
         User newMember = userRepository.findByUserName(authRequest.getNewMember());
-        System.out.println("User: " + user.getUserName());
         Teams team = user.getTeam();
 
         if (user == null) {
@@ -224,10 +218,6 @@ public class TeamController {
             } else {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
         }}
-
-
-
-
 
 }
 
