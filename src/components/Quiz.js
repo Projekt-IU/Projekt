@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import User from './User';
-import styles from './styles/Quiz.css';
+import './styles/Quiz.css';
 import { useLocation, useParams } from 'react-router-dom';
 import NavigationBar from "./NavigationBar";
 
@@ -125,27 +125,51 @@ const Quiz = () => {
     }
 
     const questionBoxClass = `question-box ${feedback === 'Falsch' ? 'incorrect' : ''}`;
-    const answerButtonClass = `answer-button ${feedback === 'Richtig' ? 'correct' : ''} ${selectedAnswer !== null ? 'disabled' : ''}`;
+    const answerButtonClass = `answer-button ${
+        feedback === 'Richtig' ? 'correct' : ''
+    } ${feedback === 'Falsch' ? 'incorrect' : ''} ${
+        selectedAnswer !== null ? 'disabled' : ''
+    }`;
 
     if (questions.length > 0 && questions[currentQuestion]) {
         const question = questions[currentQuestion];
 
         return (
             <div>
-                <NavigationBar/>
+                <NavigationBar />
 
                 <div className="content-container">
                     <h2>Quizfrage {currentQuestion + 1}</h2>
                     <div className={questionBoxClass}>
-                        <h1 className={"Frage"}>{question.frage}</h1>
+                        <h1 className={'Frage'}>{question.frage}</h1>
                     </div>
                     <div className="answer-button-container1">
-                        <button className={answerButtonClass} onClick={() => checkAnswer(1)}>{question.antwortEins}</button>
-                        <button className={answerButtonClass} onClick={() => checkAnswer(2)}>{question.antwortZwei}</button>
+                        <button
+                            className={answerButtonClass}
+                            onClick={() => checkAnswer(1)}
+                        >
+                            {question.antwortEins}
+                        </button>
+                        <button
+                            className={answerButtonClass}
+                            onClick={() => checkAnswer(2)}
+                        >
+                            {question.antwortZwei}
+                        </button>
                     </div>
                     <div className="answer-button-container2">
-                        <button className={answerButtonClass} onClick={() => checkAnswer(3)}>{question.antwortDrei}</button>
-                        <button className={answerButtonClass} onClick={() => checkAnswer(4)}>{question.antwortVier}</button>
+                        <button
+                            className={answerButtonClass}
+                            onClick={() => checkAnswer(3)}
+                        >
+                            {question.antwortDrei}
+                        </button>
+                        <button
+                            className={answerButtonClass}
+                            onClick={() => checkAnswer(4)}
+                        >
+                            {question.antwortVier}
+                        </button>
                     </div>
                     {feedback && <p>{feedback}</p>}
                     <button className={'next-button'} onClick={moveToNextQuestion}>
