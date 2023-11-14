@@ -32,7 +32,7 @@ public class Filter {
         filteredUser.setEmail(filteredEmail);
         filteredUser.setPassword(filteredPassword);
         filteredUser.setCourseOfStudy(filteredCourseOfStudy);
-        filteredUser.setMatrikelNr(user.getMatrikelNr()); // Übernimm die Matrikelnummer
+        filteredUser.setMatrikelNr(user.getMatrikelNr());
 
         return filteredUser;
     }

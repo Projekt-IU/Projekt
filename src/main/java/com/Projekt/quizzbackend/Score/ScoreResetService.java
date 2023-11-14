@@ -14,14 +14,14 @@ import org.springframework.stereotype.Service;
 public class ScoreResetService {
 
     @Autowired
-    private UserRepository userRepository;  // Ihr UserRepository
+    private UserRepository userRepository;  //  UserRepository
 
     @Autowired
-    private TeamsRepository teamsRepository;  // Ihr TeamsRepository
+    private TeamsRepository teamsRepository;  //  TeamsRepository
 
     @Scheduled(cron = "0 0 0 * * MON")  // Jeden Montag um Mitternacht
     public void resetWeeklyScores() {
-        Iterable<User> allUsers = userRepository.findAll();  // oder Ihre Methode zum Abrufen aller Benutzer
+        Iterable<User> allUsers = userRepository.findAll();  //  Methode zum Abrufen aller Benutzer
 
         for (User user : allUsers) {
             ScoreUser score = user.getScoreUser();
@@ -34,7 +34,7 @@ public class ScoreResetService {
 
     @Scheduled(cron = "0 0 0 1 * *")  // Jeden ersten Tag des Monats um Mitternacht
     public void resetMonthlyScores() {
-        Iterable<User> allUsers = userRepository.findAll();  // oder Ihre Methode zum Abrufen aller Benutzer
+        Iterable<User> allUsers = userRepository.findAll();  // Methode zum Abrufen aller Benutzer
 
         for (User user : allUsers) {
             ScoreUser score = user.getScoreUser();
