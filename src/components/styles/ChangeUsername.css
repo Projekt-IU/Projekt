@@ -6,6 +6,7 @@
 }
 
 .changeusername-container h1 {
+    margin-top: 55px;
     font-size: 24px;
     margin-bottom: 20px;
     text-align: center; /* Zentriert den Titel */
@@ -23,12 +24,12 @@
 }
 
 .changeusername-container input[type="text"] {
-    width: 500px;
+    width: 20%;
     align-self: center;
     padding: 10px;
     font-size: 16px;
     border: 1px solid #ccc;
-    border-radius: 5px;
+    border-radius: 10px;
     margin-top: 10px;
 }
 
@@ -39,7 +40,7 @@
     padding: 10px;
     font-size: 16px;
     border: 1px solid #ccc;
-    border-radius: 5px;
+    border-radius: 10px;
     margin-top: 5px;
 }
 

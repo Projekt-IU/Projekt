@@ -1,20 +1,13 @@
 /* Quiz.css */
 
-/* Stil für den gesamten Quiz-Container */
-.quiz-container {
-    margin: 20px; /* Zentriert den Container auf der Seite */
-    padding: 20px;
-    border: 2px solid #009688; /* Rahmen um den Container */
-    border-radius: 15px; /* Runde Ecken */
-}
-
 /* Stil für die Fragebox */
 .question-box {
-    background-color: #969595; /* Hintergrundfarbe für die Fragebox */
-    color: #030202; /* Textfarbe für die Frage */
+    align-conten: center;
+    width:100%;
+    background-color: #cbcbcb; /* Hintergrundfarbe für die Fragebox */
+    color: #ffffff; /* Textfarbe für die Frage */
     border: 2px solid #000000;
     border-radius: 10px; /* Runde Ecken */
-    align-self: center;
     margin-bottom: 15px; /* Abstand zwischen Frage und Antwortboxen */
 }
 
@@ -36,15 +29,33 @@
 }
 
 .answer-button {
+    font-weight: bold;
+    font-size: 16px;
     width: calc(50% - 5px); /* Breite auf 50% des Containers, Abstand zwischen den Buttons abziehen */
-    background-color: #fff;
-    color: #000000;
+    background-color: #c5c5c5;
+    color: #ffffff;
     border: 1px solid #000000;
     border-radius: 15px;
     padding: 10px;
     text-align: center;
     cursor: pointer;
     transition: background-color 0.3s;
+}
+
+/* Hintergrundfarbe für die richtige Antwort */
+.answer-button.correct {
+    background-color: #4CAF50; /* Grün */
+    color: #fff;
+}
+
+/* Hintergrundfarbe für die falsche Antwort */
+.answer-button.incorrect {
+    background-color: #FF5733; /* Rot */
+    color: #fff;
+}
+
+.answer-button:hover {
+    background: #007acc;
 }
 .Frage {
     text-align: center;
@@ -82,6 +93,6 @@
 
 /* Deaktivierter Stil für Antwortbuttons */
 .answer-button.disabled {
-    pointer-events: none; /* Verhindert Klicks auf deaktivierte Buttons */
+    pointer-events: none;
     opacity: 0.8; /* Reduziert die Deckkraft deaktivierter Buttons */
 }

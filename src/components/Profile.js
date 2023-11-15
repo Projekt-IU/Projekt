@@ -170,7 +170,7 @@ const Profile = () => {
                     </div>
 
                 </div>
-                <div className="centered-content">
+                <div className="button-content">
                     {/* Knopf zum Ändern des Passworts */}
                     <button onClick={() => window.location.href = '/changePassword'}>
                         Passwort ändern
