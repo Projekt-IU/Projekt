@@ -18,7 +18,9 @@ const NavigationBar = () => {
 
     const handleLogout = () => {
         // Führe hier die User.logout() Funktion aus, um den Benutzer auszuloggen
+     
         User.logout();
+       
         // Nach dem Ausloggen kannst du zur Login-Seite oder zur Startseite weiterleiten
         window.location.href = '/login'; // Beispiel für eine Login-Seite
     };

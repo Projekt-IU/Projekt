@@ -106,6 +106,7 @@ const Profile = () => {
         }
     };
 
+        if (User.loggedIn) {
     return (
         <div>
             <NavigationBar/>
@@ -186,6 +187,11 @@ const Profile = () => {
             </div>
         </div>
     );
+        } else {
+            // Benutzer ist nicht angemeldet, Anmeldeformular anzeigen
+            return  window.location.href = '/login';
+        }
+
 };
 
 export default Profile;

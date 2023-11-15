@@ -58,7 +58,7 @@ class Login extends Component {
             });
 
 
-        console.log('Anmeldung mit:', username, password);
+    
 
     };
 

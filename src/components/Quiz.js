@@ -129,7 +129,7 @@ const Quiz = () => {
 
     if (questions.length > 0 && questions[currentQuestion]) {
         const question = questions[currentQuestion];
-
+        if (User.loggedIn) {
         return (
             <div>
                 <NavigationBar/>
@@ -160,6 +160,12 @@ const Quiz = () => {
     } else {
         return <p>Frage wird geladen...</p>;
     }
+
+    }  if (!User.loggedIn)  {
+        // Benutzer ist nicht angemeldet, Anmeldeformular anzeigen
+        return  window.location.href = '/login';
+    }
+        
 };
 
 export default Quiz;
