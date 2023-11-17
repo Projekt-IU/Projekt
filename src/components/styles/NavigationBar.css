@@ -1,14 +1,12 @@
-/* styles/NavigationBar.css */
-
 .navbar {
     background-color: #333;
     color: #fff;
     display: flex;
     justify-content: space-around;
-    width: 100%; /* Setzt die Breite auf 100% des Viewports */
-    position: fixed; /* Damit bleibt die Navigationsleiste oben fixiert */
-    top: 0; /* Oben an der Seite positionieren */
-    z-index: 999; /* Damit bleibt die Navigationsleiste über anderen Elementen */
+    width: 100%;
+    position: fixed;
+    top: 0;
+    z-index: 999;
     padding: 10px;
 }
 
