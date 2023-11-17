@@ -10,10 +10,10 @@ import TeamPage from "../components/TeamPage";
 import ChangePassword from "../components/ChangePassword";
 import ChangeUsername from "../components/ChangeUsername";
 import Registrierung from "../components/Registrierung";
-import ChatEinbindungExample from "../components/ChatEinbindungExample";
 import Quiz from "../components/Quiz";
 import QuizSelection from "../components/QuizSelection";
 import FragenErstellen from "../components/FragenErstellen";
+import Datenschutzbestimmung from "../components/Datenschutzbestimmung";
 
 const AppRoutes = () => {
     return (
@@ -28,11 +28,10 @@ const AppRoutes = () => {
             <Route path="/ChangePassword" element={<ChangePassword />} />
             <Route path="/ChangeUsername" element={<ChangeUsername />} />
             <Route path="/Registrierung" element={<Registrierung />} />
-            <Route path="/ChatEinbindungExample" element={<ChatEinbindungExample />} />
-            <Route path="/QuizSelection" element={<QuizSelection />} /> {/* Neue Route für QuizSelection hinzufügen */}
-            <Route path="/Quiz/:selectedModule" element={<Quiz />} /> {/* Dynamische Route für Quiz mit selectedModule */}
-                <Route path="/FragenErstellen" element={< FragenErstellen />}/>
-            {/* Hier können Sie Routen für andere Seiten hinzufügen */}
+            <Route path="/QuizSelection" element={<QuizSelection />} />
+            <Route path="/Quiz/:selectedModule" element={<Quiz />} />
+            <Route path="/FragenErstellen" element={< FragenErstellen />}/>
+            <Route path="/Datenschutzbestimmung" element={< Datenschutzbestimmung />}/>
         </Routes>
     );
 };

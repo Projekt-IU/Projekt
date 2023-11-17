@@ -10,11 +10,11 @@
 .team-info-box, .team-members-list, .admin-controls, .chat-component {
     border: 1px solid #ddd;
     padding: 20px;
-    margin: 5px 0; /* Verringerte obere und untere Ränder */
+    margin: 5px 0;
     text-align: center;
     border-radius: 5px;
     background-color: #fff;
-    width: 50%; /* Alle gleich breit */
+    width: 50%;
 }
 
 .team-members-table {
@@ -45,10 +45,10 @@
 }
 
 .chat-component {
-    width: 50%; /* Vollständige Breite verwenden */
+    width: 50%;
     border: 1px solid #ddd;
     padding: 10px;
     border-radius: 5px;
     background-color: #fff;
-    margin-top: 10px; /* Geringerer oberer Rand */
+    margin-top: 10px;
 }

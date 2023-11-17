@@ -5,6 +5,8 @@ import axios from "axios";
 import User from "./User";
 import NavigationBar from './NavigationBar';
 
+//Holt Daten aus UserSession
+User.loadFromSession();
 const Profile = () => {
     const [profileData, setProfileData] = useState({
         firstName: '',
@@ -70,14 +72,14 @@ const Profile = () => {
             });
     }, []);
 
-    // Function to format the date as "Tag.Monat.Jahr"
+    // Formatiere Datum zu "Tag.Monat.Jahr"
     const formatDate = (dateString) => {
         const options = { day: '2-digit', month: '2-digit', year: 'numeric' };
         const date = new Date(dateString);
         return date.toLocaleDateString('de-DE', options);
     };
 
-    // Function to handle account deletion
+    // Funktion um Account zu löschen
     const handleDeleteAccount = async () => {
         const confirmDelete = window.confirm("Möchten Sie Ihren Account wirklich löschen?");
 
@@ -92,8 +94,6 @@ const Profile = () => {
                 });
 
                 if (response.status === 200) {
-                    // Hier kannst du den Benutzer ausloggen oder eine entsprechende Aktion durchführen.
-                    // Zum Beispiel: window.location.href = '/logout';
                     alert("Account wurde erfolgreich gelöscht.");
                     window.location.href = '/';
                 } else {
@@ -164,7 +164,7 @@ const Profile = () => {
                                 <Link to="/RankingTeam">Zu den Rankings Team</Link>
                             </p>
                             <p>
-                                <Link to="/QuizSelection">Quiz</Link>
+                                <Link to="/Datenschutzbestimmung">Datenschutzbestimmung</Link>
                             </p>
                         </div>
                     </div>

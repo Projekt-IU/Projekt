@@ -110,14 +110,14 @@ const Quiz = () => {
         return (
             <div>
                 <NavigationBar/>
-                <h1>Quiz beendet</h1>
+                <h1 className={"QuizFinished"}>Quiz beendet</h1>
                 <p>{correctAnswers}/{questions.length} Fragen richtig beantwortet</p>
                 {quizEnded ? (
                     <button onClick={() => window.location.href = '/'}>Quizmodus beenden</button>
                 ) : (
-                    <div>
-                        <button onClick={() => window.location.href = '/QuizSelection'}>Neues Quiz starten</button>
-                        <button onClick={() => window.location.href = '/Profile'}>Quiz beenden</button>
+                    <div className={"ButtonQuizContainer"}>
+                        <button className={"ButtonQuizFinished"} onClick={() => window.location.href = '/QuizSelection'}>Neues Quiz starten</button>
+                        <button className={"ButtonQuizFinished"} onClick={() => window.location.href = '/Profile'}>Quiz beenden</button>
                     </div>
                 )}
             </div>
