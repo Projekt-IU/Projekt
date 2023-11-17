@@ -12,7 +12,6 @@ const Datenschutzbestimmung = () => {
                 Wir nehmen den Schutz deiner personenbezogenen Daten sehr ernst. In dieser Erklärung erfährst du, wie wir deine
                 Daten erfassen, verwenden, weitergeben und schützen.
             </p>
-
             <h2>1. Datenerhebung</h2>
             <p>
                 Wir erheben personenbezogene Daten, die du uns freiwillig zur Verfügung stellst. Dazu gehören in der Regel
@@ -21,9 +20,7 @@ const Datenschutzbestimmung = () => {
 
             <h2>2. Verwendungszweck</h2>
             <p>
-                Die von dir bereitgestellten Daten werden für folgende Zwecke verwendet: [Hier kannst du die konkreten Zwecke
-                angeben, z. B. um dir Zugang zu bestimmten Funktionen unserer Webseite zu ermöglichen, um deine Anfragen zu
-                bearbeiten, etc.].
+                Die von dir bereitgestellten Daten werden für folgende Zwecke verwendet: Anzeige in der Ranking Tabelle, Anzeige in der Mitgliederliste und im TeamChat.
             </p>
 
             <h2>3. Datenweitergabe an Dritte</h2>
