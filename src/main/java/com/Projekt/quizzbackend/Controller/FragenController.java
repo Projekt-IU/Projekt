@@ -64,7 +64,7 @@ public class FragenController {
             fragenRepository.save(fragen);  // Speichern der Frage
 
 
-            return ResponseEntity.ok().build();
+            return  ResponseEntity.status(HttpStatus.OK).body("Frage erstellt");
 
         } else {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
