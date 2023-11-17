@@ -52,3 +52,18 @@
     background-color: #fff;
     margin-top: 10px;
 }
+
+.badges-container {
+    margin-top: 20px;
+    text-align: center;
+}
+
+.badge {
+    display: inline-block;
+    margin: 5px;
+    padding: 10px;
+    background-color: #f0f0f0;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    /* Fügen Sie hier weitere Styles für Ihre Badges hinzu */
+}

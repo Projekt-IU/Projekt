@@ -56,9 +56,6 @@ class Login extends Component {
 
             });
 
-
-    
-
     };
 
 
