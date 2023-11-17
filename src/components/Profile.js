@@ -166,6 +166,11 @@ const Profile = () => {
                             <p>
                                 <strong>Fragen Gesamt:</strong> {profileData.fragenGesamt}
                             </p>
+                            <h2 className='ueberschrift'>Badges
+                            </h2>
+                            <p>
+                                Hier werden die Badges angezeigt
+                            </p>
                         </div>
                     </div>
 
