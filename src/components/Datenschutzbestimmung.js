@@ -1,8 +1,12 @@
 import React from 'react';
+import NavigationBar from "./NavigationBar";
+import './styles/Datenschutzbestimmung.css';
 
 const Datenschutzbestimmung = () => {
     return (
-        <div>
+        <div className={"NavData"}>
+            <NavigationBar/>
+        <div className={"Daten"}>
             <h1>Verwendung von personenbezogenen Daten</h1>
             <p>
                 Wir nehmen den Schutz deiner personenbezogenen Daten sehr ernst. In dieser Erklärung erfährst du, wie wir deine
@@ -48,6 +52,7 @@ const Datenschutzbestimmung = () => {
             </p>
 
             <p>Letzte Aktualisierung: 12.11.2023</p>
+        </div>
         </div>
     );
 };

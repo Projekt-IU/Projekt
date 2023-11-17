@@ -6,7 +6,7 @@ class User {
         this.lastName = null;
         this.loggedIn = false;
         this.password = null;
-        this.teamName = null
+        this.teamName =null
     }
 
 
@@ -51,17 +51,14 @@ class User {
     }
 
     logout() {
-        this.userId = 0;
+        this.userId = null;
         this.username = null;
         this.firstName = null;
         this.lastName = null;
         this.loggedIn = false;
-        this.password = null;
-        this.teamName = null;
         sessionStorage.removeItem('user');
-
-
     }
 }
+
 // eslint-disable-next-line import/no-anonymous-default-export
 export default new User();
