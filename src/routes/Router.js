@@ -14,6 +14,7 @@ import Quiz from "../components/Quiz";
 import QuizSelection from "../components/QuizSelection";
 import FragenErstellen from "../components/FragenErstellen";
 import Datenschutzbestimmung from "../components/Datenschutzbestimmung";
+import TeamErstellung from "../components/TeamErstellung";
 
 const AppRoutes = () => {
     return (
@@ -32,6 +33,8 @@ const AppRoutes = () => {
             <Route path="/Quiz/:selectedModule" element={<Quiz />} />
             <Route path="/FragenErstellen" element={< FragenErstellen />}/>
             <Route path="/Datenschutzbestimmung" element={< Datenschutzbestimmung />}/>
+                <Route path="/TeamErstellung" element={< TeamErstellung />}/>
+
         </Routes>
     );
 };

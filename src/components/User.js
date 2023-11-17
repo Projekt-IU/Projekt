@@ -58,6 +58,11 @@ class User {
         this.loggedIn = false;
         sessionStorage.removeItem('user');
     }
+
+    updateTeamname(newTeamName) {
+        this.teamName = newTeamName;
+        this.saveToSession();
+    }
 }
 
 // eslint-disable-next-line import/no-anonymous-default-export

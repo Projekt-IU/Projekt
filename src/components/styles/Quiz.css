@@ -55,7 +55,7 @@
     cursor: pointer;
     transition: background-color 1.1s;
     margin-right: 30px;
-    width: 10%; /* Definierte Breite */
+    width: 15%; /* Definierte Breite */
     font-size: 16px;
     margin-top: 20px; /* Abstand zwischen den Buttons */
     display: inline-block; /* Macht den Button in-line, aber behält Block-Eigenschaften bei */

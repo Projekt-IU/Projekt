@@ -35,9 +35,7 @@ const TeamPage = () => {
                 password: User.password,
                 anfrageName: teamName
             });
-            console.log(response.data);
             setTeamInfo(response.data);
-            console.log(teamName);
             setIsLoading(false);
         } catch (error) {
             console.error('Error fetching team information:', error);
@@ -59,6 +57,7 @@ const TeamPage = () => {
 
             if (response.status === 200) {
                 alert('Das Team wurde erfolgreich gelöscht.');
+                User.updateTeamname(null);
                 window.location.href = '/Profile';
             } else {
                 alert('Team konnte nicht gelöscht werden.');

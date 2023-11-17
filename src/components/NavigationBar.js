@@ -5,7 +5,7 @@ import User from './User'
 const NavigationBar = () => {
     //Inhalte der NavigationsLeiste
     const [links] = useState([
-        { text: 'Home', url: '/' },
+        { text: 'Team', url: '/TeamErstellung' },
         { text: 'Quiz starten', url: '/QuizSelection' },
         { text: 'Quizfrage erstellen', url: '/FragenErstellen' },
         { text: 'Ranking Tabelle', url: '/RankingUser' },

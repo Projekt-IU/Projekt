@@ -161,9 +161,6 @@ const Profile = () => {
                                 <strong>Teamname:</strong> <Link to="/TeamPage">{profileData.teamName}</Link>
                             </p>
                             <p>
-                                <Link to="/RankingTeam">Zu den Rankings Team</Link>
-                            </p>
-                            <p>
                                 <Link to="/Datenschutzbestimmung">Datenschutzbestimmung</Link>
                             </p>
                         </div>

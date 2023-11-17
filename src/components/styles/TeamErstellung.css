@@ -1,0 +1,67 @@
+/* Container für das gesamte Formular */
+.team-erstellung-container {
+    max-width: 500px;
+    margin: 50px auto;
+    padding: 20px;
+    background-color: #f7f7f7;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Stil für Überschriften */
+.team-erstellung-header {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #333;
+    font-size: 24px;
+}
+
+/* Stil für Eingabefelder */
+.team-erstellung-input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+/* Stil für Dropdown-Liste */
+.team-erstellung-select {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    background-color: white;
+}
+
+/* Gemeinsamer Stil für Buttons */
+.team-erstellung-button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-right: 10px;
+    transition: background-color 0.3s;
+}
+
+/* Spezifischer Stil für den "Erstellen"-Button */
+.team-erstellung-create-button {
+    background-color: #007bff;
+    color: white;
+}
+
+.team-erstellung-create-button:hover {
+    background-color: #0056b3;
+}
+
+/* Spezifischer Stil für den "Abbrechen"-Button */
+.team-erstellung-cancel-button {
+    background-color: #dc3545;
+    color: white;
+}
+
+.team-erstellung-cancel-button:hover {
+    background-color: #c82333;
+}
