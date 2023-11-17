@@ -31,6 +31,7 @@ class FragenErstellen extends Component {
 
     handleChange = (e) => {
         this.setState({ [e.target.name]: e.target.value });
+
     };
 
     handleSubmit = (e) => {
@@ -47,13 +48,14 @@ class FragenErstellen extends Component {
             })
             .catch(error => {
                 console.error("erstellen fehlgeschlagen", error);
+
                 this.setState({ error: " fehlgeschlagen" });
             });
     };
 
     render() {
         if (this.state.frageErstellt) {
-            return <Navigate to="/FragenErstellen" />
+            return window.location.reload();
         }
 
         return (
