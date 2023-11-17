@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import './styles/ChangePassword.css'; // Importiere die CSS-Datei
+import './styles/ChangePassword.css';
 import User from "./User";
 import NavigationBar from "./NavigationBar";
 
@@ -35,7 +35,7 @@ const ChangePassword = () => {
             return;
         }
 
-        // Ersetze 'YOUR_API_ENDPOINT' durch den tatsächlichen API-Endpunkt auf deinem Backend.
+        // Api Backend URL
         const apiEndpoint = 'http://localhost:8080/api/newPw';
 
         try {

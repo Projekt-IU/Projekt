@@ -1,4 +1,4 @@
-import React, {Component, useEffect} from 'react';
+import React, {Component} from 'react';
 import './styles/FragenErstellen.css';
 import axios from "axios";
 import { Navigate } from "react-router-dom";

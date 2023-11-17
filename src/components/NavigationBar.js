@@ -22,7 +22,7 @@ const NavigationBar = () => {
         User.logout();
        
         // Nach dem Ausloggen kannst du zur Login-Seite oder zur Startseite weiterleiten
-        window.location.href = '/login'; // Beispiel für eine Login-Seite
+        window.location.href = '/'; // Beispiel für eine Login-Seite
     };
 
     return (
