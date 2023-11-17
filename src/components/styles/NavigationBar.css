@@ -18,3 +18,23 @@
 .navbar-item:hover {
     color: #ff9900;
 }
+
+.footer {
+    color: #fff;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    background-color: #333;
+    text-align: right;
+    padding: 10px 0;
+}
+
+.footer-item {
+    display: inline;
+    cursor: pointer;
+    margin-right: 30px;
+}
+
+.footer-item:hover {
+    color: #ff9900;
+}

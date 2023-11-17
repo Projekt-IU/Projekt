@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import './styles/NavigationBar.css';
-import User from './User'
+import User from './User';
 
 const NavigationBar = () => {
-    //Inhalte der NavigationsLeiste
+    // Inhalte der Navigationsleiste
     const [links] = useState([
         { text: 'Team', url: '/TeamErstellung' },
         { text: 'Quiz starten', url: '/QuizSelection' },
@@ -18,29 +18,37 @@ const NavigationBar = () => {
 
     const handleLogout = () => {
         User.logout();
-       
-        // Weiterleitung auf Startseite nach Logout
-        window.location.href = '/';
+        window.location.href = '/'; // Weiterleitung auf Startseite nach Logout
     };
 
     return (
-        <div className="navbar">
-            {links.map((link, index) => (
+        <>
+            <div className="navbar">
+                {links.map((link, index) => (
+                    <div
+                        key={index}
+                        className="navbar-item"
+                        onClick={() => handleNavigation(link.url)}
+                    >
+                        {link.text}
+                    </div>
+                ))}
                 <div
-                    key={index}
                     className="navbar-item"
-                    onClick={() => handleNavigation(link.url)}
+                    onClick={handleLogout}
                 >
-                    {link.text}
+                    Logout
                 </div>
-            ))}
-            <div
-                className="navbar-item"
-                onClick={handleLogout}
-            >
-                Logout
             </div>
-        </div>
+            <footer className="footer">
+                <div className="footer-item" onClick={() => handleNavigation('/Datenschutzbestimmung')}>
+                    Datenschutzbestimmungen
+                </div>
+                <div className="footer-item" onClick={() => handleNavigation('/Impressum')}>
+                    Impressum
+                </div>
+            </footer>
+        </>
     );
 };
 

@@ -116,6 +116,9 @@ const Profile = () => {
                 <h1>Dein Profil</h1>
                 <div className="profile-details">
                     <div className="profile-info">
+                        <h2 className="ueberschrift">
+                            Anmeldeinfos
+                        </h2>
                         <p>
                             <strong>Vorname:</strong> {profileData.firstName}
                         </p>
@@ -137,11 +140,17 @@ const Profile = () => {
                         <p>
                             <strong>Registrierungsdatum:</strong> {profileData.registrationDate}
                         </p>
+                        <p>
+                            <strong>Teamname:</strong> <Link to="/TeamPage">{profileData.teamName}</Link>
+                        </p>
 
                     </div>
                     <div className="profile-stats">
                         {/* Center contents of profile-stats */}
                         <div className="centered-content">
+                            <h2 className="ueberschrift">
+                                Ranking
+                            </h2>
                             <p>
                                 <strong>Punktestand gesamt:</strong> {profileData.totalScore}
                             </p>
@@ -156,12 +165,6 @@ const Profile = () => {
                             </p>
                             <p>
                                 <strong>Fragen Gesamt:</strong> {profileData.fragenGesamt}
-                            </p>
-                            <p>
-                                <strong>Teamname:</strong> <Link to="/TeamPage">{profileData.teamName}</Link>
-                            </p>
-                            <p>
-                                <Link to="/Datenschutzbestimmung">Datenschutzbestimmung</Link>
                             </p>
                         </div>
                     </div>

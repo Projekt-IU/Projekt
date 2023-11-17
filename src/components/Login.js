@@ -35,7 +35,6 @@ class Login extends Component {
                     const { userID, userName, firstName, lastName,teamName } = response.data;
                     User.login(userID, userName, firstName, lastName, password,teamName); // Benutzer einloggen
                     User.saveToSession();
-                    console.log(User);
                     this.setState({ error: 'Login erfolgreich' });
                     this.setState({ loggedIn: true, user: username }); //Status auf eingeloggt
 
