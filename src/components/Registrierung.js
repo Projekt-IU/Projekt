@@ -57,7 +57,8 @@ class Registrierung extends Component {
 
         // Frontend
         return (
-            <div className="registrierung centered-container">
+            <div className={"registrierung"}>
+            <div className="centered-container">
                 <div className="register-box">
                     <h2>Registrierung</h2>
                     <form onSubmit={this.handleSubmit}>
@@ -157,6 +158,7 @@ class Registrierung extends Component {
                     {this.state.error && <p className="error-message">{this.state.error}</p>}
                 </div>
             </div>
+                </div>
         );
     }
 }

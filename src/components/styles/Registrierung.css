@@ -4,11 +4,13 @@
     align-items: center;
     height: 100vh;
     background-color: #f5f5f5;
+    width: 100%;
 }
 
 .registrierung .register-box {
     background-color: #ffffff;
     padding: 20px;
+    margin-left: 100px;
     border-radius: 10px;
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
     width: 500px; /* Sie können die Breite nach Bedarf anpassen */
