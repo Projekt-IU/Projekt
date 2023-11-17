@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import styles from './styles/Registrierung.css';
 import axios from "axios";
 import { Navigate } from "react-router-dom";
-import User from "./User";
 
 class Registrierung extends Component {
     constructor() {
@@ -35,7 +34,6 @@ class Registrierung extends Component {
             return;  // Beenden der Funktion, da die Passwörter nicht übereinstimmen
         }
 
-        // Axios URL noch ändern!
         axios.post('http://localhost:8080/api/userRegistrieren', { userName, firstName, lastName, courseOfStudy, email, matrikelNr, password })
             .then(response => {
                 if (response.status === 200) {
@@ -153,7 +151,7 @@ class Registrierung extends Component {
                                 onChange={this.handleChange}
                             />
                         </div>
-                        <button type="submit">Registrieren</button>  {/* Hinzufügen einer Schaltfläche zum Absenden des Formulars */}
+                        <button type="submit">Registrieren</button>  {}
                     </form>
                     {this.state.error && <p className="error-message">{this.state.error}</p>}
                 </div>
