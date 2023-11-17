@@ -197,6 +197,8 @@ public class UserController {
                 // Einen neuen Admin finden oder das Team löschen
                 List<User> remainingMembers = team.getMembers();
                 remainingMembers.remove(user);
+                user.setTeam(null);
+                repository.delete(user);
 
                 if (!remainingMembers.isEmpty()) {
                     // Einen neuen Admin zufällig zuweisen
@@ -206,6 +208,8 @@ public class UserController {
                 } else {
                     // Das Team löschen, wenn keine Mitglieder mehr übrig sind
                     teamsRepository.delete(team);
+
+
                 }
             }
 

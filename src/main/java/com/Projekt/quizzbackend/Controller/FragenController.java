@@ -57,7 +57,6 @@ public class FragenController {
     public ResponseEntity<?> FrageErstellen(@RequestBody FrageErstellen frageErstellen) {
         User user = userRepository.findByUserName(frageErstellen.getUsername());
         System.out.println("Anfrage zum erstellen einer Frage: ") ;
-
         if (user != null && passwordEncoder.matches(frageErstellen.getPassword(), user.getPassword())&& user.isAccess()) {
             frageErstellen.setUser(user);
             Fragen fragen = FragenMapper.toEntity(frageErstellen);  // Stellen Sie sicher, dass der Mapper die User-ID setzt
@@ -74,7 +73,7 @@ public class FragenController {
 //Frage holen
     @PostMapping("/frageHolen")
     public ResponseEntity<?> FrageHolen(@RequestBody FrageHolen frageHolen) {
-        System.out.println(frageHolen.toString());
+
         User user = userRepository.findByUserName(frageHolen.getUsername());
 
         if (user != null && passwordEncoder.matches(frageHolen.getPassword(), user.getPassword())&& user.isAccess()) {
