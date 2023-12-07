@@ -97,7 +97,7 @@ public class UserController {
         }
     }
 
-    @PostMapping("/forgotPw")
+    @PostMapping("/forgotpw")
     public ResponseEntity<Mail> mail(@RequestBody Mail email) {
         System.out.println("PW vergessen:  " + email);
 
@@ -123,7 +123,8 @@ public class UserController {
             emailService.sendSimpleMessage(
                     email.getEmail(),
                     "Ihr temporäres Passwort",
-                    "Ihr temporäres Passwort lautet: " + tempPassword
+                    "Hallo " + user.getUserName() + ",  \n" +
+                            "\n Ihr temporäres Passwort lautet: " + tempPassword
             );
 
             return ResponseEntity.ok().build();
