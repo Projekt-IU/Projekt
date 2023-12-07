@@ -1,5 +1,6 @@
 package com.Projekt.quizzbackend.Controller;
 
+import com.Projekt.quizzbackend.Dao.ChatRepository;
 import com.Projekt.quizzbackend.Dao.DTO.TeamMapper;
 import com.Projekt.quizzbackend.Dao.DTO.Templates.AddUserToTeam;
 import com.Projekt.quizzbackend.Dao.DTO.Templates.DropUserTeam;
@@ -7,6 +8,7 @@ import com.Projekt.quizzbackend.Dao.DTO.Templates.NewTeamDTO;
 import com.Projekt.quizzbackend.Dao.DTO.Templates.TeamDTO;
 import com.Projekt.quizzbackend.Dao.TeamsRepository;
 import com.Projekt.quizzbackend.Dao.UserRepository;
+import com.Projekt.quizzbackend.Team.Chat;
 import com.Projekt.quizzbackend.Team.Teams;
 import com.Projekt.quizzbackend.User.Login.AuthRequest;
 import com.Projekt.quizzbackend.User.User;
@@ -20,12 +22,15 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 
 @RestController
 @RequestMapping("/api/Team")
 
 public class TeamController {
-
+    @Autowired
+    private ChatRepository chatRepository;
     @Autowired
     private TeamMapper teamMapper;
     @Autowired
@@ -101,12 +106,15 @@ public class TeamController {
         }
 
         if (user != null && passwordEncoder.matches(authRequest.getPassword(), user.getPassword())&& user.isAccess()) {
-            newMember.setTeam(team);
-            userRepository.save(newMember);
-            return ResponseEntity.ok().build();
-        } else {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
+            if(newMember.getTeam() ==null) {
+                newMember.setTeam(team);
+                userRepository.save(newMember);
+                return ResponseEntity.ok().build();
+            } else if (newMember.getTeam() != null){ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("User Bereits in einem Team");
+
         }
+    }
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
     }
     @PostMapping("/newTeam")
     @Transactional
@@ -144,16 +152,21 @@ public class TeamController {
     @Transactional
     public ResponseEntity<?> dropTeam(@RequestBody AuthRequest authRequest) {
         User user = userRepository.findByUserName(authRequest.getUsername());
-
+        System.out.println("Test1");
         if (user != null && passwordEncoder.matches(authRequest.getPassword(), user.getPassword())&& user.isAccess()) {
             if (user.getTeam() != null)
             {
                 Teams team = user.getTeam();
-
-                for (User userTeam : team.getMembers()) {
+                System.out.println("Test2");
+                List<User> TeamMembers = team.getMembers();
+                System.out.println("Test3" + TeamMembers);
+                for (User userTeam : TeamMembers) {
                     userTeam.setTeam(null);
                     userRepository.save(user);
                 }
+
+                List<Chat> chatForDel = chatRepository.findAllByTeam(team);
+                chatRepository.deleteAll(chatForDel);
 
                 teamsRepository.delete(team);
                 return ResponseEntity.ok().build();
