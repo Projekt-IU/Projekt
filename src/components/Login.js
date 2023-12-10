@@ -28,7 +28,7 @@ class Login extends Component {
         // Hier können Sie die Anmeldelogik implementieren und Daten an den Server senden
         const { username, password } = this.state;
 
-        axios.post('http://localhost:8080/api/login', { username, password })
+        axios.post('http://16.170.229.65:8080/api/login', { username, password })
             .then(response => {
                 // Wenn die Anmeldung erfolgreich ist, können Sie den Benutzer weiterleiten oder andere Aktionen ausführen
                 if (response.data) {
@@ -64,7 +64,7 @@ class Login extends Component {
     };
 
     handleSendEmail = () => {
-        axios.post('http://localhost:8080/api/forgotpw', { email: this.state.email })
+        axios.post('http://16.170.229.65:8080/api/forgotpw', { email: this.state.email })
             .then(response => {
                 alert('E-Mail gesendet');
                 this.setState({ showForgotPasswordDialog: false });

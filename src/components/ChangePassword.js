@@ -36,7 +36,7 @@ const ChangePassword = () => {
         }
 
         // Api Backend URL
-        const apiEndpoint = 'http://localhost:8080/api/newPw';
+        const apiEndpoint = 'http://16.170.229.65:8080/api/newPw';
 
         try {
             const response = await axios.post(apiEndpoint, {

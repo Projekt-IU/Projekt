@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import User from './User';
 import NavigationBar from "./NavigationBar";
+import "./styles/TeamRanking.css"
 
 const RankingTeam = () => {
     const [activeTab, setActiveTab] = useState('total');
@@ -15,7 +16,7 @@ const RankingTeam = () => {
 
     const fetchRankingData = async () => {
         try {
-            const response = await axios.post('http://localhost:8080/api/score/getScoreTeamList', {
+            const response = await axios.post('http://16.170.229.65:8080/api/score/getScoreTeamList', {
                 username: User.username,
                 password: User.password,
                 anfrageName: 'all',
@@ -26,8 +27,24 @@ const RankingTeam = () => {
         }
     };
 
+    const sortRankingData = () => {
+        let sortedData = [...rankingData];
+        if (activeTab === 'monthly') {
+            sortedData.sort((a, b) => b.punkteMonat - a.punkteMonat);
+        } else if (activeTab === 'weekly') {
+            sortedData.sort((a, b) => b.punkteWoche - a.punkteWoche);
+        } else {
+            sortedData.sort((a, b) => b.punkteGesamt - a.punkteGesamt);
+        }
+        setRankingData(sortedData);
+    };
+
     useEffect(() => {
         fetchRankingData();
+    }, []);
+
+    useEffect(() => {
+        sortRankingData();
     }, [activeTab]);
 
     useEffect(() => {
@@ -73,7 +90,7 @@ const RankingTeam = () => {
                     </thead>
                     <tbody>
                     {rankingData.slice(0, 15).map((user, index) => (
-                        <tr key={index} className={user.name === User.teamName ? 'user-team' : ''}>
+                        <tr key={index} className={user.name === teamName ? 'user-team' : ""}>
                             <td>{index + 1}</td>
                             <td>{user.name === User.teamName ? <strong>{user.name}</strong> : user.name}</td>
                             <td>{user.studiengang}</td>

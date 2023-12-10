@@ -34,7 +34,7 @@ class Registrierung extends Component {
             return;  // Beenden der Funktion, da die Passwörter nicht übereinstimmen
         }
 
-        axios.post('http://localhost:8080/api/userRegistrieren', { userName, firstName, lastName, courseOfStudy, email, matrikelNr, password })
+        axios.post('http://16.170.229.65:8080/api/userRegistrieren', { userName, firstName, lastName, courseOfStudy, email, matrikelNr, password })
             .then(response => {
                 if (response.status === 200) {
                     this.setState({ error: "Registrierung erfolgreich!", registered: true });

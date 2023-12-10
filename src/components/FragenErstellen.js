@@ -38,9 +38,10 @@ class FragenErstellen extends Component {
         e.preventDefault();
         const {frage, antwortEins, antwortZwei, antwortDrei, antwortVier, richtigeAntwort, modul  } = this.state;
 
-        axios.post('http://localhost:8080/api/quiz/frageErstellen', { ...this.authRequest, frage, antwortEins, antwortZwei, antwortDrei, antwortVier, richtigeAntwort, modul})
+        axios.post('http://16.170.229.65:8080/api/quiz/frageErstellen', { ...this.authRequest, frage, antwortEins, antwortZwei, antwortDrei, antwortVier, richtigeAntwort, modul})
             .then(response => {
                 if (response.status === 200) {
+                    alert("Frage wurde erfolgreich erstellt");
                     this.setState({ error: "Frage erstellt" , frageErstellt : true});
                 } else {
                     this.setState({ error: "fehlgeschlagen!" });

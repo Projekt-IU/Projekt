@@ -21,7 +21,7 @@ const ChatComponent = ({ teamName }) => {
                 password: user.password,
             };
 
-            axios.post(`http://localhost:8080/api/chat/messages/${teamName}`, authRequest)
+            axios.post(`http://16.170.229.65:8080/api/chat/messages/${teamName}`, authRequest)
                 .then(response => {
                     setChatHistory(response.data);
                 })
@@ -38,7 +38,7 @@ const ChatComponent = ({ teamName }) => {
             nachricht: message,
         };
 
-        axios.post('http://localhost:8080/api/chat/send', chatMessageInDTO)
+        axios.post('http://16.170.229.65:8080/api/chat/send', chatMessageInDTO)
             .then(response => {
                 if (response.status === 200) {
                     console.log('Nachricht gesendet');

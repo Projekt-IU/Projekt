@@ -26,7 +26,7 @@ const TeamErstellung = () => {
         }
 
         try {
-            const response = await axios.post('http://localhost:8080/api/Team/newTeam', {
+            const response = await axios.post('http://16.170.229.65:8080/api/Team/newTeam', {
                 name: teamName,
                 studiengang: studiengang,
                 username: User.username,

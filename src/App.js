@@ -22,7 +22,6 @@ function App() {
         <UserProvider>
         <Router>
             <div className="App">
-                {/* Hier globale Komponenten hinzufügen */}
                 <AppRoutes />
             </div>
         </Router>

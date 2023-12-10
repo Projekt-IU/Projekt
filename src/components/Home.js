@@ -5,8 +5,8 @@ import './styles/Home.css';
 function Home() {
     return (
         <div className="home-container">
-            <h1 className="home-title">Willkommen auf der Startseite!</h1>
-            <p className="home-description">Dies ist die Startseite der Anwendung.</p>
+            <h1 className="home-title">Willkommen bei dem Quizsystem für IU Studenten!</h1>
+            <p className="home-description">Von Studenten für Studenten</p>
             <div className="action-buttons">
                 <Link to="/login">
                     <button className="action-button">Login</button>

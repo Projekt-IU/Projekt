@@ -14,7 +14,7 @@ const RankingUser = () => {
 
     const fetchRankingData = async (anfrageName) => {
         try {
-            const response = await axios.post('http://localhost:8080/api/score/getScoreUserList', {
+            const response = await axios.post('http://16.170.229.65:8080/api/score/getScoreUserList', {
                 username: User.username,
                 password: User.password,
                 anfrageName: anfrageName,

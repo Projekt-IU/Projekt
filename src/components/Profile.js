@@ -29,7 +29,7 @@ const Profile = () => {
             password: User.password
         };
 
-        axios.post('http://localhost:8080/api/getProfil', userData)
+        axios.post('http://16.170.229.65:8080/api/getProfil', userData)
             .then(response => {
                 if (response.status === 200) {
                     const {
@@ -86,7 +86,7 @@ const Profile = () => {
         if (confirmDelete) {
             try {
                 // Schnittstelle zu SpringBoot
-                const apiEndpoint = 'http://localhost:8080/api/dropUser';
+                const apiEndpoint = 'http://16.170.229.65:8080/api/dropUser';
 
                 const response = await axios.post(apiEndpoint, {
                     username: User.username, // Verwende den aktuellen Benutzernamen

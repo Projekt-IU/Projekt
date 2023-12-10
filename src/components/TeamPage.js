@@ -30,7 +30,7 @@ const TeamPage = () => {
     // Function to fetch team information
     const fetchTeamInfo = async () => {
         try {
-            const response = await axios.post('http://localhost:8080/api/Team/getTeam', {
+            const response = await axios.post('http://16.170.229.65:8080/api/Team/getTeam', {
                 username: User.username,
                 password: User.password,
                 anfrageName: teamName
@@ -50,7 +50,7 @@ const TeamPage = () => {
 
     const handleTeamDissolve = async () => {
         try {
-            const response = await axios.post('http://localhost:8080/api/Team/dropTeam', {
+            const response = await axios.post('http://16.170.229.65:8080/api/Team/dropTeam', {
                 username: User.username,
                 password: User.password
             });
@@ -74,7 +74,7 @@ const TeamPage = () => {
             setNewMemberUsername(username);
 
             try {
-                const response = await axios.post('http://localhost:8080/api/Team/addUser', {
+                const response = await axios.post('http://16.170.229.65:8080/api/Team/addUser', {
                     username: User.username,
                     password: User.password,
                     teamName: User.teamName,
@@ -98,7 +98,7 @@ const TeamPage = () => {
     const removeTeamMember = async () => {
         try {
             if (selectedMember) {
-                const response = await axios.post('http://localhost:8080/api/Team/dropUser', {
+                const response = await axios.post('http://16.170.229.65:8080/api/Team/dropUser', {
                     username: User.username,
                     password: User.password,
                     teamName: User.teamName,
@@ -123,7 +123,7 @@ const TeamPage = () => {
     const setAdminRole = async () => {
         if (adminSelectedMember) {
             try {
-                const response = await axios.post('http://localhost:8080/api/Team/newAdmin', {
+                const response = await axios.post('http://16.170.229.65:8080/api/Team/newAdmin', {
                     username: User.username,
                     password: User.password,
                     anfrageName: adminSelectedMember

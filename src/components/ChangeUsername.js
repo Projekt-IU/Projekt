@@ -28,7 +28,7 @@ const ChangeUsername = () => {
         };
 
         // Ersetze 'YOUR_API_ENDPOINT' durch den tatsächlichen API-Endpunkt auf deinem Backend.
-        const apiEndpoint = 'http://localhost:8080/api/changeUserName';
+        const apiEndpoint = 'http://16.170.229.65:8080/api/changeUserName';
 
         try {
             const response = await axios.post(apiEndpoint, {

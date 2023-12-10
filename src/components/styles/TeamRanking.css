@@ -5,7 +5,9 @@
     background-color: #f9f9f9;
     margin: 10px;
 }
-
+.teamfett {
+    font-weight: bold;
+}
 .ranking h2 {
     font-size: 20px;
     margin-bottom: 10px;

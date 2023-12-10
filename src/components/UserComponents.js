@@ -25,7 +25,7 @@ class UserComponents extends Component {
         };
 
         console.log(JSON.stringify(logoutRequest));
-        axios.post('http://localhost:8080/api/logout', logoutRequest)
+        axios.post('http://16.170.229.65:8080/api/logout', logoutRequest)
             .then(response => {
                 if (response.status === 200) {
                     User.logout();

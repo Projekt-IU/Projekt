@@ -22,7 +22,7 @@ const Quiz = () => {
     const fetchNextQuestion = async () => {
         try {
             if (user.username && user.password) {
-                const response = await axios.post('http://localhost:8080/api/quiz/frageHolen', {
+                const response = await axios.post('http://16.170.229.65:8080/api/quiz/frageHolen', {
                     username: user.username,
                     password: user.password,
                     modul: selectedModule
@@ -56,7 +56,7 @@ const Quiz = () => {
         if (user.username && user.password && currentQuestionObj && answer !== null && selectedAnswer === null) {
             try {
                 setSelectedAnswer(answer);
-                const response = await axios.post('http://localhost:8080/api/quiz/frageBeantworten', {
+                const response = await axios.post('http://16.170.229.65:8080/api/quiz/frageBeantworten', {
                     username: user.username,
                     password: user.password,
                     fragenId: currentQuestionObj.fragenId,
