@@ -16,9 +16,8 @@ public class CorsConfig {
     public CorsFilter corsFilter() {
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         CorsConfiguration config = new CorsConfiguration();
-        config.setAllowCredentials(true);
-        config.addAllowedOrigin("http://localhost:3000"); //React Anwendung Port
-        config.addAllowedOrigin("http://localhost:3001"); //React Anwendung Port
+        config.setAllowCredentials(false);
+        config.addAllowedOrigin("*"); //React Anwendung Port
         config.addAllowedHeader("*"); //ob anfragen verboten werden
         //zugelassene Anfragen
         config.addAllowedMethod("OPTIONS");

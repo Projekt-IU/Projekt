@@ -234,10 +234,12 @@ public class UserController {
             repository.delete(user);
 
             return ResponseEntity.ok().build();
+
         } else {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
         }
     }
+
 
 
     //platzhalter User
